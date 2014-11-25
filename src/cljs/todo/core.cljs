@@ -92,6 +92,7 @@
   (add-main-content!)
   (update-greeting!)
   (attach-nav-handlers!)
+  (lib/keyEvents)
   (lib/init))
 
 

@@ -1,13 +1,39 @@
 (ns todo.core.lib
-  (:require [enfocus.core :as ef]))
+  (:require [enfocus.core :as ef]
+            [enfocus.events :as events])
+  (:require-macros [enfocus.macros :as em]))
 
-(def x (atom 150))
+(def x (atom 140))
 (def y (atom 150))
 (def dx (atom 2))
 (def dy (atom 4))
 (def ctx (first (ef/from "#canvas" #(.getContext % "2d"))))
+(def intervalId (atom 0))
 (def WIDTH (ef/from "#canvas" (ef/get-attr :width)))
 (def HEIGHT (ef/from "#canvas" (ef/get-attr :height)))
+(def paddlex (atom (/ WIDTH 2)))
+(def paddleh (atom 10))
+(def paddlew (atom 75))
+(def rightDown (atom false))
+(def leftDown (atom false))
+
+(defn onKeyDown [evt]
+  (if (= 39 (.keyCode evt))
+    (reset! rightDown true)
+    (if (= 37 (.keyCode evt))
+      (reset! leftDown true))))
+
+
+(defn onKeyUp [evt]
+  (if (= 39 (.keyCode evt))
+    (reset! rightDown false)
+    (if (= 37 (.keyCode evt))
+      (reset! leftDown false))))
+
+
+(em/defaction keyEvents []
+  ["document"] (events/listen :keydown #(js/alert "Hello")))
+
 
 (defn circle [x y r]
   (.beginPath ctx)
@@ -28,46 +54,16 @@
 (defn draw []
   (clear)
   (circle @x @y 10)
+  (rect @paddlex (- HEIGHT @paddleh) @paddlew @paddleh)
   (if (or (> (+ @x @dx) WIDTH) (< (+ @x @dx) 0)) (reset! dx (- @dx)))
-  (if (or (> (+ @y @dy) HEIGHT) (< (+ @y @dy) 0)) (reset! dy (- @dy)))
+  (if (> (+ @y @dy) HEIGHT)
+    (if (and (> @x @paddlex) (< @x < (+ @paddlex paddlew)))
+      (reset! dy (- @dy))
+      ;; Game Over!
+      (js/clearInterval @intervalId) ))
   (reset! x (+ @x @dx))
   (reset! y (+ @y @dy)))
 
 (defn init []
-  (js/setInterval draw, 10))
-
-
-
-
-
-
-(comment (defn draw []
-           (.clearRect ctx 0, 0, 300, 300)
-           (.beginPath ctx)
-           (.arc ctx @x, @y, 10, 0, (* Math.PI 2), true)
-           (.closePath ctx)
-           (.fill ctx)
-           (reset! x (+ @x dx))
-           (reset! y (+ @y dy))))
-
-
-(comment
-  ;; Playing around with canvas
-  (set! (.-fillStyle ctx) "#00A308")
-  (.beginPath ctx)
-  (.arc ctx 220, 220, 50, 0, (* Math.PI 2), true)
-  (.closePath ctx)
-  (.fill ctx)
-
-  (set! (.-fillStyle ctx) "#FF1C0A")
-  (.beginPath ctx)
-  (.arc ctx 100, 100, 100, 0, (* Math.PI 2), true)
-  (.closePath ctx)
-  (.fill ctx)
-
-  (set! (.-fillStyle ctx) "rgba(255, 255, 0, .5)")
-  (.beginPath ctx)
-  (.rect ctx 15, 150, 120, 120)
-  (.closePath ctx)
-  (.fill ctx) )
+  (reset! intervalId (js/setInterval draw, 10)))
 
