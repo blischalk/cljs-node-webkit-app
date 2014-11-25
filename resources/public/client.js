@@ -42067,83 +42067,86 @@ todo.core.create_menu_BANG_ = function create_menu_BANG_() {
   var nw = require("nw.gui");
   var win = nw.Window.get();
   var mb = new nw.Menu(function() {
-    var obj28805 = {"type":"menubar"};
-    return obj28805;
+    var obj77376 = {"type":"menubar"};
+    return obj77376;
   }());
-  mb.createMacBuiltin(todo.core.app_name);
+  if (cljs.core._EQ_.call(null, process.platform, "darwin")) {
+    mb.createMacBuiltin(todo.core.app_name);
+  } else {
+  }
   return win.menu = mb;
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-nav.html") == null) {
-  var vec__28806_28811 = enfocus.core.replace_ids.call(null, "en5826_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__4791__auto___28812 = cljs.core.nth.call(null, vec__28806_28811, 0, null);
-  var txt__4792__auto___28813 = cljs.core.nth.call(null, vec__28806_28811, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___28812, txt__4792__auto___28813], null));
+  var vec__77377_77382 = enfocus.core.replace_ids.call(null, "en5826_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__4791__auto___77383 = cljs.core.nth.call(null, vec__77377_77382, 0, null);
+  var txt__4792__auto___77384 = cljs.core.nth.call(null, vec__77377_77382, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___77383, txt__4792__auto___77384], null));
 } else {
 }
 todo.core.main_nav = function main_nav(branding) {
-  var vec__28810 = function() {
+  var vec__77381 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-nav.html");
   }.call(null);
-  var id_sym28807 = cljs.core.nth.call(null, vec__28810, 0, null);
-  var pnod28808 = cljs.core.nth.call(null, vec__28810, 1, null);
-  var pnod28808__$1 = enfocus.core.create_hidden_dom.call(null, pnod28808);
-  enfocus.core.i_at.call(null, id_sym28807, pnod28808__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
-  enfocus.core.reset_ids.call(null, id_sym28807, pnod28808__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod28808__$1);
+  var id_sym77378 = cljs.core.nth.call(null, vec__77381, 0, null);
+  var pnod77379 = cljs.core.nth.call(null, vec__77381, 1, null);
+  var pnod77379__$1 = enfocus.core.create_hidden_dom.call(null, pnod77379);
+  enfocus.core.i_at.call(null, id_sym77378, pnod77379__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
+  enfocus.core.reset_ids.call(null, id_sym77378, pnod77379__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod77379__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-content.html") == null) {
-  var vec__28814_28819 = enfocus.core.replace_ids.call(null, "en5832_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eThe Beginning of Something Beautiful\x3c/h1\x3e\n    \x3cp class\x3d"lead"\x3eHello \x3cspan class\x3d"username"\x3eUser\x3c/span\x3e! ClojureScript\n      and Node-Webkit is the  beginning of a beautiful relationship.\x3c/p\x3e\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__4791__auto___28820 = cljs.core.nth.call(null, vec__28814_28819, 0, null);
-  var txt__4792__auto___28821 = cljs.core.nth.call(null, vec__28814_28819, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___28820, txt__4792__auto___28821], null));
+  var vec__77385_77390 = enfocus.core.replace_ids.call(null, "en5835_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eThe Beginning of Something Beautiful\x3c/h1\x3e\n    \x3cp class\x3d"lead"\x3eHello \x3cspan class\x3d"username"\x3eUser\x3c/span\x3e! Clojurescript\n      and Node-Webkit is the  beginning of a beautiful relationship.\x3c/p\x3e\n    \x3cp\x3eWith the invention of\n      NodeJS and later Node-Webkit we now have the power to build desktop\n      applications in Clojurescript.  This is an example application\n      illustrating the use of ClojureScript to build a desktop application.\x3c/p\x3e\n\n\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__4791__auto___77391 = cljs.core.nth.call(null, vec__77385_77390, 0, null);
+  var txt__4792__auto___77392 = cljs.core.nth.call(null, vec__77385_77390, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___77391, txt__4792__auto___77392], null));
 } else {
 }
 todo.core.main_content = function main_content(username) {
-  var vec__28818 = function() {
+  var vec__77389 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-content.html");
   }.call(null);
-  var id_sym28815 = cljs.core.nth.call(null, vec__28818, 0, null);
-  var pnod28816 = cljs.core.nth.call(null, vec__28818, 1, null);
-  var pnod28816__$1 = enfocus.core.create_hidden_dom.call(null, pnod28816);
-  enfocus.core.i_at.call(null, id_sym28815, pnod28816__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
-  enfocus.core.reset_ids.call(null, id_sym28815, pnod28816__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod28816__$1);
+  var id_sym77386 = cljs.core.nth.call(null, vec__77389, 0, null);
+  var pnod77387 = cljs.core.nth.call(null, vec__77389, 1, null);
+  var pnod77387__$1 = enfocus.core.create_hidden_dom.call(null, pnod77387);
+  enfocus.core.i_at.call(null, id_sym77386, pnod77387__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
+  enfocus.core.reset_ids.call(null, id_sym77386, pnod77387__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod77387__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/about-content.html") == null) {
-  var vec__28822_28827 = enfocus.core.replace_ids.call(null, "en5838_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__4791__auto___28828 = cljs.core.nth.call(null, vec__28822_28827, 0, null);
-  var txt__4792__auto___28829 = cljs.core.nth.call(null, vec__28822_28827, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___28828, txt__4792__auto___28829], null));
+  var vec__77393_77398 = enfocus.core.replace_ids.call(null, "en5844_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__4791__auto___77399 = cljs.core.nth.call(null, vec__77393_77398, 0, null);
+  var txt__4792__auto___77400 = cljs.core.nth.call(null, vec__77393_77398, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___77399, txt__4792__auto___77400], null));
 } else {
 }
 todo.core.about_content = function about_content() {
-  var vec__28826 = function() {
+  var vec__77397 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/about-content.html");
   }.call(null);
-  var id_sym28823 = cljs.core.nth.call(null, vec__28826, 0, null);
-  var pnod28824 = cljs.core.nth.call(null, vec__28826, 1, null);
-  var pnod28824__$1 = enfocus.core.create_hidden_dom.call(null, pnod28824);
-  enfocus.core.i_at.call(null, id_sym28823, pnod28824__$1);
-  enfocus.core.reset_ids.call(null, id_sym28823, pnod28824__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod28824__$1);
+  var id_sym77394 = cljs.core.nth.call(null, vec__77397, 0, null);
+  var pnod77395 = cljs.core.nth.call(null, vec__77397, 1, null);
+  var pnod77395__$1 = enfocus.core.create_hidden_dom.call(null, pnod77395);
+  enfocus.core.i_at.call(null, id_sym77394, pnod77395__$1);
+  enfocus.core.reset_ids.call(null, id_sym77394, pnod77395__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod77395__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/contact-content.html") == null) {
-  var vec__28830_28835 = enfocus.core.replace_ids.call(null, "en27822_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__4791__auto___28836 = cljs.core.nth.call(null, vec__28830_28835, 0, null);
-  var txt__4792__auto___28837 = cljs.core.nth.call(null, vec__28830_28835, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___28836, txt__4792__auto___28837], null));
+  var vec__77401_77406 = enfocus.core.replace_ids.call(null, "en5853_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__4791__auto___77407 = cljs.core.nth.call(null, vec__77401_77406, 0, null);
+  var txt__4792__auto___77408 = cljs.core.nth.call(null, vec__77401_77406, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__4791__auto___77407, txt__4792__auto___77408], null));
 } else {
 }
 todo.core.contact_content = function contact_content() {
-  var vec__28834 = function() {
+  var vec__77405 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/contact-content.html");
   }.call(null);
-  var id_sym28831 = cljs.core.nth.call(null, vec__28834, 0, null);
-  var pnod28832 = cljs.core.nth.call(null, vec__28834, 1, null);
-  var pnod28832__$1 = enfocus.core.create_hidden_dom.call(null, pnod28832);
-  enfocus.core.i_at.call(null, id_sym28831, pnod28832__$1);
-  enfocus.core.reset_ids.call(null, id_sym28831, pnod28832__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod28832__$1);
+  var id_sym77402 = cljs.core.nth.call(null, vec__77405, 0, null);
+  var pnod77403 = cljs.core.nth.call(null, vec__77405, 1, null);
+  var pnod77403__$1 = enfocus.core.create_hidden_dom.call(null, pnod77403);
+  enfocus.core.i_at.call(null, id_sym77402, pnod77403__$1);
+  enfocus.core.reset_ids.call(null, id_sym77402, pnod77403__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod77403__$1);
 };
 todo.core.page_change = function page_change(content, nav_ele) {
   return enfocus.core.at.call(null, document, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".starter-template"], null), enfocus.core.content.call(null, content), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [nav_ele], null), enfocus.core.add_class.call(null, "active"), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["nav li:not(" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(nav_ele) + ")"], 
@@ -42165,13 +42168,33 @@ todo.core.create_main_nav_BANG_ = function create_main_nav_BANG_() {
   return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["body"], null), enfocus.core.prepend.call(null, todo.core.main_nav.call(null, todo.core.app_name)));
 };
 todo.core.add_main_content_BANG_ = function add_main_content_BANG_() {
-  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["body \x3e .container"], null), enfocus.core.content.call(null, todo.core.main_content.call(null)));
+  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["body \x3e .container"], null), enfocus.core.content.call(null, todo.core.main_content.call(null, todo.core.username)));
+};
+todo.core.x = cljs.core.atom.call(null, 150);
+todo.core.y = cljs.core.atom.call(null, 150);
+todo.core.dx = 2;
+todo.core.dy = 4;
+todo.core.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["#canvas"], null), function(p1__77409_SHARP_) {
+  return p1__77409_SHARP_.getContext("2d");
+}));
+todo.core.draw = function draw() {
+  todo.core.ctx.clearRect(0, 0, 300, 300);
+  todo.core.ctx.beginPath();
+  todo.core.ctx.arc(cljs.core.deref.call(null, todo.core.x), cljs.core.deref.call(null, todo.core.y), 10, 0, Math.PI * 2, true);
+  todo.core.ctx.closePath();
+  todo.core.ctx.fill();
+  cljs.core.reset_BANG_.call(null, todo.core.x, cljs.core.deref.call(null, todo.core.x) + todo.core.dx);
+  return cljs.core.reset_BANG_.call(null, todo.core.y, cljs.core.deref.call(null, todo.core.y) + todo.core.dy);
+};
+todo.core.setup_game = function setup_game() {
+  return setInterval(todo.core.draw, 10);
 };
 todo.core.start = function start() {
   todo.core.create_menu_BANG_.call(null);
   todo.core.create_main_nav_BANG_.call(null);
   todo.core.add_main_content_BANG_.call(null);
   todo.core.update_greeting_BANG_.call(null);
-  return todo.core.attach_nav_handlers_BANG_.call(null);
+  todo.core.attach_nav_handlers_BANG_.call(null);
+  return todo.core.setup_game.call(null);
 };
 window.onload = todo.core.start;
