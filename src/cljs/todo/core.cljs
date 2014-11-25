@@ -2,7 +2,8 @@
   ;; jayq note needed currently but leaving just in case...
   ;; (:use [jayq.core :only [$ css html text]])
   ;; Currently using enfocus instead
-  (:require [enfocus.core :as ef]
+  (:require [todo.core.lib :as lib]
+            [enfocus.core :as ef]
             [enfocus.events :as events]
             [enfocus.effects :as effects])
   (:require-macros [enfocus.macros :as em]))
@@ -83,47 +84,6 @@
   "Add main content"
   (ef/at ["body > .container"] (ef/content (main-content username))))
 
-(def x (atom 150))
-(def y (atom 150))
-(def dx 2)
-(def dy 4)
-(def ctx (first (ef/from ["#canvas"] #(.getContext % "2d"))))
-
-(defn draw []
-  (.clearRect ctx 0, 0, 300, 300)
-  (.beginPath ctx)
-  (.arc ctx @x, @y, 10, 0, (* Math.PI 2), true)
-  (.closePath ctx)
-  (.fill ctx)
-  (reset! x (+ @x dx))
-  (reset! y (+ @y dy)))
-
-
-(defn setup-game []
-  (js/setInterval draw, 10))
-
-(comment
-  ;; Playing around with canvas
-  (set! (.-fillStyle ctx) "#00A308")
-  (.beginPath ctx)
-  (.arc ctx 220, 220, 50, 0, (* Math.PI 2), true)
-  (.closePath ctx)
-  (.fill ctx)
-
-  (set! (.-fillStyle ctx) "#FF1C0A")
-  (.beginPath ctx)
-  (.arc ctx 100, 100, 100, 0, (* Math.PI 2), true)
-  (.closePath ctx)
-  (.fill ctx)
-
-  (set! (.-fillStyle ctx) "rgba(255, 255, 0, .5)")
-  (.beginPath ctx)
-  (.rect ctx 15, 150, 120, 120)
-  (.closePath ctx)
-  (.fill ctx) )
-
-
-
 
 (defn start []
   "Entry point.  Called when page is loaded"
@@ -132,7 +92,7 @@
   (add-main-content!)
   (update-greeting!)
   (attach-nav-handlers!)
-  (setup-game))
+  (lib/init))
 
 
 ;; Using window onload instead of calling a main method from client
