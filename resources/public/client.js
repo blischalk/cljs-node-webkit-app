@@ -40496,12 +40496,12 @@ goog.require("enfocus.events");
 goog.require("enfocus.events");
 goog.require("enfocus.core");
 goog.require("enfocus.core");
-todo.core.lib.x = cljs.core.atom.call(null, 140);
+todo.core.lib.x = cljs.core.atom.call(null, 130);
 todo.core.lib.y = cljs.core.atom.call(null, 150);
 todo.core.lib.dx = cljs.core.atom.call(null, 2);
 todo.core.lib.dy = cljs.core.atom.call(null, 4);
-todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__216460_SHARP_) {
-  return p1__216460_SHARP_.getContext("2d");
+todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__65829_SHARP_) {
+  return p1__65829_SHARP_.getContext("2d");
 }));
 todo.core.lib.intervalId = cljs.core.atom.call(null, 0);
 todo.core.lib.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
@@ -40511,6 +40511,10 @@ todo.core.lib.paddleh = cljs.core.atom.call(null, 10);
 todo.core.lib.paddlew = cljs.core.atom.call(null, 75);
 todo.core.lib.rightDown = cljs.core.atom.call(null, false);
 todo.core.lib.leftDown = cljs.core.atom.call(null, false);
+todo.core.lib.canvasMinX = enfocus.core.from.call(null, "#canvas", function(p1__65830_SHARP_) {
+  return p1__65830_SHARP_.offsetLeft;
+});
+todo.core.lib.canvasMaxX = todo.core.lib.canvasMinX + todo.core.lib.WIDTH;
 todo.core.lib.onKeyDown = function onKeyDown(evt) {
   if (cljs.core._EQ_.call(null, 39, parseInt(evt.keyCode))) {
     cljs.core.reset_BANG_.call(null, todo.core.lib.rightDown, true);
@@ -40533,12 +40537,22 @@ todo.core.lib.onKeyUp = function onKeyUp(evt) {
     return null;
   }
 };
+todo.core.lib.onMouseMove = function onMouseMove(evt) {
+  if (evt.pageX > todo.core.lib.canvasMinX && evt.pageX < todo.core.lib.canvasMaxX) {
+    return cljs.core.reset_BANG_.call(null, todo.core.lib.paddlex, evt.pageX - todo.core.lib.canvasMinX);
+  } else {
+    return null;
+  }
+};
 todo.core.lib.keyEvents = function keyEvents() {
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__216461_SHARP_) {
-    return todo.core.lib.onKeyDown.call(null, p1__216461_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__65831_SHARP_) {
+    return todo.core.lib.onMouseMove.call(null, p1__65831_SHARP_);
   }));
-  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__216462_SHARP_) {
-    return todo.core.lib.onKeyUp.call(null, p1__216462_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__65832_SHARP_) {
+    return todo.core.lib.onKeyDown.call(null, p1__65832_SHARP_);
+  }));
+  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__65833_SHARP_) {
+    return todo.core.lib.onKeyUp.call(null, p1__65833_SHARP_);
   }));
 };
 todo.core.lib.circle = function circle(x, y, r) {
@@ -40557,20 +40571,37 @@ todo.core.lib.clear = function clear() {
   return todo.core.lib.ctx.clearRect(0, 0, todo.core.lib.WIDTH, todo.core.lib.HEIGHT);
 };
 todo.core.lib.draw = function draw() {
+  console.log("called");
   todo.core.lib.clear.call(null);
   todo.core.lib.circle.call(null, cljs.core.deref.call(null, todo.core.lib.x), cljs.core.deref.call(null, todo.core.lib.y), 10);
+  if (cljs.core.truth_(cljs.core.deref.call(null, todo.core.lib.rightDown))) {
+    cljs.core.reset_BANG_.call(null, todo.core.lib.paddlex, cljs.core.deref.call(null, todo.core.lib.paddlex) + 5);
+  } else {
+    if (cljs.core.truth_(cljs.core.deref.call(null, todo.core.lib.leftDown))) {
+      cljs.core.reset_BANG_.call(null, todo.core.lib.paddlex, cljs.core.deref.call(null, todo.core.lib.paddlex) - 5);
+    } else {
+    }
+  }
   todo.core.lib.rect.call(null, cljs.core.deref.call(null, todo.core.lib.paddlex), todo.core.lib.HEIGHT - cljs.core.deref.call(null, todo.core.lib.paddleh), cljs.core.deref.call(null, todo.core.lib.paddlew), cljs.core.deref.call(null, todo.core.lib.paddleh));
   if (cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx) > todo.core.lib.WIDTH || cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx) < 0) {
     cljs.core.reset_BANG_.call(null, todo.core.lib.dx, -cljs.core.deref.call(null, todo.core.lib.dx));
   } else {
   }
-  if (cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy) > todo.core.lib.HEIGHT) {
-    if (cljs.core.deref.call(null, todo.core.lib.x) > cljs.core.deref.call(null, todo.core.lib.paddlex) && (cljs.core.deref.call(null, todo.core.lib.x) < cljs.core._LT_ && cljs.core._LT_ < cljs.core.deref.call(null, todo.core.lib.paddlex) + todo.core.lib.paddlew)) {
-      cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
-    } else {
-      clearInterval(cljs.core.deref.call(null, todo.core.lib.intervalId));
-    }
+  console.log(cljs.core.deref.call(null, todo.core.lib.y));
+  console.log(cljs.core.deref.call(null, todo.core.lib.x));
+  console.log(cljs.core.deref.call(null, todo.core.lib.dx));
+  console.log(cljs.core.deref.call(null, todo.core.lib.dy));
+  if (cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy) < 0) {
+    cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
   } else {
+    if (cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy) > todo.core.lib.HEIGHT) {
+      if (cljs.core.deref.call(null, todo.core.lib.x) > cljs.core.deref.call(null, todo.core.lib.paddlex) && cljs.core.deref.call(null, todo.core.lib.x) < cljs.core.deref.call(null, todo.core.lib.paddlex) + cljs.core.deref.call(null, todo.core.lib.paddlew)) {
+        cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
+      } else {
+        clearInterval(cljs.core.deref.call(null, todo.core.lib.intervalId));
+      }
+    } else {
+    }
   }
   cljs.core.reset_BANG_.call(null, todo.core.lib.x, cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx));
   return cljs.core.reset_BANG_.call(null, todo.core.lib.y, cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy));

@@ -3,7 +3,7 @@
             [enfocus.events :as events])
   (:require-macros [enfocus.macros :as em]))
 
-(def x (atom 140))
+(def x (atom 130))
 (def y (atom 150))
 (def dx (atom 2))
 (def dy (atom 4))
@@ -16,6 +16,8 @@
 (def paddlew (atom 75))
 (def rightDown (atom false))
 (def leftDown (atom false))
+(def canvasMinX (ef/from "#canvas" #(.-offsetLeft %)))
+(def canvasMaxX (+ canvasMinX WIDTH))
 
 (defn onKeyDown [evt]
   (if (= 39 (js/parseInt (.-keyCode evt)))
@@ -33,7 +35,13 @@
     (reset! leftDown false)))
 
 
+(defn onMouseMove [evt]
+  (if (and (> (.-pageX evt) canvasMinX) (< (.-pageX evt) canvasMaxX))
+    (reset! paddlex (- (.-pageX evt) canvasMinX))))
+
+
 (defn keyEvents []
+  (ef/at js/document (events/listen :mousemove #(onMouseMove %)))
   (ef/at js/document (events/listen :keydown #(onKeyDown %)))
   (ef/at js/document (events/listen :keyup #(onKeyUp %))))
 
@@ -55,15 +63,35 @@
   (.clearRect ctx 0 0 WIDTH HEIGHT))
 
 (defn draw []
+  (.log js/console "called")
   (clear)
   (circle @x @y 10)
+
+  ;; move the paddle if right or left is currently pressed
+  (if @rightDown
+    (reset! paddlex (+ @paddlex 5))
+    (if @leftDown
+      (reset! paddlex (- @paddlex 5))))
+
   (rect @paddlex (- HEIGHT @paddleh) @paddlew @paddleh)
-  (if (or (> (+ @x @dx) WIDTH) (< (+ @x @dx) 0)) (reset! dx (- @dx)))
-  (if (> (+ @y @dy) HEIGHT)
-    (if (and (> @x @paddlex) (< @x < (+ @paddlex paddlew)))
-      (reset! dy (- @dy))
-      ;; Game Over!
-      (js/clearInterval @intervalId) ))
+
+  (if (or (> (+ @x @dx) WIDTH)
+          (< (+ @x @dx) 0))
+    (reset! dx (- @dx)))
+
+  (.log js/console @y)
+  (.log js/console @x)
+  (.log js/console @dx)
+  (.log js/console @dy)
+
+  (if (< (+ @y @dy) 0)
+    (reset! dy (- @dy))
+    (if (> (+ @y @dy) HEIGHT)
+      (if (and (> @x @paddlex) (< @x (+ @paddlex @paddlew)))
+        (reset! dy (- @dy))
+        (js/clearInterval @intervalId))))
+
+
   (reset! x (+ @x @dx))
   (reset! y (+ @y @dy)))
 
