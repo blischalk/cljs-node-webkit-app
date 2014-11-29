@@ -16,8 +16,9 @@
 (def paddlew (atom 75))
 (def rightDown (atom false))
 (def leftDown (atom false))
-(def canvasMinX (ef/from "#canvas" #(.-offsetLeft %)))
+(def canvasMinX (.-x (first (ef/from "#canvas" #(js/goog.style.getPageOffset %)))))
 (def canvasMaxX (+ canvasMinX WIDTH))
+
 
 (defn onKeyDown [evt]
   (if (= 39 (js/parseInt (.-keyCode evt)))
@@ -36,8 +37,11 @@
 
 
 (defn onMouseMove [evt]
-  (if (and (> (.-pageX evt) canvasMinX) (< (.-pageX evt) canvasMaxX))
-    (reset! paddlex (- (.-pageX evt) canvasMinX))))
+  (let [mouseX (js/parseInt (.-clientX evt))]
+    (if (and
+          (> mouseX canvasMinX)
+          (< mouseX canvasMaxX))
+      (reset! paddlex (- mouseX canvasMinX)))))
 
 
 (defn keyEvents []
@@ -59,11 +63,12 @@
   (.closePath ctx)
   (.fill ctx))
 
+
 (defn clear []
   (.clearRect ctx 0 0 WIDTH HEIGHT))
 
+
 (defn draw []
-  (.log js/console "called")
   (clear)
   (circle @x @y 10)
 
@@ -79,10 +84,10 @@
           (< (+ @x @dx) 0))
     (reset! dx (- @dx)))
 
-  (.log js/console @y)
-  (.log js/console @x)
-  (.log js/console @dx)
-  (.log js/console @dy)
+  (comment (.log js/console @y)
+    (.log js/console @x)
+    (.log js/console @dx)
+    (.log js/console @dy))
 
   (if (< (+ @y @dy) 0)
     (reset! dy (- @dy))
@@ -94,6 +99,7 @@
 
   (reset! x (+ @x @dx))
   (reset! y (+ @y @dy)))
+
 
 (defn init []
   (reset! intervalId (js/setInterval draw, 10)))
