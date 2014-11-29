@@ -40500,8 +40500,8 @@ todo.core.lib.x = cljs.core.atom.call(null, 130);
 todo.core.lib.y = cljs.core.atom.call(null, 150);
 todo.core.lib.dx = cljs.core.atom.call(null, 2);
 todo.core.lib.dy = cljs.core.atom.call(null, 4);
-todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__112848_SHARP_) {
-  return p1__112848_SHARP_.getContext("2d");
+todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__113848_SHARP_) {
+  return p1__113848_SHARP_.getContext("2d");
 }));
 todo.core.lib.intervalId = cljs.core.atom.call(null, 0);
 todo.core.lib.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
@@ -40511,8 +40511,8 @@ todo.core.lib.paddleh = cljs.core.atom.call(null, 10);
 todo.core.lib.paddlew = cljs.core.atom.call(null, 75);
 todo.core.lib.rightDown = cljs.core.atom.call(null, false);
 todo.core.lib.leftDown = cljs.core.atom.call(null, false);
-todo.core.lib.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__112849_SHARP_) {
-  return goog.style.getPageOffset(p1__112849_SHARP_);
+todo.core.lib.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__113849_SHARP_) {
+  return goog.style.getPageOffset(p1__113849_SHARP_);
 })).x;
 todo.core.lib.canvasMaxX = todo.core.lib.canvasMinX + todo.core.lib.WIDTH;
 todo.core.lib.onKeyDown = function onKeyDown(evt) {
@@ -40546,14 +40546,14 @@ todo.core.lib.onMouseMove = function onMouseMove(evt) {
   }
 };
 todo.core.lib.keyEvents = function keyEvents() {
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__112850_SHARP_) {
-    return todo.core.lib.onMouseMove.call(null, p1__112850_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__113850_SHARP_) {
+    return todo.core.lib.onMouseMove.call(null, p1__113850_SHARP_);
   }));
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__112851_SHARP_) {
-    return todo.core.lib.onKeyDown.call(null, p1__112851_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__113851_SHARP_) {
+    return todo.core.lib.onKeyDown.call(null, p1__113851_SHARP_);
   }));
-  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__112852_SHARP_) {
-    return todo.core.lib.onKeyUp.call(null, p1__112852_SHARP_);
+  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__113852_SHARP_) {
+    return todo.core.lib.onKeyUp.call(null, p1__113852_SHARP_);
   }));
 };
 todo.core.lib.circle = function circle(x, y, r) {
