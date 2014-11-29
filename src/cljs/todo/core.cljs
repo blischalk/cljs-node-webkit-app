@@ -13,7 +13,7 @@
 
 ;; Define some constants
 (def app-name "My Node-Webkit ClojureScript Application")
-(def username js/process.env.USER)
+(def username (or js/process.env.USERNAME js/process.env.USER))
 
 
 (defn create-menu! []
@@ -26,10 +26,11 @@
         ;; Also an example of how to create a pojo
         mb (nw.Menu. (js-obj "type" "menubar"))]
 
-       ;; Conditionally initialize Mac Builtin menus
-       (if (= (.-platform js/process) "darwin") (.createMacBuiltin mb app-name))
+        ;; Conditionally initialize Mac Builtin menus
+        (if (= (.-platform js/process) "darwin") (.createMacBuiltin mb
+                                                   app-name))
 
-       ;; Example of setting a property on a javascript object
+        ;; Example of setting a property on a javascript object
     (set! (.-menu win) mb)))
 
 

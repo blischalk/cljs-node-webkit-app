@@ -18,21 +18,24 @@
 (def leftDown (atom false))
 
 (defn onKeyDown [evt]
-  (if (= 39 (.keyCode evt))
-    (reset! rightDown true)
-    (if (= 37 (.keyCode evt))
-      (reset! leftDown true))))
+  (if (= 39 (js/parseInt (.-keyCode evt)))
+    (reset! rightDown true))
+
+  (if (= 37 (js/parseInt (.-keyCode evt)))
+    (reset! leftDown true)))
 
 
 (defn onKeyUp [evt]
-  (if (= 39 (.keyCode evt))
-    (reset! rightDown false)
-    (if (= 37 (.keyCode evt))
-      (reset! leftDown false))))
+  (if (= 39 (js/parseInt (.-keyCode evt)))
+    (reset! rightDown false))
+
+  (if (= 37 (js/parseInt (.-keyCode evt)))
+    (reset! leftDown false)))
 
 
-(em/defaction keyEvents []
-  ["document"] (events/listen :keydown #(js/alert "Hello")))
+(defn keyEvents []
+  (ef/at js/document (events/listen :keydown #(onKeyDown %)))
+  (ef/at js/document (events/listen :keyup #(onKeyUp %))))
 
 
 (defn circle [x y r]
