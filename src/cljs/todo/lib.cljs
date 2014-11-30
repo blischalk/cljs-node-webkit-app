@@ -36,6 +36,24 @@
 (def canvasMaxX (+ canvasMinX WIDTH))
 
 
+;; Bricks
+(def NROWS 5)
+(def NCOLS 5)
+(def BRICKWIDTH (- (/ WIDTH NCOLS) 1))
+(def BRICKHEIGHT 15)
+(def PADDING 1)
+
+;; Create an associative array of bricks
+;; [[1 1 1 1 1]
+;;  [1 1 1 1 1]
+;;  [1 1 1 1 1]
+;;  [1 1 1 1 1]
+;;  [1 1 1 1 1]]
+(def bricks (atom (mapv (fn [_] (mapv (fn [_] 1)
+                                  (range 0 NCOLS)))
+                    (range 0 NROWS))))
+
+
 ;; Event handlers
 (defn onKeyDown [evt]
   (if (= 39 (js/parseInt (.-keyCode evt)))
@@ -88,42 +106,83 @@
   (.clearRect ctx 0 0 WIDTH HEIGHT))
 
 
-;; Draw Game
-(defn draw []
-  ;; Clear the canvas
-  (clear)
-  ;; Draw ball
-  (circle @x @y 10)
+(defn drawBricks! []
+  (doseq [[rowindex row] (map vector
+                           (iterate inc 0)
+                           @bricks)
+          [eleindex ele] (map vector
+                           (iterate inc 0)
+                           row)]
 
+    (if (= 1 ele)
+      (rect
+        (+ (* rowindex (+ BRICKWIDTH PADDING)) PADDING)
+        (+ (* eleindex (+ BRICKHEIGHT PADDING)) PADDING)
+        BRICKWIDTH
+        BRICKHEIGHT))))
+
+
+(defn drawPaddle! []
   ;; move the paddle if right or left is currently pressed
   (if @rightDown
     (reset! paddlex (+ @paddlex 5))
     (if @leftDown
       (reset! paddlex (- @paddlex 5))))
 
-  (rect @paddlex (- HEIGHT @paddleh) @paddlew @paddleh)
+  (rect @paddlex (- HEIGHT @paddleh) @paddlew @paddleh))
+
+
+(defn ballTouchingPaddle? []
+  (and (> @x @paddlex) (< @x (+ @paddlex @paddlew))))
+
+
+(defn reverseBallYDirection! []
+  (reset! dy (- @dy)))
+
+
+(defn reverseBallXDirection! []
+  (reset! dx (- @dx)))
+
+
+(defn updateBallCoordinates! []
+  (reset! x (+ @x @dx))
+  (reset! y (+ @y @dy)))
+
+
+;; Draw Game
+(defn draw []
+  ;; Clear the canvas
+  (clear)
+
+  ;; Draw ball
+  (circle @x @y 10)
+
+  ;; Draw paddle
+  (drawPaddle!)
+
+  ;; Draw bricks
+  (drawBricks!)
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
   (if (or (> (+ @x @dx) WIDTH)
           (< (+ @x @dx) 0))
-    (reset! dx (- @dx)))
+    (reverseBallXDirection!))
 
   ;; If ball is about to go out of bounds
   ;; on y axis, reverse direction
   (if (< (+ @y @dy) 0)
-    (reset! dy (- @dy))
+    (reverseBallYDirection!)
     (if (> (+ @y @dy) HEIGHT)
       ;; If ball hits the paddle, reverse ball direction
-      (if (and (> @x @paddlex) (< @x (+ @paddlex @paddlew)))
-        (reset! dy (- @dy))
+      (if (ballTouchingPaddle?)
+        (reverseBallYDirection!)
         ;; Otherwise ball missed paddle, game over!
         (js/clearInterval @intervalId))))
 
   ;; Set ball coordinates to directionality
   ;; derived above
-  (reset! x (+ @x @dx))
-  (reset! y (+ @y @dy)))
+  (updateBallCoordinates!))
 
 
 ;; Start the game drawing on canvas

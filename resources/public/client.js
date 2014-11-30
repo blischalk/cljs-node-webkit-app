@@ -40500,8 +40500,8 @@ todo.core.lib.x = cljs.core.atom.call(null, 130);
 todo.core.lib.y = cljs.core.atom.call(null, 150);
 todo.core.lib.dx = cljs.core.atom.call(null, 2);
 todo.core.lib.dy = cljs.core.atom.call(null, 4);
-todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__113848_SHARP_) {
-  return p1__113848_SHARP_.getContext("2d");
+todo.core.lib.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__379751_SHARP_) {
+  return p1__379751_SHARP_.getContext("2d");
 }));
 todo.core.lib.intervalId = cljs.core.atom.call(null, 0);
 todo.core.lib.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
@@ -40511,10 +40511,20 @@ todo.core.lib.paddleh = cljs.core.atom.call(null, 10);
 todo.core.lib.paddlew = cljs.core.atom.call(null, 75);
 todo.core.lib.rightDown = cljs.core.atom.call(null, false);
 todo.core.lib.leftDown = cljs.core.atom.call(null, false);
-todo.core.lib.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__113849_SHARP_) {
-  return goog.style.getPageOffset(p1__113849_SHARP_);
+todo.core.lib.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__379752_SHARP_) {
+  return goog.style.getPageOffset(p1__379752_SHARP_);
 })).x;
 todo.core.lib.canvasMaxX = todo.core.lib.canvasMinX + todo.core.lib.WIDTH;
+todo.core.lib.NROWS = 5;
+todo.core.lib.NCOLS = 5;
+todo.core.lib.BRICKWIDTH = todo.core.lib.WIDTH / todo.core.lib.NCOLS - 1;
+todo.core.lib.BRICKHEIGHT = 15;
+todo.core.lib.PADDING = 1;
+todo.core.lib.bricks = cljs.core.atom.call(null, cljs.core.mapv.call(null, function(_) {
+  return cljs.core.mapv.call(null, function(___$1) {
+    return 1;
+  }, cljs.core.range.call(null, 0, todo.core.lib.NCOLS));
+}, cljs.core.range.call(null, 0, todo.core.lib.NROWS)));
 todo.core.lib.onKeyDown = function onKeyDown(evt) {
   if (cljs.core._EQ_.call(null, 39, parseInt(evt.keyCode))) {
     cljs.core.reset_BANG_.call(null, todo.core.lib.rightDown, true);
@@ -40546,14 +40556,14 @@ todo.core.lib.onMouseMove = function onMouseMove(evt) {
   }
 };
 todo.core.lib.keyEvents = function keyEvents() {
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__113850_SHARP_) {
-    return todo.core.lib.onMouseMove.call(null, p1__113850_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__379753_SHARP_) {
+    return todo.core.lib.onMouseMove.call(null, p1__379753_SHARP_);
   }));
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__113851_SHARP_) {
-    return todo.core.lib.onKeyDown.call(null, p1__113851_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__379754_SHARP_) {
+    return todo.core.lib.onKeyDown.call(null, p1__379754_SHARP_);
   }));
-  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__113852_SHARP_) {
-    return todo.core.lib.onKeyUp.call(null, p1__113852_SHARP_);
+  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__379755_SHARP_) {
+    return todo.core.lib.onKeyUp.call(null, p1__379755_SHARP_);
   }));
 };
 todo.core.lib.circle = function circle(x, y, r) {
@@ -40571,9 +40581,182 @@ todo.core.lib.rect = function rect(x, y, w, h) {
 todo.core.lib.clear = function clear() {
   return todo.core.lib.ctx.clearRect(0, 0, todo.core.lib.WIDTH, todo.core.lib.HEIGHT);
 };
-todo.core.lib.draw = function draw() {
-  todo.core.lib.clear.call(null);
-  todo.core.lib.circle.call(null, cljs.core.deref.call(null, todo.core.lib.x), cljs.core.deref.call(null, todo.core.lib.y), 10);
+todo.core.lib.drawBricks_BANG_ = function drawBricks_BANG_() {
+  var seq__379774 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, todo.core.lib.bricks)));
+  var chunk__379779 = null;
+  var count__379780 = 0;
+  var i__379781 = 0;
+  while (true) {
+    if (i__379781 < count__379780) {
+      var vec__379786 = cljs.core._nth.call(null, chunk__379779, i__379781);
+      var rowindex = cljs.core.nth.call(null, vec__379786, 0, null);
+      var row = cljs.core.nth.call(null, vec__379786, 1, null);
+      var seq__379782_379792 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+      var chunk__379783_379793 = null;
+      var count__379784_379794 = 0;
+      var i__379785_379795 = 0;
+      while (true) {
+        if (i__379785_379795 < count__379784_379794) {
+          var vec__379787_379796 = cljs.core._nth.call(null, chunk__379783_379793, i__379785_379795);
+          var eleindex_379797 = cljs.core.nth.call(null, vec__379787_379796, 0, null);
+          var ele_379798 = cljs.core.nth.call(null, vec__379787_379796, 1, null);
+          if (cljs.core._EQ_.call(null, 1, ele_379798)) {
+            todo.core.lib.rect.call(null, rowindex * (todo.core.lib.BRICKWIDTH + todo.core.lib.PADDING) + todo.core.lib.PADDING, eleindex_379797 * (todo.core.lib.BRICKHEIGHT + todo.core.lib.PADDING) + todo.core.lib.PADDING, todo.core.lib.BRICKWIDTH, todo.core.lib.BRICKHEIGHT);
+          } else {
+          }
+          var G__379799 = seq__379782_379792;
+          var G__379800 = chunk__379783_379793;
+          var G__379801 = count__379784_379794;
+          var G__379802 = i__379785_379795 + 1;
+          seq__379782_379792 = G__379799;
+          chunk__379783_379793 = G__379800;
+          count__379784_379794 = G__379801;
+          i__379785_379795 = G__379802;
+          continue;
+        } else {
+          var temp__4126__auto___379803 = cljs.core.seq.call(null, seq__379782_379792);
+          if (temp__4126__auto___379803) {
+            var seq__379782_379804__$1 = temp__4126__auto___379803;
+            if (cljs.core.chunked_seq_QMARK_.call(null, seq__379782_379804__$1)) {
+              var c__4500__auto___379805 = cljs.core.chunk_first.call(null, seq__379782_379804__$1);
+              var G__379806 = cljs.core.chunk_rest.call(null, seq__379782_379804__$1);
+              var G__379807 = c__4500__auto___379805;
+              var G__379808 = cljs.core.count.call(null, c__4500__auto___379805);
+              var G__379809 = 0;
+              seq__379782_379792 = G__379806;
+              chunk__379783_379793 = G__379807;
+              count__379784_379794 = G__379808;
+              i__379785_379795 = G__379809;
+              continue;
+            } else {
+              var vec__379788_379810 = cljs.core.first.call(null, seq__379782_379804__$1);
+              var eleindex_379811 = cljs.core.nth.call(null, vec__379788_379810, 0, null);
+              var ele_379812 = cljs.core.nth.call(null, vec__379788_379810, 1, null);
+              if (cljs.core._EQ_.call(null, 1, ele_379812)) {
+                todo.core.lib.rect.call(null, rowindex * (todo.core.lib.BRICKWIDTH + todo.core.lib.PADDING) + todo.core.lib.PADDING, eleindex_379811 * (todo.core.lib.BRICKHEIGHT + todo.core.lib.PADDING) + todo.core.lib.PADDING, todo.core.lib.BRICKWIDTH, todo.core.lib.BRICKHEIGHT);
+              } else {
+              }
+              var G__379813 = cljs.core.next.call(null, seq__379782_379804__$1);
+              var G__379814 = null;
+              var G__379815 = 0;
+              var G__379816 = 0;
+              seq__379782_379792 = G__379813;
+              chunk__379783_379793 = G__379814;
+              count__379784_379794 = G__379815;
+              i__379785_379795 = G__379816;
+              continue;
+            }
+          } else {
+          }
+        }
+        break;
+      }
+      var G__379817 = seq__379774;
+      var G__379818 = chunk__379779;
+      var G__379819 = count__379780;
+      var G__379820 = i__379781 + 1;
+      seq__379774 = G__379817;
+      chunk__379779 = G__379818;
+      count__379780 = G__379819;
+      i__379781 = G__379820;
+      continue;
+    } else {
+      var temp__4126__auto__ = cljs.core.seq.call(null, seq__379774);
+      if (temp__4126__auto__) {
+        var seq__379774__$1 = temp__4126__auto__;
+        if (cljs.core.chunked_seq_QMARK_.call(null, seq__379774__$1)) {
+          var c__4500__auto__ = cljs.core.chunk_first.call(null, seq__379774__$1);
+          var G__379821 = cljs.core.chunk_rest.call(null, seq__379774__$1);
+          var G__379822 = c__4500__auto__;
+          var G__379823 = cljs.core.count.call(null, c__4500__auto__);
+          var G__379824 = 0;
+          seq__379774 = G__379821;
+          chunk__379779 = G__379822;
+          count__379780 = G__379823;
+          i__379781 = G__379824;
+          continue;
+        } else {
+          var vec__379789 = cljs.core.first.call(null, seq__379774__$1);
+          var rowindex = cljs.core.nth.call(null, vec__379789, 0, null);
+          var row = cljs.core.nth.call(null, vec__379789, 1, null);
+          var seq__379775_379825 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+          var chunk__379776_379826 = null;
+          var count__379777_379827 = 0;
+          var i__379778_379828 = 0;
+          while (true) {
+            if (i__379778_379828 < count__379777_379827) {
+              var vec__379790_379829 = cljs.core._nth.call(null, chunk__379776_379826, i__379778_379828);
+              var eleindex_379830 = cljs.core.nth.call(null, vec__379790_379829, 0, null);
+              var ele_379831 = cljs.core.nth.call(null, vec__379790_379829, 1, null);
+              if (cljs.core._EQ_.call(null, 1, ele_379831)) {
+                todo.core.lib.rect.call(null, rowindex * (todo.core.lib.BRICKWIDTH + todo.core.lib.PADDING) + todo.core.lib.PADDING, eleindex_379830 * (todo.core.lib.BRICKHEIGHT + todo.core.lib.PADDING) + todo.core.lib.PADDING, todo.core.lib.BRICKWIDTH, todo.core.lib.BRICKHEIGHT);
+              } else {
+              }
+              var G__379832 = seq__379775_379825;
+              var G__379833 = chunk__379776_379826;
+              var G__379834 = count__379777_379827;
+              var G__379835 = i__379778_379828 + 1;
+              seq__379775_379825 = G__379832;
+              chunk__379776_379826 = G__379833;
+              count__379777_379827 = G__379834;
+              i__379778_379828 = G__379835;
+              continue;
+            } else {
+              var temp__4126__auto___379836__$1 = cljs.core.seq.call(null, seq__379775_379825);
+              if (temp__4126__auto___379836__$1) {
+                var seq__379775_379837__$1 = temp__4126__auto___379836__$1;
+                if (cljs.core.chunked_seq_QMARK_.call(null, seq__379775_379837__$1)) {
+                  var c__4500__auto___379838 = cljs.core.chunk_first.call(null, seq__379775_379837__$1);
+                  var G__379839 = cljs.core.chunk_rest.call(null, seq__379775_379837__$1);
+                  var G__379840 = c__4500__auto___379838;
+                  var G__379841 = cljs.core.count.call(null, c__4500__auto___379838);
+                  var G__379842 = 0;
+                  seq__379775_379825 = G__379839;
+                  chunk__379776_379826 = G__379840;
+                  count__379777_379827 = G__379841;
+                  i__379778_379828 = G__379842;
+                  continue;
+                } else {
+                  var vec__379791_379843 = cljs.core.first.call(null, seq__379775_379837__$1);
+                  var eleindex_379844 = cljs.core.nth.call(null, vec__379791_379843, 0, null);
+                  var ele_379845 = cljs.core.nth.call(null, vec__379791_379843, 1, null);
+                  if (cljs.core._EQ_.call(null, 1, ele_379845)) {
+                    todo.core.lib.rect.call(null, rowindex * (todo.core.lib.BRICKWIDTH + todo.core.lib.PADDING) + todo.core.lib.PADDING, eleindex_379844 * (todo.core.lib.BRICKHEIGHT + todo.core.lib.PADDING) + todo.core.lib.PADDING, todo.core.lib.BRICKWIDTH, todo.core.lib.BRICKHEIGHT);
+                  } else {
+                  }
+                  var G__379846 = cljs.core.next.call(null, seq__379775_379837__$1);
+                  var G__379847 = null;
+                  var G__379848 = 0;
+                  var G__379849 = 0;
+                  seq__379775_379825 = G__379846;
+                  chunk__379776_379826 = G__379847;
+                  count__379777_379827 = G__379848;
+                  i__379778_379828 = G__379849;
+                  continue;
+                }
+              } else {
+              }
+            }
+            break;
+          }
+          var G__379850 = cljs.core.next.call(null, seq__379774__$1);
+          var G__379851 = null;
+          var G__379852 = 0;
+          var G__379853 = 0;
+          seq__379774 = G__379850;
+          chunk__379779 = G__379851;
+          count__379780 = G__379852;
+          i__379781 = G__379853;
+          continue;
+        }
+      } else {
+        return null;
+      }
+    }
+    break;
+  }
+};
+todo.core.lib.drawPaddle_BANG_ = function drawPaddle_BANG_() {
   if (cljs.core.truth_(cljs.core.deref.call(null, todo.core.lib.rightDown))) {
     cljs.core.reset_BANG_.call(null, todo.core.lib.paddlex, cljs.core.deref.call(null, todo.core.lib.paddlex) + 5);
   } else {
@@ -40582,25 +40765,43 @@ todo.core.lib.draw = function draw() {
     } else {
     }
   }
-  todo.core.lib.rect.call(null, cljs.core.deref.call(null, todo.core.lib.paddlex), todo.core.lib.HEIGHT - cljs.core.deref.call(null, todo.core.lib.paddleh), cljs.core.deref.call(null, todo.core.lib.paddlew), cljs.core.deref.call(null, todo.core.lib.paddleh));
+  return todo.core.lib.rect.call(null, cljs.core.deref.call(null, todo.core.lib.paddlex), todo.core.lib.HEIGHT - cljs.core.deref.call(null, todo.core.lib.paddleh), cljs.core.deref.call(null, todo.core.lib.paddlew), cljs.core.deref.call(null, todo.core.lib.paddleh));
+};
+todo.core.lib.ballTouchingPaddle_QMARK_ = function ballTouchingPaddle_QMARK_() {
+  return cljs.core.deref.call(null, todo.core.lib.x) > cljs.core.deref.call(null, todo.core.lib.paddlex) && cljs.core.deref.call(null, todo.core.lib.x) < cljs.core.deref.call(null, todo.core.lib.paddlex) + cljs.core.deref.call(null, todo.core.lib.paddlew);
+};
+todo.core.lib.reverseBallYDirection_BANG_ = function reverseBallYDirection_BANG_() {
+  return cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
+};
+todo.core.lib.reverseBallXDirection_BANG_ = function reverseBallXDirection_BANG_() {
+  return cljs.core.reset_BANG_.call(null, todo.core.lib.dx, -cljs.core.deref.call(null, todo.core.lib.dx));
+};
+todo.core.lib.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_() {
+  cljs.core.reset_BANG_.call(null, todo.core.lib.x, cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx));
+  return cljs.core.reset_BANG_.call(null, todo.core.lib.y, cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy));
+};
+todo.core.lib.draw = function draw() {
+  todo.core.lib.clear.call(null);
+  todo.core.lib.circle.call(null, cljs.core.deref.call(null, todo.core.lib.x), cljs.core.deref.call(null, todo.core.lib.y), 10);
+  todo.core.lib.drawPaddle_BANG_.call(null);
+  todo.core.lib.drawBricks_BANG_.call(null);
   if (cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx) > todo.core.lib.WIDTH || cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx) < 0) {
-    cljs.core.reset_BANG_.call(null, todo.core.lib.dx, -cljs.core.deref.call(null, todo.core.lib.dx));
+    todo.core.lib.reverseBallXDirection_BANG_.call(null);
   } else {
   }
   if (cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy) < 0) {
-    cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
+    todo.core.lib.reverseBallYDirection_BANG_.call(null);
   } else {
     if (cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy) > todo.core.lib.HEIGHT) {
-      if (cljs.core.deref.call(null, todo.core.lib.x) > cljs.core.deref.call(null, todo.core.lib.paddlex) && cljs.core.deref.call(null, todo.core.lib.x) < cljs.core.deref.call(null, todo.core.lib.paddlex) + cljs.core.deref.call(null, todo.core.lib.paddlew)) {
-        cljs.core.reset_BANG_.call(null, todo.core.lib.dy, -cljs.core.deref.call(null, todo.core.lib.dy));
+      if (todo.core.lib.ballTouchingPaddle_QMARK_.call(null)) {
+        todo.core.lib.reverseBallYDirection_BANG_.call(null);
       } else {
         clearInterval(cljs.core.deref.call(null, todo.core.lib.intervalId));
       }
     } else {
     }
   }
-  cljs.core.reset_BANG_.call(null, todo.core.lib.x, cljs.core.deref.call(null, todo.core.lib.x) + cljs.core.deref.call(null, todo.core.lib.dx));
-  return cljs.core.reset_BANG_.call(null, todo.core.lib.y, cljs.core.deref.call(null, todo.core.lib.y) + cljs.core.deref.call(null, todo.core.lib.dy));
+  return todo.core.lib.updateBallCoordinates_BANG_.call(null);
 };
 todo.core.lib.init = function init() {
   return cljs.core.reset_BANG_.call(null, todo.core.lib.intervalId, setInterval(todo.core.lib.draw, 10));
