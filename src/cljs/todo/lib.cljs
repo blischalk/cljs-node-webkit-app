@@ -134,19 +134,11 @@
   (rect @paddlex (- HEIGHT @paddleh) @paddlew @paddleh))
 
 
-(defn ballTouchingPaddle? []
+(defn ballTouchingPaddle? [x paddlex paddlew]
   (and (> @x @paddlex) (< @x (+ @paddlex @paddlew))))
 
 
-(defn reverseBallYDirection! []
-  (reset! dy (- @dy)))
-
-
-(defn reverseBallXDirection! []
-  (reset! dx (- @dx)))
-
-
-(defn updateBallCoordinates! []
+(defn updateBallCoordinates! [x y]
   (reset! x (+ @x @dx))
   (reset! y (+ @y @dy)))
 
@@ -166,12 +158,16 @@
     (swap! bricks update-in [col row] (fn [_] 0))))
 
 
-(defn brickInteraction []
+(defn brickInteraction [x y dy rowheight colwidth bricks]
   (let [row (js/Math.floor (/ @y rowheight))
         col (js/Math.floor (/ @x colwidth))]
     (if (brickContact? row col @bricks @y)
-      (do (reverseBallYDirection!)
+      (do (reverseBallDirection! dy)
           (removeBrick! row col)))))
+
+
+(defn reverseBallDirection! [axis]
+  (reset! axis (- @axis)))
 
 
 ;; Draw Game
@@ -189,28 +185,28 @@
   (drawBricks!)
 
   ;; Brick contact
-  (brickInteraction)
+  (brickInteraction x y dy rowheight colwidth bricks)
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
   (if (or (> (+ @x @dx) WIDTH)
           (< (+ @x @dx) 0))
-    (reverseBallXDirection!))
+    (reverseBallDirection! dx))
 
   ;; If ball is about to go out of bounds
   ;; on y axis, reverse direction
   (if (< (+ @y @dy) 0)
-    (reverseBallYDirection!)
+    (reverseBallDirection! dy)
     (if (> (+ @y @dy) HEIGHT)
       ;; If ball hits the paddle, reverse ball direction
-      (if (ballTouchingPaddle?)
-        (reverseBallYDirection!)
+      (if (ballTouchingPaddle? x paddlex paddlew)
+        (reverseBallDirection! dy)
         ;; Otherwise ball missed paddle, game over!
         (js/clearInterval @intervalId))))
 
   ;; Set ball coordinates to directionality
   ;; derived above
-  (updateBallCoordinates!))
+  (updateBallCoordinates! x y))
 
 
 ;; Start the game drawing on canvas
