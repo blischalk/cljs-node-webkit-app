@@ -11,8 +11,8 @@
   :main ^:skip-aot todo.core
   :target-path "target/%s"
   :plugins [[lein-node-webkit-build "0.1.6"]
-            [lein-cljsbuild "0.2.7"]]
-  :cljsbuild {:builds [{:source-path "src/cljs"
+            [lein-cljsbuild "1.0.3"]]
+  :cljsbuild {:builds [{:source-paths ["src/cljs"]
                         :compiler {:output-to "resources/public/client.js"
                                    :optimizations :whitespace
                                    :pretty-print true } }] }

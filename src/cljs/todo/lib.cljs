@@ -42,6 +42,8 @@
 (def BRICKWIDTH (- (/ WIDTH NCOLS) 1))
 (def BRICKHEIGHT 15)
 (def PADDING 1)
+(def rowheight (+ BRICKHEIGHT PADDING))
+(def colwidth (+ BRICKWIDTH PADDING))
 
 ;; Create an associative array of bricks
 ;; [[1 1 1 1 1]
@@ -149,6 +151,29 @@
   (reset! y (+ @y @dy)))
 
 
+(defn brickContact? [row col bricks y]
+  (let [row (js/parseInt row)
+        col (js/parseInt col)]
+    (and (< y (* NROWS rowheight))
+      (>= row 0)
+      (>= col 0)
+      (= 1 (get-in bricks [col row])))))
+
+
+(defn removeBrick! [row col]
+  (let [row (js/parseInt row)
+        col (js/parseInt col)]
+    (swap! bricks update-in [col row] (fn [_] 0))))
+
+
+(defn brickInteraction []
+  (let [row (js/Math.floor (/ @y rowheight))
+        col (js/Math.floor (/ @x colwidth))]
+    (if (brickContact? row col @bricks @y)
+      (do (reverseBallYDirection!)
+          (removeBrick! row col)))))
+
+
 ;; Draw Game
 (defn draw []
   ;; Clear the canvas
@@ -162,6 +187,9 @@
 
   ;; Draw bricks
   (drawBricks!)
+
+  ;; Brick contact
+  (brickInteraction)
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
