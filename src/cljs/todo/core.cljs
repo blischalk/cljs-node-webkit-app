@@ -2,7 +2,7 @@
   ;; jayq note needed currently but leaving just in case...
   ;; (:use [jayq.core :only [$ css html text]])
   ;; Currently using enfocus instead
-  (:require [todo.core.lib :as lib]
+  (:require [todo.lib :as lib]
             [enfocus.core :as ef]
             [enfocus.events :as events]
             [enfocus.effects :as effects])
