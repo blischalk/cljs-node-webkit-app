@@ -1,5 +1,7 @@
 (ns todo.bricks
-  (:require [todo.canvas :as canvas]))
+  (:require [todo.ball :as ball]
+            [todo.canvas :as canvas]
+            [todo.shapes :as shapes]))
 
 ;; Bricks
 (def NROWS 5)
@@ -22,7 +24,7 @@
                     (range 0 NROWS))))
 
 
-(defn drawBricks! []
+(defn draw! [ctx]
   (doseq [[rowindex row] (map vector
                            (iterate inc 0)
                            @bricks)
@@ -31,7 +33,8 @@
                            row)]
 
     (if (= 1 ele)
-      (rect
+      (shapes/rect
+        ctx
         (+ (* rowindex (+ BRICKWIDTH PADDING)) PADDING)
         (+ (* eleindex (+ BRICKHEIGHT PADDING)) PADDING)
         BRICKWIDTH

@@ -1,4 +1,5 @@
-(ns todo.canvas)
+(ns todo.canvas
+  (:require [enfocus.core :as ef]))
 
 ;; Dimensions of canvas
 (def WIDTH (ef/from "#canvas" (ef/get-attr :width)))

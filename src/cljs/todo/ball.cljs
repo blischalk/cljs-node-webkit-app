@@ -1,4 +1,5 @@
-(ns todo.ball)
+(ns todo.ball
+  (:require [todo.shapes :as shapes]))
 
 ;; Circle starting coordinates
 (def x (atom 130))
@@ -18,12 +19,5 @@
   (reset! axis (- @axis)))
 
 
-(defn- circle [ctx x y r]
-  (.beginPath ctx)
-  (.arc ctx x y r 0 (* js/Math.PI 2) true)
-  (.closePath ctx)
-  (.fill ctx))
-
-
 (defn draw! [ctx]
-  (circle ctx @x @y 10))
+  (shapes/circle ctx @x @y 10))

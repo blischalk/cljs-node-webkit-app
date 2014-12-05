@@ -1,43 +1,44 @@
 (ns todo.lib
-  (:require [enfocus.core :as ef]
-            [enfocus.events :as events]
-            [todo.ball :as ball]
-            [todo.bricks :as bricks])
+  (:require [todo.ball :as ball]
+            [todo.bricks :as bricks]
+            [todo.canvas :as canvas]
+            [todo.paddle :as paddle])
   (:require-macros [enfocus.macros :as em]))
 
 ;; IntervalId of setInterval, initialized to 0
 (def intervalId (atom 0))
 
+
 ;; Draw Game
 (defn draw []
   ;; Clear the canvas
-  (clear!)
+  (canvas/clear!)
 
   ;; Draw ball
-  (ball/draw! ctx)
+  (ball/draw! canvas/ctx)
 
   ;; Draw paddle
-  (drawPaddle!)
+  (paddle/draw! canvas/ctx)
 
   ;; Draw bricks
-  (drawBricks!)
+  (bricks/draw! canvas/ctx)
 
   ;; Brick contact
-  (brickInteraction ball/x ball/y ball/dy rowheight colwidth bricks)
+  (bricks/brickInteraction ball/x ball/y ball/dy bricks/rowheight bricks/colwidth bricks/bricks)
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
-  (if (or (> (+ @ball/x @ball/dx) WIDTH)
-          (< (+ @ball/x @ball/dx) 0))
+  (if (or (> (+ @ball/x @ball/dx) canvas/WIDTH)
+        (< (+ @ball/x @ball/dx) 0))
     (ball/reverseBallDirection! ball/dx))
 
   ;; If ball is about to go out of bounds
   ;; on y axis, reverse direction
   (if (< (+ @ball/y @ball/dy) 0)
     (ball/reverseBallDirection! ball/dy)
-    (if (> (+ @ball/y @ball/dy) HEIGHT)
+    (if (> (+ @ball/y @ball/dy) canvas/HEIGHT)
       ;; If ball hits the paddle, reverse ball direction
-      (if (ballTouchingPaddle? ball/x paddlex paddlew)
+      (if (paddle/ballTouchingPaddle? ball/x paddle/paddlex paddle/paddlew)
         (ball/reverseBallDirection! ball/dy)
         ;; Otherwise ball missed paddle, game over!
         (js/clearInterval @intervalId))))

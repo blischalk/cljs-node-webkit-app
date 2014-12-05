@@ -3,6 +3,7 @@
   ;; (:use [jayq.core :only [$ css html text]])
   ;; Currently using enfocus instead
   (:require [todo.lib :as lib]
+            [todo.paddle :as paddle]
             [enfocus.core :as ef]
             [enfocus.events :as events]
             [enfocus.effects :as effects])
@@ -93,7 +94,7 @@
   (add-main-content!)
   (update-greeting!)
   (attach-nav-handlers!)
-  (lib/keyEvents)
+  (paddle/keyEvents)
   (lib/init))
 
 
