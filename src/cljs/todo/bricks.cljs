@@ -12,6 +12,8 @@
 (def rowheight (+ BRICKHEIGHT PADDING))
 (def colwidth (+ BRICKWIDTH PADDING))
 
+(def rowcolors ["#FF1C0A" "#FFFD0A" "#00A308" "#0008DB" "#EB0093"])
+
 
 ;; Create an associative array of bricks
 ;; [[1 1 1 1 1]
@@ -32,6 +34,7 @@
                            (iterate inc 0)
                            row)]
 
+    (set! (.-fillStyle ctx) (rowcolors eleindex))
     (if (= 1 ele)
       (shapes/rect
         ctx

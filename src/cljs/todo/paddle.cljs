@@ -8,6 +8,7 @@
 (def paddlex (atom (/ canvas/WIDTH 2)))
 (def paddleh (atom 10))
 (def paddlew (atom 75))
+(def paddle-color "#FFFFFF")
 
 ;; Left Right movement button flags
 (def rightDown (atom false))
@@ -54,6 +55,7 @@
     (if @leftDown
       (reset! paddlex (- @paddlex 5))))
 
+  (set! (.-fillStyle ctx) paddle-color)
   (shapes/rect ctx @paddlex (- canvas/HEIGHT @paddleh) @paddlew @paddleh))
 
 
