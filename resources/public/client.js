@@ -31999,26 +31999,6 @@ goog.fx.dom.ColorTransform.prototype.updateStyle = function() {
   var color = "rgb(" + coordsAsInts.join(",") + ")";
   this.element.style.color = color;
 };
-goog.provide("todo.ball");
-goog.require("cljs.core");
-goog.require("todo.shapes");
-goog.require("todo.shapes");
-todo.ball.x = cljs.core.atom.call(null, 130);
-todo.ball.y = cljs.core.atom.call(null, 150);
-todo.ball.ball_color = "#FFFFFF";
-todo.ball.dx = cljs.core.atom.call(null, 2);
-todo.ball.dy = cljs.core.atom.call(null, 4);
-todo.ball.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_(x, y) {
-  cljs.core.reset_BANG_.call(null, x, cljs.core.deref.call(null, x) + cljs.core.deref.call(null, todo.ball.dx));
-  return cljs.core.reset_BANG_.call(null, y, cljs.core.deref.call(null, y) + cljs.core.deref.call(null, todo.ball.dy));
-};
-todo.ball.reverseBallDirection_BANG_ = function reverseBallDirection_BANG_(axis) {
-  return cljs.core.reset_BANG_.call(null, axis, -cljs.core.deref.call(null, axis));
-};
-todo.ball.draw_BANG_ = function draw_BANG_(ctx) {
-  ctx.fillStyle = todo.ball.ball_color;
-  return todo.shapes.circle.call(null, ctx, cljs.core.deref.call(null, todo.ball.x), cljs.core.deref.call(null, todo.ball.y), 10);
-};
 goog.provide("goog.iter");
 goog.provide("goog.iter.Iterable");
 goog.provide("goog.iter.Iterator");
@@ -41233,8 +41213,6 @@ goog.require("todo.shapes");
 goog.require("todo.shapes");
 goog.require("todo.canvas");
 goog.require("todo.canvas");
-goog.require("todo.ball");
-goog.require("todo.ball");
 todo.bricks.NROWS = 5;
 todo.bricks.NCOLS = 5;
 todo.bricks.BRICKWIDTH = todo.canvas.WIDTH / todo.bricks.NCOLS - 1;
@@ -41249,70 +41227,70 @@ todo.bricks.bricks = cljs.core.atom.call(null, cljs.core.mapv.call(null, functio
   }, cljs.core.range.call(null, 0, todo.bricks.NCOLS));
 }, cljs.core.range.call(null, 0, todo.bricks.NROWS)));
 todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
-  var seq__7041 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, todo.bricks.bricks)));
-  var chunk__7046 = null;
-  var count__7047 = 0;
-  var i__7048 = 0;
+  var seq__6273 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, todo.bricks.bricks)));
+  var chunk__6278 = null;
+  var count__6279 = 0;
+  var i__6280 = 0;
   while (true) {
-    if (i__7048 < count__7047) {
-      var vec__7053 = cljs.core._nth.call(null, chunk__7046, i__7048);
-      var rowindex = cljs.core.nth.call(null, vec__7053, 0, null);
-      var row = cljs.core.nth.call(null, vec__7053, 1, null);
-      var seq__7049_7059 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-      var chunk__7050_7060 = null;
-      var count__7051_7061 = 0;
-      var i__7052_7062 = 0;
+    if (i__6280 < count__6279) {
+      var vec__6285 = cljs.core._nth.call(null, chunk__6278, i__6280);
+      var rowindex = cljs.core.nth.call(null, vec__6285, 0, null);
+      var row = cljs.core.nth.call(null, vec__6285, 1, null);
+      var seq__6281_6291 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+      var chunk__6282_6292 = null;
+      var count__6283_6293 = 0;
+      var i__6284_6294 = 0;
       while (true) {
-        if (i__7052_7062 < count__7051_7061) {
-          var vec__7054_7063 = cljs.core._nth.call(null, chunk__7050_7060, i__7052_7062);
-          var eleindex_7064 = cljs.core.nth.call(null, vec__7054_7063, 0, null);
-          var ele_7065 = cljs.core.nth.call(null, vec__7054_7063, 1, null);
-          ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_7064);
-          if (cljs.core._EQ_.call(null, 1, ele_7065)) {
-            todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_7064 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+        if (i__6284_6294 < count__6283_6293) {
+          var vec__6286_6295 = cljs.core._nth.call(null, chunk__6282_6292, i__6284_6294);
+          var eleindex_6296 = cljs.core.nth.call(null, vec__6286_6295, 0, null);
+          var ele_6297 = cljs.core.nth.call(null, vec__6286_6295, 1, null);
+          ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6296);
+          if (cljs.core._EQ_.call(null, 1, ele_6297)) {
+            todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6296 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
           } else {
           }
-          var G__7066 = seq__7049_7059;
-          var G__7067 = chunk__7050_7060;
-          var G__7068 = count__7051_7061;
-          var G__7069 = i__7052_7062 + 1;
-          seq__7049_7059 = G__7066;
-          chunk__7050_7060 = G__7067;
-          count__7051_7061 = G__7068;
-          i__7052_7062 = G__7069;
+          var G__6298 = seq__6281_6291;
+          var G__6299 = chunk__6282_6292;
+          var G__6300 = count__6283_6293;
+          var G__6301 = i__6284_6294 + 1;
+          seq__6281_6291 = G__6298;
+          chunk__6282_6292 = G__6299;
+          count__6283_6293 = G__6300;
+          i__6284_6294 = G__6301;
           continue;
         } else {
-          var temp__4126__auto___7070 = cljs.core.seq.call(null, seq__7049_7059);
-          if (temp__4126__auto___7070) {
-            var seq__7049_7071__$1 = temp__4126__auto___7070;
-            if (cljs.core.chunked_seq_QMARK_.call(null, seq__7049_7071__$1)) {
-              var c__4410__auto___7072 = cljs.core.chunk_first.call(null, seq__7049_7071__$1);
-              var G__7073 = cljs.core.chunk_rest.call(null, seq__7049_7071__$1);
-              var G__7074 = c__4410__auto___7072;
-              var G__7075 = cljs.core.count.call(null, c__4410__auto___7072);
-              var G__7076 = 0;
-              seq__7049_7059 = G__7073;
-              chunk__7050_7060 = G__7074;
-              count__7051_7061 = G__7075;
-              i__7052_7062 = G__7076;
+          var temp__4126__auto___6302 = cljs.core.seq.call(null, seq__6281_6291);
+          if (temp__4126__auto___6302) {
+            var seq__6281_6303__$1 = temp__4126__auto___6302;
+            if (cljs.core.chunked_seq_QMARK_.call(null, seq__6281_6303__$1)) {
+              var c__4410__auto___6304 = cljs.core.chunk_first.call(null, seq__6281_6303__$1);
+              var G__6305 = cljs.core.chunk_rest.call(null, seq__6281_6303__$1);
+              var G__6306 = c__4410__auto___6304;
+              var G__6307 = cljs.core.count.call(null, c__4410__auto___6304);
+              var G__6308 = 0;
+              seq__6281_6291 = G__6305;
+              chunk__6282_6292 = G__6306;
+              count__6283_6293 = G__6307;
+              i__6284_6294 = G__6308;
               continue;
             } else {
-              var vec__7055_7077 = cljs.core.first.call(null, seq__7049_7071__$1);
-              var eleindex_7078 = cljs.core.nth.call(null, vec__7055_7077, 0, null);
-              var ele_7079 = cljs.core.nth.call(null, vec__7055_7077, 1, null);
-              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_7078);
-              if (cljs.core._EQ_.call(null, 1, ele_7079)) {
-                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_7078 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+              var vec__6287_6309 = cljs.core.first.call(null, seq__6281_6303__$1);
+              var eleindex_6310 = cljs.core.nth.call(null, vec__6287_6309, 0, null);
+              var ele_6311 = cljs.core.nth.call(null, vec__6287_6309, 1, null);
+              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6310);
+              if (cljs.core._EQ_.call(null, 1, ele_6311)) {
+                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6310 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__7080 = cljs.core.next.call(null, seq__7049_7071__$1);
-              var G__7081 = null;
-              var G__7082 = 0;
-              var G__7083 = 0;
-              seq__7049_7059 = G__7080;
-              chunk__7050_7060 = G__7081;
-              count__7051_7061 = G__7082;
-              i__7052_7062 = G__7083;
+              var G__6312 = cljs.core.next.call(null, seq__6281_6303__$1);
+              var G__6313 = null;
+              var G__6314 = 0;
+              var G__6315 = 0;
+              seq__6281_6291 = G__6312;
+              chunk__6282_6292 = G__6313;
+              count__6283_6293 = G__6314;
+              i__6284_6294 = G__6315;
               continue;
             }
           } else {
@@ -41320,89 +41298,89 @@ todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
         }
         break;
       }
-      var G__7084 = seq__7041;
-      var G__7085 = chunk__7046;
-      var G__7086 = count__7047;
-      var G__7087 = i__7048 + 1;
-      seq__7041 = G__7084;
-      chunk__7046 = G__7085;
-      count__7047 = G__7086;
-      i__7048 = G__7087;
+      var G__6316 = seq__6273;
+      var G__6317 = chunk__6278;
+      var G__6318 = count__6279;
+      var G__6319 = i__6280 + 1;
+      seq__6273 = G__6316;
+      chunk__6278 = G__6317;
+      count__6279 = G__6318;
+      i__6280 = G__6319;
       continue;
     } else {
-      var temp__4126__auto__ = cljs.core.seq.call(null, seq__7041);
+      var temp__4126__auto__ = cljs.core.seq.call(null, seq__6273);
       if (temp__4126__auto__) {
-        var seq__7041__$1 = temp__4126__auto__;
-        if (cljs.core.chunked_seq_QMARK_.call(null, seq__7041__$1)) {
-          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__7041__$1);
-          var G__7088 = cljs.core.chunk_rest.call(null, seq__7041__$1);
-          var G__7089 = c__4410__auto__;
-          var G__7090 = cljs.core.count.call(null, c__4410__auto__);
-          var G__7091 = 0;
-          seq__7041 = G__7088;
-          chunk__7046 = G__7089;
-          count__7047 = G__7090;
-          i__7048 = G__7091;
+        var seq__6273__$1 = temp__4126__auto__;
+        if (cljs.core.chunked_seq_QMARK_.call(null, seq__6273__$1)) {
+          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__6273__$1);
+          var G__6320 = cljs.core.chunk_rest.call(null, seq__6273__$1);
+          var G__6321 = c__4410__auto__;
+          var G__6322 = cljs.core.count.call(null, c__4410__auto__);
+          var G__6323 = 0;
+          seq__6273 = G__6320;
+          chunk__6278 = G__6321;
+          count__6279 = G__6322;
+          i__6280 = G__6323;
           continue;
         } else {
-          var vec__7056 = cljs.core.first.call(null, seq__7041__$1);
-          var rowindex = cljs.core.nth.call(null, vec__7056, 0, null);
-          var row = cljs.core.nth.call(null, vec__7056, 1, null);
-          var seq__7042_7092 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-          var chunk__7043_7093 = null;
-          var count__7044_7094 = 0;
-          var i__7045_7095 = 0;
+          var vec__6288 = cljs.core.first.call(null, seq__6273__$1);
+          var rowindex = cljs.core.nth.call(null, vec__6288, 0, null);
+          var row = cljs.core.nth.call(null, vec__6288, 1, null);
+          var seq__6274_6324 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+          var chunk__6275_6325 = null;
+          var count__6276_6326 = 0;
+          var i__6277_6327 = 0;
           while (true) {
-            if (i__7045_7095 < count__7044_7094) {
-              var vec__7057_7096 = cljs.core._nth.call(null, chunk__7043_7093, i__7045_7095);
-              var eleindex_7097 = cljs.core.nth.call(null, vec__7057_7096, 0, null);
-              var ele_7098 = cljs.core.nth.call(null, vec__7057_7096, 1, null);
-              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_7097);
-              if (cljs.core._EQ_.call(null, 1, ele_7098)) {
-                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_7097 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+            if (i__6277_6327 < count__6276_6326) {
+              var vec__6289_6328 = cljs.core._nth.call(null, chunk__6275_6325, i__6277_6327);
+              var eleindex_6329 = cljs.core.nth.call(null, vec__6289_6328, 0, null);
+              var ele_6330 = cljs.core.nth.call(null, vec__6289_6328, 1, null);
+              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6329);
+              if (cljs.core._EQ_.call(null, 1, ele_6330)) {
+                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6329 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__7099 = seq__7042_7092;
-              var G__7100 = chunk__7043_7093;
-              var G__7101 = count__7044_7094;
-              var G__7102 = i__7045_7095 + 1;
-              seq__7042_7092 = G__7099;
-              chunk__7043_7093 = G__7100;
-              count__7044_7094 = G__7101;
-              i__7045_7095 = G__7102;
+              var G__6331 = seq__6274_6324;
+              var G__6332 = chunk__6275_6325;
+              var G__6333 = count__6276_6326;
+              var G__6334 = i__6277_6327 + 1;
+              seq__6274_6324 = G__6331;
+              chunk__6275_6325 = G__6332;
+              count__6276_6326 = G__6333;
+              i__6277_6327 = G__6334;
               continue;
             } else {
-              var temp__4126__auto___7103__$1 = cljs.core.seq.call(null, seq__7042_7092);
-              if (temp__4126__auto___7103__$1) {
-                var seq__7042_7104__$1 = temp__4126__auto___7103__$1;
-                if (cljs.core.chunked_seq_QMARK_.call(null, seq__7042_7104__$1)) {
-                  var c__4410__auto___7105 = cljs.core.chunk_first.call(null, seq__7042_7104__$1);
-                  var G__7106 = cljs.core.chunk_rest.call(null, seq__7042_7104__$1);
-                  var G__7107 = c__4410__auto___7105;
-                  var G__7108 = cljs.core.count.call(null, c__4410__auto___7105);
-                  var G__7109 = 0;
-                  seq__7042_7092 = G__7106;
-                  chunk__7043_7093 = G__7107;
-                  count__7044_7094 = G__7108;
-                  i__7045_7095 = G__7109;
+              var temp__4126__auto___6335__$1 = cljs.core.seq.call(null, seq__6274_6324);
+              if (temp__4126__auto___6335__$1) {
+                var seq__6274_6336__$1 = temp__4126__auto___6335__$1;
+                if (cljs.core.chunked_seq_QMARK_.call(null, seq__6274_6336__$1)) {
+                  var c__4410__auto___6337 = cljs.core.chunk_first.call(null, seq__6274_6336__$1);
+                  var G__6338 = cljs.core.chunk_rest.call(null, seq__6274_6336__$1);
+                  var G__6339 = c__4410__auto___6337;
+                  var G__6340 = cljs.core.count.call(null, c__4410__auto___6337);
+                  var G__6341 = 0;
+                  seq__6274_6324 = G__6338;
+                  chunk__6275_6325 = G__6339;
+                  count__6276_6326 = G__6340;
+                  i__6277_6327 = G__6341;
                   continue;
                 } else {
-                  var vec__7058_7110 = cljs.core.first.call(null, seq__7042_7104__$1);
-                  var eleindex_7111 = cljs.core.nth.call(null, vec__7058_7110, 0, null);
-                  var ele_7112 = cljs.core.nth.call(null, vec__7058_7110, 1, null);
-                  ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_7111);
-                  if (cljs.core._EQ_.call(null, 1, ele_7112)) {
-                    todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_7111 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+                  var vec__6290_6342 = cljs.core.first.call(null, seq__6274_6336__$1);
+                  var eleindex_6343 = cljs.core.nth.call(null, vec__6290_6342, 0, null);
+                  var ele_6344 = cljs.core.nth.call(null, vec__6290_6342, 1, null);
+                  ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6343);
+                  if (cljs.core._EQ_.call(null, 1, ele_6344)) {
+                    todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6343 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
                   } else {
                   }
-                  var G__7113 = cljs.core.next.call(null, seq__7042_7104__$1);
-                  var G__7114 = null;
-                  var G__7115 = 0;
-                  var G__7116 = 0;
-                  seq__7042_7092 = G__7113;
-                  chunk__7043_7093 = G__7114;
-                  count__7044_7094 = G__7115;
-                  i__7045_7095 = G__7116;
+                  var G__6345 = cljs.core.next.call(null, seq__6274_6336__$1);
+                  var G__6346 = null;
+                  var G__6347 = 0;
+                  var G__6348 = 0;
+                  seq__6274_6324 = G__6345;
+                  chunk__6275_6325 = G__6346;
+                  count__6276_6326 = G__6347;
+                  i__6277_6327 = G__6348;
                   continue;
                 }
               } else {
@@ -41410,14 +41388,14 @@ todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
             }
             break;
           }
-          var G__7117 = cljs.core.next.call(null, seq__7041__$1);
-          var G__7118 = null;
-          var G__7119 = 0;
-          var G__7120 = 0;
-          seq__7041 = G__7117;
-          chunk__7046 = G__7118;
-          count__7047 = G__7119;
-          i__7048 = G__7120;
+          var G__6349 = cljs.core.next.call(null, seq__6273__$1);
+          var G__6350 = null;
+          var G__6351 = 0;
+          var G__6352 = 0;
+          seq__6273 = G__6349;
+          chunk__6278 = G__6350;
+          count__6279 = G__6351;
+          i__6280 = G__6352;
           continue;
         }
       } else {
@@ -41427,17 +41405,20 @@ todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
     break;
   }
 };
-todo.bricks.brickInteraction = function brickInteraction(x, y, dy, rowheight, colwidth, bricks) {
-  var row = Math.floor(cljs.core.deref.call(null, y) / rowheight);
-  var col = Math.floor(cljs.core.deref.call(null, x) / colwidth);
-  if (cljs.core.truth_(todo.bricks.ballTouchingBrick_QMARK_.call(null, row, col, cljs.core.deref.call(null, bricks), cljs.core.deref.call(null, y)))) {
-    todo.ball.reverseBallDirection_BANG_.call(null, dy);
+todo.bricks.brickInteraction = function brickInteraction(x, y, cb) {
+  var row = Math.floor(cljs.core.deref.call(null, y) / todo.bricks.rowheight);
+  var col = Math.floor(cljs.core.deref.call(null, x) / todo.bricks.colwidth);
+  if (cljs.core.truth_(todo.bricks.brickImpact_QMARK_.call(null, row, col, cljs.core.deref.call(null, todo.bricks.bricks), cljs.core.deref.call(null, y)))) {
+    if (cljs.core.truth_(cb)) {
+      cb.call(null);
+    } else {
+    }
     return todo.bricks.removeBrick_BANG_.call(null, row, col);
   } else {
     return null;
   }
 };
-todo.bricks.ballTouchingBrick_QMARK_ = function ballTouchingBrick_QMARK_(row, col, bricks, y) {
+todo.bricks.brickImpact_QMARK_ = function brickImpact_QMARK_(row, col, bricks, y) {
   var row__$1 = parseInt(row);
   var col__$1 = parseInt(col);
   return y < todo.bricks.NROWS * todo.bricks.rowheight && row__$1 >= 0 && col__$1 >= 0 && cljs.core._EQ_.call(null, 1, cljs.core.get_in.call(null, bricks, new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [col__$1, row__$1], null)));
@@ -41478,6 +41459,26 @@ goog.require("goog.fx.Animation.State");
 goog.require("goog.fx.AnimationEvent");
 goog.require("goog.fx.Transition.EventType");
 goog.require("goog.fx.easing");
+goog.provide("todo.ball");
+goog.require("cljs.core");
+goog.require("todo.shapes");
+goog.require("todo.shapes");
+todo.ball.x = cljs.core.atom.call(null, 130);
+todo.ball.y = cljs.core.atom.call(null, 150);
+todo.ball.ball_color = "#FFFFFF";
+todo.ball.dx = cljs.core.atom.call(null, 2);
+todo.ball.dy = cljs.core.atom.call(null, 4);
+todo.ball.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_(x, y) {
+  cljs.core.reset_BANG_.call(null, x, cljs.core.deref.call(null, x) + cljs.core.deref.call(null, todo.ball.dx));
+  return cljs.core.reset_BANG_.call(null, y, cljs.core.deref.call(null, y) + cljs.core.deref.call(null, todo.ball.dy));
+};
+todo.ball.reverseBallDirection_BANG_ = function reverseBallDirection_BANG_(axis) {
+  return cljs.core.reset_BANG_.call(null, axis, -cljs.core.deref.call(null, axis));
+};
+todo.ball.draw_BANG_ = function draw_BANG_(ctx) {
+  ctx.fillStyle = todo.ball.ball_color;
+  return todo.shapes.circle.call(null, ctx, cljs.core.deref.call(null, todo.ball.x), cljs.core.deref.call(null, todo.ball.y), 10);
+};
 goog.provide("enfocus.events");
 goog.require("cljs.core");
 goog.require("goog.object");
@@ -41928,7 +41929,9 @@ todo.lib.draw = function draw() {
   todo.ball.draw_BANG_.call(null, todo.canvas.ctx);
   todo.paddle.draw_BANG_.call(null, todo.canvas.ctx);
   todo.bricks.draw_BANG_.call(null, todo.canvas.ctx);
-  todo.bricks.brickInteraction.call(null, todo.ball.x, todo.ball.y, todo.ball.dy, todo.bricks.rowheight, todo.bricks.colwidth, todo.bricks.bricks);
+  todo.bricks.brickInteraction.call(null, todo.ball.x, todo.ball.y, function() {
+    return todo.ball.reverseBallDirection_BANG_.call(null, todo.ball.dy);
+  });
   if (cljs.core.deref.call(null, todo.ball.x) + cljs.core.deref.call(null, todo.ball.dx) > todo.canvas.WIDTH || cljs.core.deref.call(null, todo.ball.x) + cljs.core.deref.call(null, todo.ball.dx) < 0) {
     todo.ball.reverseBallDirection_BANG_.call(null, todo.ball.dx);
   } else {

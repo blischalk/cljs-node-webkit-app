@@ -1,6 +1,5 @@
 (ns todo.bricks
-  (:require [todo.ball :as ball]
-            [todo.canvas :as canvas]
+  (:require [todo.canvas :as canvas]
             [todo.shapes :as shapes]))
 
 ;; Bricks
@@ -44,15 +43,15 @@
         BRICKHEIGHT))))
 
 
-(defn brickInteraction [x y dy rowheight colwidth bricks]
+(defn brickInteraction [x y cb]
   (let [row (js/Math.floor (/ @y rowheight))
         col (js/Math.floor (/ @x colwidth))]
-    (if (ballTouchingBrick? row col @bricks @y)
-      (do (ball/reverseBallDirection! dy)
+    (if (brickImpact? row col @bricks @y)
+      (do (if cb (cb))
           (removeBrick! row col)))))
 
 
-(defn ballTouchingBrick? [row col bricks y]
+(defn brickImpact? [row col bricks y]
   (let [row (js/parseInt row)
         col (js/parseInt col)]
     (and (< y (* NROWS rowheight))

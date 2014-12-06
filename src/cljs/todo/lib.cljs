@@ -6,12 +6,7 @@
   (:require-macros [enfocus.macros :as em]))
 
 ;; FIXME: make functions know less about various components of app
-;; FIXME: make functions in namespaces not need to be passed in elements of
-;; its own namespace
 ;; FIXME: reduce state.  Pass around data structures.  Recursion??
-;; FIXME: abstract interactions so elements only need to know about
-;; the position of the element in question and then take a callback for true or false
-;; TODO: Finish tutorial (Finishing Touches)
 
 ;; IntervalId of setInterval, initialized to 0
 (def intervalId (atom 0))
@@ -32,7 +27,10 @@
   (bricks/draw! canvas/ctx)
 
   ;; Brick contact
-  (bricks/brickInteraction ball/x ball/y ball/dy bricks/rowheight bricks/colwidth bricks/bricks)
+  (bricks/brickInteraction ball/x
+                           ball/y
+                           #(ball/reverseBallDirection! ball/dy))
+
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
