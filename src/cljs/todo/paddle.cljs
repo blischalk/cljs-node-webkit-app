@@ -34,9 +34,9 @@
 (defn onMouseMove [evt]
   (let [mouseX (js/parseInt (.-clientX evt))]
     (if (and
-          (> mouseX canvasMinX)
-          (< mouseX canvasMaxX))
-      (reset! paddlex (- mouseX canvasMinX)))))
+          (> mouseX canvas/canvasMinX)
+          (< mouseX canvas/canvasMaxX))
+      (reset! paddlex (- mouseX canvas/canvasMinX)))))
 
 
 ;; Attach event handlers
