@@ -1,5 +1,5 @@
-(ns todo.canvas
-  (:require [todo.shapes :as shapes]
+(ns breakout.canvas
+  (:require [breakout.shapes :as shapes]
             [enfocus.core :as ef]))
 
 (def backgroundColor "#000000")

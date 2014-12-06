@@ -1,5 +1,5 @@
-(ns todo.ball
-  (:require [todo.shapes :as shapes]))
+(ns breakout.ball
+  (:require [breakout.shapes :as shapes]))
 
 ;; Circle starting coordinates
 (def x (atom 130))

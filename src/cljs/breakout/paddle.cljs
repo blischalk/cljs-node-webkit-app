@@ -1,6 +1,6 @@
-(ns todo.paddle
-  (:require [todo.canvas :as canvas]
-            [todo.shapes :as shapes]
+(ns breakout.paddle
+  (:require [breakout.canvas :as canvas]
+            [breakout.shapes :as shapes]
             [enfocus.core :as ef]
             [enfocus.events :as events]))
 

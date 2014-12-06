@@ -1,4 +1,4 @@
-(ns todo.shapes)
+(ns breakout.shapes)
 
 ;; Draw shapes
 (defn rect [ctx x y w h]

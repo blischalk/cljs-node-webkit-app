@@ -1,6 +1,6 @@
-(ns todo.core-test
+(ns breakout.core-test
   (:require [clojure.test :refer :all]
-            [todo.core :refer :all]))
+            [breakout.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

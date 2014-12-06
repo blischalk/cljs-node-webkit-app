@@ -1,4 +1,4 @@
-(defproject todo "0.1.0-SNAPSHOT"
+(defproject breakout "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -8,7 +8,7 @@
                  [enfocus "2.1.1"]
                  [jayq "2.5.2"]]
   :source-paths ["src/clj"]
-  :main ^:skip-aot todo.core
+  :main ^:skip-aot breakout.core
   :target-path "target/%s"
   :plugins [[lein-node-webkit-build "0.1.6"]
             [lein-cljsbuild "1.0.3"]]

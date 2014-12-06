@@ -1,9 +1,9 @@
-(ns todo.core
+(ns breakout.core
   ;; jayq note needed currently but leaving just in case...
   ;; (:use [jayq.core :only [$ css html text]])
   ;; Currently using enfocus instead
-  (:require [todo.lib :as lib]
-            [todo.paddle :as paddle]
+  (:require [breakout.lib :as lib]
+            [breakout.paddle :as paddle]
             [enfocus.core :as ef]
             [enfocus.events :as events]
             [enfocus.effects :as effects])
@@ -13,7 +13,7 @@
 ;; http://www.spacjer.com/blog/2014/09/12/clojurescript-javascript-interop/
 
 ;; Define some constants
-(def app-name "My Node-Webkit ClojureScript Application")
+(def app-name "Node Webkit Breakout")
 (def username (or js/process.env.USERNAME js/process.env.USER))
 
 

@@ -1,6 +1,6 @@
-(ns todo.bricks
-  (:require [todo.canvas :as canvas]
-            [todo.shapes :as shapes]))
+(ns breakout.bricks
+  (:require [breakout.canvas :as canvas]
+            [breakout.shapes :as shapes]))
 
 ;; Bricks
 (def NROWS 5)

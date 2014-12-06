@@ -1,8 +1,8 @@
-(ns todo.lib
-  (:require [todo.ball :as ball]
-            [todo.bricks :as bricks]
-            [todo.canvas :as canvas]
-            [todo.paddle :as paddle])
+(ns breakout.lib
+  (:require [breakout.ball :as ball]
+            [breakout.bricks :as bricks]
+            [breakout.canvas :as canvas]
+            [breakout.paddle :as paddle])
   (:require-macros [enfocus.macros :as em]))
 
 ;; FIXME: make functions know less about various components of app

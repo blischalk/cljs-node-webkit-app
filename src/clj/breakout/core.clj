@@ -1,4 +1,4 @@
-(ns todo.core
+(ns breakout.core
   (:gen-class))
 
 (defn -main
