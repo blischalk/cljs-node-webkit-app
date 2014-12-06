@@ -2,7 +2,7 @@
   (:require [todo.shapes :as shapes]
             [enfocus.core :as ef]))
 
-(def background-color "#000000")
+(def backgroundColor "#000000")
 
 ;; Dimensions of canvas
 (def WIDTH (ef/from "#canvas" (ef/get-attr :width)))
@@ -22,5 +22,5 @@
 ;; Clear Canvas
 (defn clear! []
   (.clearRect ctx 0 0 WIDTH HEIGHT)
-  (set! (.-fillStyle ctx) background-color)
+  (set! (.-fillStyle ctx) backgroundColor)
   (shapes/rect ctx 0 0 WIDTH HEIGHT))

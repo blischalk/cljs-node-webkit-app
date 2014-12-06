@@ -41192,19 +41192,19 @@ goog.require("enfocus.core");
 goog.require("enfocus.core");
 goog.require("todo.shapes");
 goog.require("todo.shapes");
-todo.canvas.background_color = "#000000";
+todo.canvas.backgroundColor = "#000000";
 todo.canvas.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
 todo.canvas.HEIGHT = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "height", "height", 1025178622)));
-todo.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__7123_SHARP_) {
-  return p1__7123_SHARP_.getContext("2d");
+todo.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__6495_SHARP_) {
+  return p1__6495_SHARP_.getContext("2d");
 }));
-todo.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__7124_SHARP_) {
-  return goog.style.getPageOffset(p1__7124_SHARP_);
+todo.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__6496_SHARP_) {
+  return goog.style.getPageOffset(p1__6496_SHARP_);
 })).x;
 todo.canvas.canvasMaxX = todo.canvas.canvasMinX + todo.canvas.WIDTH;
 todo.canvas.clear_BANG_ = function clear_BANG_() {
   todo.canvas.ctx.clearRect(0, 0, todo.canvas.WIDTH, todo.canvas.HEIGHT);
-  todo.canvas.ctx.fillStyle = todo.canvas.background_color;
+  todo.canvas.ctx.fillStyle = todo.canvas.backgroundColor;
   return todo.shapes.rect.call(null, todo.canvas.ctx, 0, 0, todo.canvas.WIDTH, todo.canvas.HEIGHT);
 };
 goog.provide("todo.bricks");
@@ -41227,70 +41227,70 @@ todo.bricks.bricks = cljs.core.atom.call(null, cljs.core.mapv.call(null, functio
   }, cljs.core.range.call(null, 0, todo.bricks.NCOLS));
 }, cljs.core.range.call(null, 0, todo.bricks.NROWS)));
 todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
-  var seq__6273 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, todo.bricks.bricks)));
-  var chunk__6278 = null;
-  var count__6279 = 0;
-  var i__6280 = 0;
+  var seq__6371 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, todo.bricks.bricks)));
+  var chunk__6376 = null;
+  var count__6377 = 0;
+  var i__6378 = 0;
   while (true) {
-    if (i__6280 < count__6279) {
-      var vec__6285 = cljs.core._nth.call(null, chunk__6278, i__6280);
-      var rowindex = cljs.core.nth.call(null, vec__6285, 0, null);
-      var row = cljs.core.nth.call(null, vec__6285, 1, null);
-      var seq__6281_6291 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-      var chunk__6282_6292 = null;
-      var count__6283_6293 = 0;
-      var i__6284_6294 = 0;
+    if (i__6378 < count__6377) {
+      var vec__6383 = cljs.core._nth.call(null, chunk__6376, i__6378);
+      var rowindex = cljs.core.nth.call(null, vec__6383, 0, null);
+      var row = cljs.core.nth.call(null, vec__6383, 1, null);
+      var seq__6379_6389 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+      var chunk__6380_6390 = null;
+      var count__6381_6391 = 0;
+      var i__6382_6392 = 0;
       while (true) {
-        if (i__6284_6294 < count__6283_6293) {
-          var vec__6286_6295 = cljs.core._nth.call(null, chunk__6282_6292, i__6284_6294);
-          var eleindex_6296 = cljs.core.nth.call(null, vec__6286_6295, 0, null);
-          var ele_6297 = cljs.core.nth.call(null, vec__6286_6295, 1, null);
-          ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6296);
-          if (cljs.core._EQ_.call(null, 1, ele_6297)) {
-            todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6296 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+        if (i__6382_6392 < count__6381_6391) {
+          var vec__6384_6393 = cljs.core._nth.call(null, chunk__6380_6390, i__6382_6392);
+          var eleindex_6394 = cljs.core.nth.call(null, vec__6384_6393, 0, null);
+          var ele_6395 = cljs.core.nth.call(null, vec__6384_6393, 1, null);
+          ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6394);
+          if (cljs.core._EQ_.call(null, 1, ele_6395)) {
+            todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6394 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
           } else {
           }
-          var G__6298 = seq__6281_6291;
-          var G__6299 = chunk__6282_6292;
-          var G__6300 = count__6283_6293;
-          var G__6301 = i__6284_6294 + 1;
-          seq__6281_6291 = G__6298;
-          chunk__6282_6292 = G__6299;
-          count__6283_6293 = G__6300;
-          i__6284_6294 = G__6301;
+          var G__6396 = seq__6379_6389;
+          var G__6397 = chunk__6380_6390;
+          var G__6398 = count__6381_6391;
+          var G__6399 = i__6382_6392 + 1;
+          seq__6379_6389 = G__6396;
+          chunk__6380_6390 = G__6397;
+          count__6381_6391 = G__6398;
+          i__6382_6392 = G__6399;
           continue;
         } else {
-          var temp__4126__auto___6302 = cljs.core.seq.call(null, seq__6281_6291);
-          if (temp__4126__auto___6302) {
-            var seq__6281_6303__$1 = temp__4126__auto___6302;
-            if (cljs.core.chunked_seq_QMARK_.call(null, seq__6281_6303__$1)) {
-              var c__4410__auto___6304 = cljs.core.chunk_first.call(null, seq__6281_6303__$1);
-              var G__6305 = cljs.core.chunk_rest.call(null, seq__6281_6303__$1);
-              var G__6306 = c__4410__auto___6304;
-              var G__6307 = cljs.core.count.call(null, c__4410__auto___6304);
-              var G__6308 = 0;
-              seq__6281_6291 = G__6305;
-              chunk__6282_6292 = G__6306;
-              count__6283_6293 = G__6307;
-              i__6284_6294 = G__6308;
+          var temp__4126__auto___6400 = cljs.core.seq.call(null, seq__6379_6389);
+          if (temp__4126__auto___6400) {
+            var seq__6379_6401__$1 = temp__4126__auto___6400;
+            if (cljs.core.chunked_seq_QMARK_.call(null, seq__6379_6401__$1)) {
+              var c__4410__auto___6402 = cljs.core.chunk_first.call(null, seq__6379_6401__$1);
+              var G__6403 = cljs.core.chunk_rest.call(null, seq__6379_6401__$1);
+              var G__6404 = c__4410__auto___6402;
+              var G__6405 = cljs.core.count.call(null, c__4410__auto___6402);
+              var G__6406 = 0;
+              seq__6379_6389 = G__6403;
+              chunk__6380_6390 = G__6404;
+              count__6381_6391 = G__6405;
+              i__6382_6392 = G__6406;
               continue;
             } else {
-              var vec__6287_6309 = cljs.core.first.call(null, seq__6281_6303__$1);
-              var eleindex_6310 = cljs.core.nth.call(null, vec__6287_6309, 0, null);
-              var ele_6311 = cljs.core.nth.call(null, vec__6287_6309, 1, null);
-              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6310);
-              if (cljs.core._EQ_.call(null, 1, ele_6311)) {
-                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6310 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+              var vec__6385_6407 = cljs.core.first.call(null, seq__6379_6401__$1);
+              var eleindex_6408 = cljs.core.nth.call(null, vec__6385_6407, 0, null);
+              var ele_6409 = cljs.core.nth.call(null, vec__6385_6407, 1, null);
+              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6408);
+              if (cljs.core._EQ_.call(null, 1, ele_6409)) {
+                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6408 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__6312 = cljs.core.next.call(null, seq__6281_6303__$1);
-              var G__6313 = null;
-              var G__6314 = 0;
-              var G__6315 = 0;
-              seq__6281_6291 = G__6312;
-              chunk__6282_6292 = G__6313;
-              count__6283_6293 = G__6314;
-              i__6284_6294 = G__6315;
+              var G__6410 = cljs.core.next.call(null, seq__6379_6401__$1);
+              var G__6411 = null;
+              var G__6412 = 0;
+              var G__6413 = 0;
+              seq__6379_6389 = G__6410;
+              chunk__6380_6390 = G__6411;
+              count__6381_6391 = G__6412;
+              i__6382_6392 = G__6413;
               continue;
             }
           } else {
@@ -41298,89 +41298,89 @@ todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
         }
         break;
       }
-      var G__6316 = seq__6273;
-      var G__6317 = chunk__6278;
-      var G__6318 = count__6279;
-      var G__6319 = i__6280 + 1;
-      seq__6273 = G__6316;
-      chunk__6278 = G__6317;
-      count__6279 = G__6318;
-      i__6280 = G__6319;
+      var G__6414 = seq__6371;
+      var G__6415 = chunk__6376;
+      var G__6416 = count__6377;
+      var G__6417 = i__6378 + 1;
+      seq__6371 = G__6414;
+      chunk__6376 = G__6415;
+      count__6377 = G__6416;
+      i__6378 = G__6417;
       continue;
     } else {
-      var temp__4126__auto__ = cljs.core.seq.call(null, seq__6273);
+      var temp__4126__auto__ = cljs.core.seq.call(null, seq__6371);
       if (temp__4126__auto__) {
-        var seq__6273__$1 = temp__4126__auto__;
-        if (cljs.core.chunked_seq_QMARK_.call(null, seq__6273__$1)) {
-          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__6273__$1);
-          var G__6320 = cljs.core.chunk_rest.call(null, seq__6273__$1);
-          var G__6321 = c__4410__auto__;
-          var G__6322 = cljs.core.count.call(null, c__4410__auto__);
-          var G__6323 = 0;
-          seq__6273 = G__6320;
-          chunk__6278 = G__6321;
-          count__6279 = G__6322;
-          i__6280 = G__6323;
+        var seq__6371__$1 = temp__4126__auto__;
+        if (cljs.core.chunked_seq_QMARK_.call(null, seq__6371__$1)) {
+          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__6371__$1);
+          var G__6418 = cljs.core.chunk_rest.call(null, seq__6371__$1);
+          var G__6419 = c__4410__auto__;
+          var G__6420 = cljs.core.count.call(null, c__4410__auto__);
+          var G__6421 = 0;
+          seq__6371 = G__6418;
+          chunk__6376 = G__6419;
+          count__6377 = G__6420;
+          i__6378 = G__6421;
           continue;
         } else {
-          var vec__6288 = cljs.core.first.call(null, seq__6273__$1);
-          var rowindex = cljs.core.nth.call(null, vec__6288, 0, null);
-          var row = cljs.core.nth.call(null, vec__6288, 1, null);
-          var seq__6274_6324 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-          var chunk__6275_6325 = null;
-          var count__6276_6326 = 0;
-          var i__6277_6327 = 0;
+          var vec__6386 = cljs.core.first.call(null, seq__6371__$1);
+          var rowindex = cljs.core.nth.call(null, vec__6386, 0, null);
+          var row = cljs.core.nth.call(null, vec__6386, 1, null);
+          var seq__6372_6422 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+          var chunk__6373_6423 = null;
+          var count__6374_6424 = 0;
+          var i__6375_6425 = 0;
           while (true) {
-            if (i__6277_6327 < count__6276_6326) {
-              var vec__6289_6328 = cljs.core._nth.call(null, chunk__6275_6325, i__6277_6327);
-              var eleindex_6329 = cljs.core.nth.call(null, vec__6289_6328, 0, null);
-              var ele_6330 = cljs.core.nth.call(null, vec__6289_6328, 1, null);
-              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6329);
-              if (cljs.core._EQ_.call(null, 1, ele_6330)) {
-                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6329 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+            if (i__6375_6425 < count__6374_6424) {
+              var vec__6387_6426 = cljs.core._nth.call(null, chunk__6373_6423, i__6375_6425);
+              var eleindex_6427 = cljs.core.nth.call(null, vec__6387_6426, 0, null);
+              var ele_6428 = cljs.core.nth.call(null, vec__6387_6426, 1, null);
+              ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6427);
+              if (cljs.core._EQ_.call(null, 1, ele_6428)) {
+                todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6427 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__6331 = seq__6274_6324;
-              var G__6332 = chunk__6275_6325;
-              var G__6333 = count__6276_6326;
-              var G__6334 = i__6277_6327 + 1;
-              seq__6274_6324 = G__6331;
-              chunk__6275_6325 = G__6332;
-              count__6276_6326 = G__6333;
-              i__6277_6327 = G__6334;
+              var G__6429 = seq__6372_6422;
+              var G__6430 = chunk__6373_6423;
+              var G__6431 = count__6374_6424;
+              var G__6432 = i__6375_6425 + 1;
+              seq__6372_6422 = G__6429;
+              chunk__6373_6423 = G__6430;
+              count__6374_6424 = G__6431;
+              i__6375_6425 = G__6432;
               continue;
             } else {
-              var temp__4126__auto___6335__$1 = cljs.core.seq.call(null, seq__6274_6324);
-              if (temp__4126__auto___6335__$1) {
-                var seq__6274_6336__$1 = temp__4126__auto___6335__$1;
-                if (cljs.core.chunked_seq_QMARK_.call(null, seq__6274_6336__$1)) {
-                  var c__4410__auto___6337 = cljs.core.chunk_first.call(null, seq__6274_6336__$1);
-                  var G__6338 = cljs.core.chunk_rest.call(null, seq__6274_6336__$1);
-                  var G__6339 = c__4410__auto___6337;
-                  var G__6340 = cljs.core.count.call(null, c__4410__auto___6337);
-                  var G__6341 = 0;
-                  seq__6274_6324 = G__6338;
-                  chunk__6275_6325 = G__6339;
-                  count__6276_6326 = G__6340;
-                  i__6277_6327 = G__6341;
+              var temp__4126__auto___6433__$1 = cljs.core.seq.call(null, seq__6372_6422);
+              if (temp__4126__auto___6433__$1) {
+                var seq__6372_6434__$1 = temp__4126__auto___6433__$1;
+                if (cljs.core.chunked_seq_QMARK_.call(null, seq__6372_6434__$1)) {
+                  var c__4410__auto___6435 = cljs.core.chunk_first.call(null, seq__6372_6434__$1);
+                  var G__6436 = cljs.core.chunk_rest.call(null, seq__6372_6434__$1);
+                  var G__6437 = c__4410__auto___6435;
+                  var G__6438 = cljs.core.count.call(null, c__4410__auto___6435);
+                  var G__6439 = 0;
+                  seq__6372_6422 = G__6436;
+                  chunk__6373_6423 = G__6437;
+                  count__6374_6424 = G__6438;
+                  i__6375_6425 = G__6439;
                   continue;
                 } else {
-                  var vec__6290_6342 = cljs.core.first.call(null, seq__6274_6336__$1);
-                  var eleindex_6343 = cljs.core.nth.call(null, vec__6290_6342, 0, null);
-                  var ele_6344 = cljs.core.nth.call(null, vec__6290_6342, 1, null);
-                  ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6343);
-                  if (cljs.core._EQ_.call(null, 1, ele_6344)) {
-                    todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6343 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
+                  var vec__6388_6440 = cljs.core.first.call(null, seq__6372_6434__$1);
+                  var eleindex_6441 = cljs.core.nth.call(null, vec__6388_6440, 0, null);
+                  var ele_6442 = cljs.core.nth.call(null, vec__6388_6440, 1, null);
+                  ctx.fillStyle = todo.bricks.rowcolors.call(null, eleindex_6441);
+                  if (cljs.core._EQ_.call(null, 1, ele_6442)) {
+                    todo.shapes.rect.call(null, ctx, rowindex * (todo.bricks.BRICKWIDTH + todo.bricks.PADDING) + todo.bricks.PADDING, eleindex_6441 * (todo.bricks.BRICKHEIGHT + todo.bricks.PADDING) + todo.bricks.PADDING, todo.bricks.BRICKWIDTH, todo.bricks.BRICKHEIGHT);
                   } else {
                   }
-                  var G__6345 = cljs.core.next.call(null, seq__6274_6336__$1);
-                  var G__6346 = null;
-                  var G__6347 = 0;
-                  var G__6348 = 0;
-                  seq__6274_6324 = G__6345;
-                  chunk__6275_6325 = G__6346;
-                  count__6276_6326 = G__6347;
-                  i__6277_6327 = G__6348;
+                  var G__6443 = cljs.core.next.call(null, seq__6372_6434__$1);
+                  var G__6444 = null;
+                  var G__6445 = 0;
+                  var G__6446 = 0;
+                  seq__6372_6422 = G__6443;
+                  chunk__6373_6423 = G__6444;
+                  count__6374_6424 = G__6445;
+                  i__6375_6425 = G__6446;
                   continue;
                 }
               } else {
@@ -41388,14 +41388,14 @@ todo.bricks.draw_BANG_ = function draw_BANG_(ctx) {
             }
             break;
           }
-          var G__6349 = cljs.core.next.call(null, seq__6273__$1);
-          var G__6350 = null;
-          var G__6351 = 0;
-          var G__6352 = 0;
-          seq__6273 = G__6349;
-          chunk__6278 = G__6350;
-          count__6279 = G__6351;
-          i__6280 = G__6352;
+          var G__6447 = cljs.core.next.call(null, seq__6371__$1);
+          var G__6448 = null;
+          var G__6449 = 0;
+          var G__6450 = 0;
+          seq__6371 = G__6447;
+          chunk__6376 = G__6448;
+          count__6377 = G__6449;
+          i__6378 = G__6450;
           continue;
         }
       } else {
@@ -41465,7 +41465,7 @@ goog.require("todo.shapes");
 goog.require("todo.shapes");
 todo.ball.x = cljs.core.atom.call(null, 130);
 todo.ball.y = cljs.core.atom.call(null, 150);
-todo.ball.ball_color = "#FFFFFF";
+todo.ball.ballColor = "#FFFFFF";
 todo.ball.dx = cljs.core.atom.call(null, 2);
 todo.ball.dy = cljs.core.atom.call(null, 4);
 todo.ball.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_(x, y) {
@@ -41476,7 +41476,7 @@ todo.ball.reverseBallDirection_BANG_ = function reverseBallDirection_BANG_(axis)
   return cljs.core.reset_BANG_.call(null, axis, -cljs.core.deref.call(null, axis));
 };
 todo.ball.draw_BANG_ = function draw_BANG_(ctx) {
-  ctx.fillStyle = todo.ball.ball_color;
+  ctx.fillStyle = todo.ball.ballColor;
   return todo.shapes.circle.call(null, ctx, cljs.core.deref.call(null, todo.ball.x), cljs.core.deref.call(null, todo.ball.y), 10);
 };
 goog.provide("enfocus.events");
@@ -41854,7 +41854,7 @@ goog.require("todo.canvas");
 todo.paddle.paddlex = cljs.core.atom.call(null, todo.canvas.WIDTH / 2);
 todo.paddle.paddleh = cljs.core.atom.call(null, 10);
 todo.paddle.paddlew = cljs.core.atom.call(null, 75);
-todo.paddle.paddle_color = "#FFFFFF";
+todo.paddle.paddleColor = "#FFFFFF";
 todo.paddle.rightDown = cljs.core.atom.call(null, false);
 todo.paddle.leftDown = cljs.core.atom.call(null, false);
 todo.paddle.onKeyDown = function onKeyDown(evt) {
@@ -41888,14 +41888,14 @@ todo.paddle.onMouseMove = function onMouseMove(evt) {
   }
 };
 todo.paddle.keyEvents = function keyEvents() {
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__7128_SHARP_) {
-    return todo.paddle.onMouseMove.call(null, p1__7128_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__6492_SHARP_) {
+    return todo.paddle.onMouseMove.call(null, p1__6492_SHARP_);
   }));
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__7129_SHARP_) {
-    return todo.paddle.onKeyDown.call(null, p1__7129_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__6493_SHARP_) {
+    return todo.paddle.onKeyDown.call(null, p1__6493_SHARP_);
   }));
-  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__7130_SHARP_) {
-    return todo.paddle.onKeyUp.call(null, p1__7130_SHARP_);
+  return enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__6494_SHARP_) {
+    return todo.paddle.onKeyUp.call(null, p1__6494_SHARP_);
   }));
 };
 todo.paddle.draw_BANG_ = function draw_BANG_(ctx) {
@@ -41907,7 +41907,7 @@ todo.paddle.draw_BANG_ = function draw_BANG_(ctx) {
     } else {
     }
   }
-  ctx.fillStyle = todo.paddle.paddle_color;
+  ctx.fillStyle = todo.paddle.paddleColor;
   return todo.shapes.rect.call(null, ctx, cljs.core.deref.call(null, todo.paddle.paddlex), todo.canvas.HEIGHT - cljs.core.deref.call(null, todo.paddle.paddleh), cljs.core.deref.call(null, todo.paddle.paddlew), cljs.core.deref.call(null, todo.paddle.paddleh));
 };
 todo.paddle.ballTouchingPaddle_QMARK_ = function ballTouchingPaddle_QMARK_(x, paddlex, paddlew) {
@@ -42476,8 +42476,8 @@ todo.core.create_menu_BANG_ = function create_menu_BANG_() {
   var nw = require("nw.gui");
   var win = nw.Window.get();
   var mb = new nw.Menu(function() {
-    var obj5840 = {"type":"menubar"};
-    return obj5840;
+    var obj6456 = {"type":"menubar"};
+    return obj6456;
   }());
   if (cljs.core._EQ_.call(null, process.platform, "darwin")) {
     mb.createMacBuiltin(todo.core.app_name);
@@ -42486,76 +42486,76 @@ todo.core.create_menu_BANG_ = function create_menu_BANG_() {
   return win.menu = mb;
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-nav.html") == null) {
-  var vec__5842_5847 = enfocus.core.replace_ids.call(null, "en5841_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__5383__auto___5848 = cljs.core.nth.call(null, vec__5842_5847, 0, null);
-  var txt__5384__auto___5849 = cljs.core.nth.call(null, vec__5842_5847, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___5848, txt__5384__auto___5849], null));
+  var vec__6457_6462 = enfocus.core.replace_ids.call(null, "en5839_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__5383__auto___6463 = cljs.core.nth.call(null, vec__6457_6462, 0, null);
+  var txt__5384__auto___6464 = cljs.core.nth.call(null, vec__6457_6462, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___6463, txt__5384__auto___6464], null));
 } else {
 }
 todo.core.main_nav = function main_nav(branding) {
-  var vec__5846 = function() {
+  var vec__6461 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-nav.html");
   }.call(null);
-  var id_sym5843 = cljs.core.nth.call(null, vec__5846, 0, null);
-  var pnod5844 = cljs.core.nth.call(null, vec__5846, 1, null);
-  var pnod5844__$1 = enfocus.core.create_hidden_dom.call(null, pnod5844);
-  enfocus.core.i_at.call(null, id_sym5843, pnod5844__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
-  enfocus.core.reset_ids.call(null, id_sym5843, pnod5844__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5844__$1);
+  var id_sym6458 = cljs.core.nth.call(null, vec__6461, 0, null);
+  var pnod6459 = cljs.core.nth.call(null, vec__6461, 1, null);
+  var pnod6459__$1 = enfocus.core.create_hidden_dom.call(null, pnod6459);
+  enfocus.core.i_at.call(null, id_sym6458, pnod6459__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
+  enfocus.core.reset_ids.call(null, id_sym6458, pnod6459__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6459__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-content.html") == null) {
-  var vec__5851_5856 = enfocus.core.replace_ids.call(null, "en5850_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eThe Beginning of Something Beautiful\x3c/h1\x3e\n    \x3cp class\x3d"lead"\x3eHello \x3cspan class\x3d"username"\x3eUser\x3c/span\x3e! Clojurescript\n      and Node-Webkit is the  beginning of a beautiful relationship.\x3c/p\x3e\n    \x3cp\x3eWith the invention of\n      NodeJS and later Node-Webkit we now have the power to build desktop\n      applications in Clojurescript.  This is an example application\n      illustrating the use of ClojureScript to build a desktop application.\x3c/p\x3e\n\n\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__5383__auto___5857 = cljs.core.nth.call(null, vec__5851_5856, 0, null);
-  var txt__5384__auto___5858 = cljs.core.nth.call(null, vec__5851_5856, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___5857, txt__5384__auto___5858], null));
+  var vec__6465_6470 = enfocus.core.replace_ids.call(null, "en5845_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eThe Beginning of Something Beautiful\x3c/h1\x3e\n    \x3cp class\x3d"lead"\x3eHello \x3cspan class\x3d"username"\x3eUser\x3c/span\x3e! Clojurescript\n      and Node-Webkit is the  beginning of a beautiful relationship.\x3c/p\x3e\n    \x3cp\x3eWith the invention of\n      NodeJS and later Node-Webkit we now have the power to build desktop\n      applications in Clojurescript.  This is an example application\n      illustrating the use of ClojureScript to build a desktop application.\x3c/p\x3e\n\n\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__5383__auto___6471 = cljs.core.nth.call(null, vec__6465_6470, 0, null);
+  var txt__5384__auto___6472 = cljs.core.nth.call(null, vec__6465_6470, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___6471, txt__5384__auto___6472], null));
 } else {
 }
 todo.core.main_content = function main_content(username) {
-  var vec__5855 = function() {
+  var vec__6469 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-content.html");
   }.call(null);
-  var id_sym5852 = cljs.core.nth.call(null, vec__5855, 0, null);
-  var pnod5853 = cljs.core.nth.call(null, vec__5855, 1, null);
-  var pnod5853__$1 = enfocus.core.create_hidden_dom.call(null, pnod5853);
-  enfocus.core.i_at.call(null, id_sym5852, pnod5853__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
-  enfocus.core.reset_ids.call(null, id_sym5852, pnod5853__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5853__$1);
+  var id_sym6466 = cljs.core.nth.call(null, vec__6469, 0, null);
+  var pnod6467 = cljs.core.nth.call(null, vec__6469, 1, null);
+  var pnod6467__$1 = enfocus.core.create_hidden_dom.call(null, pnod6467);
+  enfocus.core.i_at.call(null, id_sym6466, pnod6467__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
+  enfocus.core.reset_ids.call(null, id_sym6466, pnod6467__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6467__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/about-content.html") == null) {
-  var vec__5860_5865 = enfocus.core.replace_ids.call(null, "en5859_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__5383__auto___5866 = cljs.core.nth.call(null, vec__5860_5865, 0, null);
-  var txt__5384__auto___5867 = cljs.core.nth.call(null, vec__5860_5865, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___5866, txt__5384__auto___5867], null));
+  var vec__6473_6478 = enfocus.core.replace_ids.call(null, "en5851_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__5383__auto___6479 = cljs.core.nth.call(null, vec__6473_6478, 0, null);
+  var txt__5384__auto___6480 = cljs.core.nth.call(null, vec__6473_6478, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___6479, txt__5384__auto___6480], null));
 } else {
 }
 todo.core.about_content = function about_content() {
-  var vec__5864 = function() {
+  var vec__6477 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/about-content.html");
   }.call(null);
-  var id_sym5861 = cljs.core.nth.call(null, vec__5864, 0, null);
-  var pnod5862 = cljs.core.nth.call(null, vec__5864, 1, null);
-  var pnod5862__$1 = enfocus.core.create_hidden_dom.call(null, pnod5862);
-  enfocus.core.i_at.call(null, id_sym5861, pnod5862__$1);
-  enfocus.core.reset_ids.call(null, id_sym5861, pnod5862__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5862__$1);
+  var id_sym6474 = cljs.core.nth.call(null, vec__6477, 0, null);
+  var pnod6475 = cljs.core.nth.call(null, vec__6477, 1, null);
+  var pnod6475__$1 = enfocus.core.create_hidden_dom.call(null, pnod6475);
+  enfocus.core.i_at.call(null, id_sym6474, pnod6475__$1);
+  enfocus.core.reset_ids.call(null, id_sym6474, pnod6475__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6475__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/contact-content.html") == null) {
-  var vec__5869_5874 = enfocus.core.replace_ids.call(null, "en5868_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__5383__auto___5875 = cljs.core.nth.call(null, vec__5869_5874, 0, null);
-  var txt__5384__auto___5876 = cljs.core.nth.call(null, vec__5869_5874, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___5875, txt__5384__auto___5876], null));
+  var vec__6481_6486 = enfocus.core.replace_ids.call(null, "en5857_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__5383__auto___6487 = cljs.core.nth.call(null, vec__6481_6486, 0, null);
+  var txt__5384__auto___6488 = cljs.core.nth.call(null, vec__6481_6486, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5383__auto___6487, txt__5384__auto___6488], null));
 } else {
 }
 todo.core.contact_content = function contact_content() {
-  var vec__5873 = function() {
+  var vec__6485 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/contact-content.html");
   }.call(null);
-  var id_sym5870 = cljs.core.nth.call(null, vec__5873, 0, null);
-  var pnod5871 = cljs.core.nth.call(null, vec__5873, 1, null);
-  var pnod5871__$1 = enfocus.core.create_hidden_dom.call(null, pnod5871);
-  enfocus.core.i_at.call(null, id_sym5870, pnod5871__$1);
-  enfocus.core.reset_ids.call(null, id_sym5870, pnod5871__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5871__$1);
+  var id_sym6482 = cljs.core.nth.call(null, vec__6485, 0, null);
+  var pnod6483 = cljs.core.nth.call(null, vec__6485, 1, null);
+  var pnod6483__$1 = enfocus.core.create_hidden_dom.call(null, pnod6483);
+  enfocus.core.i_at.call(null, id_sym6482, pnod6483__$1);
+  enfocus.core.reset_ids.call(null, id_sym6482, pnod6483__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6483__$1);
 };
 todo.core.page_change = function page_change(content, nav_ele) {
   return enfocus.core.at.call(null, document, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".starter-template"], null), enfocus.core.content.call(null, content), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [nav_ele], null), enfocus.core.add_class.call(null, "active"), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["nav li:not(" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(nav_ele) + ")"], 

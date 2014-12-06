@@ -5,7 +5,7 @@
 (def x (atom 130))
 (def y (atom 150))
 
-(def ball-color "#FFFFFF")
+(def ballColor "#FFFFFF")
 
 ;; Direction coordinates
 (def dx (atom 2))
@@ -22,5 +22,5 @@
 
 
 (defn draw! [ctx]
-  (set! (.-fillStyle ctx) ball-color)
+  (set! (.-fillStyle ctx) ballColor)
   (shapes/circle ctx @x @y 10))
