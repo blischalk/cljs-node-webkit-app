@@ -5,12 +5,17 @@
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"
         rel="stylesheet"/>
   <link href="./styles.css" rel="stylesheet" />
-  <title>NodeWebkit FTW!</title>
+  <title>ClojureScript-NodeWebkit Breakout FTW!</title>
 </head>
 <body>
   <div class="container">
+    <div id="verbiage"></div>
+    <div id="game-info">
+      <div id="score"></div>
+      <div id="level"></div>
+    </div>
+    <canvas id="canvas" width="1000" height="600"></canvas>
   </div><!-- /.container -->
-  <canvas id="canvas" width="300" height="300"></canvas>
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

@@ -41675,8 +41675,8 @@ goog.require("breakout.shapes");
 breakout.ball.x = cljs.core.atom.call(null, 130);
 breakout.ball.y = cljs.core.atom.call(null, 150);
 breakout.ball.ballColor = "#FFFFFF";
-breakout.ball.dx = cljs.core.atom.call(null, 2);
-breakout.ball.dy = cljs.core.atom.call(null, 4);
+breakout.ball.dx = cljs.core.atom.call(null, 3);
+breakout.ball.dy = cljs.core.atom.call(null, 6);
 breakout.ball.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_(x, y) {
   cljs.core.reset_BANG_.call(null, x, cljs.core.deref.call(null, x) + cljs.core.deref.call(null, breakout.ball.dx));
   return cljs.core.reset_BANG_.call(null, y, cljs.core.deref.call(null, y) + cljs.core.deref.call(null, breakout.ball.dy));
@@ -41924,11 +41924,16 @@ goog.require("breakout.bricks");
 goog.require("breakout.ball");
 goog.require("breakout.ball");
 breakout.lib.intervalId = cljs.core.atom.call(null, 0);
-breakout.lib.draw = function draw() {
-  breakout.canvas.clear_BANG_.call(null);
-  breakout.ball.draw_BANG_.call(null, breakout.canvas.ctx);
-  breakout.paddle.draw_BANG_.call(null, breakout.canvas.ctx);
-  breakout.bricks.draw_BANG_.call(null, breakout.canvas.ctx);
+breakout.lib.newRound = cljs.core.atom.call(null, true);
+breakout.lib.gameStart = function gameStart() {
+  setTimeou(1E4);
+  return cljs.core.reset_BANG_.call(null, breakout.lib.newRound, false);
+};
+breakout.lib.gameOver = function gameOver() {
+  clearInterval(cljs.core.deref.call(null, breakout.lib.intervalId));
+  return cljs.core.reset_BANG_.call(null, breakout.lib.newRound, true);
+};
+breakout.lib.gameLoop = function gameLoop() {
   breakout.bricks.brickInteraction.call(null, breakout.ball.x, breakout.ball.y, function() {
     return breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
   });
@@ -41943,12 +41948,23 @@ breakout.lib.draw = function draw() {
       if (breakout.paddle.ballTouchingPaddle_QMARK_.call(null, breakout.ball.x, breakout.paddle.paddlex, breakout.paddle.paddlew)) {
         breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
       } else {
-        clearInterval(cljs.core.deref.call(null, breakout.lib.intervalId));
+        breakout.lib.gameOver.call(null);
       }
     } else {
     }
   }
   return breakout.ball.updateBallCoordinates_BANG_.call(null, breakout.ball.x, breakout.ball.y);
+};
+breakout.lib.draw = function draw() {
+  breakout.canvas.clear_BANG_.call(null);
+  breakout.ball.draw_BANG_.call(null, breakout.canvas.ctx);
+  breakout.paddle.draw_BANG_.call(null, breakout.canvas.ctx);
+  breakout.bricks.draw_BANG_.call(null, breakout.canvas.ctx);
+  if (cljs.core.truth_(cljs.core.deref.call(null, breakout.lib.newRound))) {
+    return setTimeout(breakout.lib.gameLoop, 5E3);
+  } else {
+    return breakout.lib.gameLoop.call(null);
+  }
 };
 breakout.lib.init = function init() {
   return cljs.core.reset_BANG_.call(null, breakout.lib.intervalId, setInterval(breakout.lib.draw, 10));
@@ -42470,8 +42486,8 @@ breakout.core.create_menu_BANG_ = function create_menu_BANG_() {
   var nw = require("nw.gui");
   var win = nw.Window.get();
   var mb = new nw.Menu(function() {
-    var obj5979 = {"type":"menubar"};
-    return obj5979;
+    var obj6051 = {"type":"menubar"};
+    return obj6051;
   }());
   if (cljs.core._EQ_.call(null, process.platform, "darwin")) {
     mb.createMacBuiltin(breakout.core.app_name);
@@ -42480,76 +42496,76 @@ breakout.core.create_menu_BANG_ = function create_menu_BANG_() {
   return win.menu = mb;
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-nav.html") == null) {
-  var vec__5980_5985 = enfocus.core.replace_ids.call(null, "en5839_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__5481__auto___5986 = cljs.core.nth.call(null, vec__5980_5985, 0, null);
-  var txt__5482__auto___5987 = cljs.core.nth.call(null, vec__5980_5985, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___5986, txt__5482__auto___5987], null));
+  var vec__6052_6057 = enfocus.core.replace_ids.call(null, "en5839_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cnav class\x3d"navbar navbar-inverse navbar-static-top" role\x3d"navigation"\x3e\n    \x3cdiv class\x3d"container"\x3e\n      \x3cdiv class\x3d"navbar-header"\x3e\n        \x3cbutton type\x3d"button" class\x3d"navbar-toggle collapsed" data-toggle\x3d"collapse" data-target\x3d"#navbar" aria-expanded\x3d"false" aria-controls\x3d"navbar"\x3e\n          \x3cspan class\x3d"sr-only"\x3eToggle navigation\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n          \x3cspan class\x3d"icon-bar"\x3e\x3c/span\x3e\n        \x3c/button\x3e\n        \x3ca class\x3d"navbar-brand" href\x3d"#"\x3eNode Webkit ClojureScript App\x3c/a\x3e\n      \x3c/div\x3e\n      \x3cdiv id\x3d"navbar" class\x3d"collapse navbar-collapse"\x3e\n        \x3cul class\x3d"nav navbar-nav"\x3e\n          \x3cli class\x3d"active main"\x3e\x3ca href\x3d"#"\x3eMain\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"about"\x3e\x3ca href\x3d"#"\x3eAbout\x3c/a\x3e\x3c/li\x3e\n          \x3cli class\x3d"contact"\x3e\x3ca href\x3d"#"\x3eContact\x3c/a\x3e\x3c/li\x3e\n        \x3c/ul\x3e\n      \x3c/div\x3e\x3c!--/.nav-collapse --\x3e\n    \x3c/div\x3e\n  \x3c/nav\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__5481__auto___6058 = cljs.core.nth.call(null, vec__6052_6057, 0, null);
+  var txt__5482__auto___6059 = cljs.core.nth.call(null, vec__6052_6057, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-nav.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6058, txt__5482__auto___6059], null));
 } else {
 }
 breakout.core.main_nav = function main_nav(branding) {
-  var vec__5984 = function() {
+  var vec__6056 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-nav.html");
   }.call(null);
-  var id_sym5981 = cljs.core.nth.call(null, vec__5984, 0, null);
-  var pnod5982 = cljs.core.nth.call(null, vec__5984, 1, null);
-  var pnod5982__$1 = enfocus.core.create_hidden_dom.call(null, pnod5982);
-  enfocus.core.i_at.call(null, id_sym5981, pnod5982__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
-  enfocus.core.reset_ids.call(null, id_sym5981, pnod5982__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5982__$1);
+  var id_sym6053 = cljs.core.nth.call(null, vec__6056, 0, null);
+  var pnod6054 = cljs.core.nth.call(null, vec__6056, 1, null);
+  var pnod6054__$1 = enfocus.core.create_hidden_dom.call(null, pnod6054);
+  enfocus.core.i_at.call(null, id_sym6053, pnod6054__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".navbar-brand"], null), enfocus.core.content.call(null, branding));
+  enfocus.core.reset_ids.call(null, id_sym6053, pnod6054__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6054__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/main-content.html") == null) {
-  var vec__5988_5993 = enfocus.core.replace_ids.call(null, "en5848_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eThe Beginning of Something Beautiful\x3c/h1\x3e\n    \x3cp class\x3d"lead"\x3eHello \x3cspan class\x3d"username"\x3eUser\x3c/span\x3e! Clojurescript\n      and Node-Webkit is the  beginning of a beautiful relationship.\x3c/p\x3e\n    \x3cp\x3eWith the invention of\n      NodeJS and later Node-Webkit we now have the power to build desktop\n      applications in Clojurescript.  This is an example application\n      illustrating the use of ClojureScript to build a desktop application.\x3c/p\x3e\n\n\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
-  var sym__5481__auto___5994 = cljs.core.nth.call(null, vec__5988_5993, 0, null);
-  var txt__5482__auto___5995 = cljs.core.nth.call(null, vec__5988_5993, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___5994, txt__5482__auto___5995], null));
+  var vec__6060_6065 = enfocus.core.replace_ids.call(null, "en5848_", '\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n  \x3cdiv class\x3d"starter-template"\x3e\n    \x3ch1\x3eBreakout!\x3c/h1\x3e\n  \x3c/div\x3e\n\x3c/body\x3e\n\x3c/html\x3e');
+  var sym__5481__auto___6066 = cljs.core.nth.call(null, vec__6060_6065, 0, null);
+  var txt__5482__auto___6067 = cljs.core.nth.call(null, vec__6060_6065, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/main-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6066, txt__5482__auto___6067], null));
 } else {
 }
 breakout.core.main_content = function main_content(username) {
-  var vec__5992 = function() {
+  var vec__6064 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/main-content.html");
   }.call(null);
-  var id_sym5989 = cljs.core.nth.call(null, vec__5992, 0, null);
-  var pnod5990 = cljs.core.nth.call(null, vec__5992, 1, null);
-  var pnod5990__$1 = enfocus.core.create_hidden_dom.call(null, pnod5990);
-  enfocus.core.i_at.call(null, id_sym5989, pnod5990__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
-  enfocus.core.reset_ids.call(null, id_sym5989, pnod5990__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5990__$1);
+  var id_sym6061 = cljs.core.nth.call(null, vec__6064, 0, null);
+  var pnod6062 = cljs.core.nth.call(null, vec__6064, 1, null);
+  var pnod6062__$1 = enfocus.core.create_hidden_dom.call(null, pnod6062);
+  enfocus.core.i_at.call(null, id_sym6061, pnod6062__$1, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".username"], null), enfocus.core.content.call(null, username));
+  enfocus.core.reset_ids.call(null, id_sym6061, pnod6062__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6062__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/about-content.html") == null) {
-  var vec__5996_6001 = enfocus.core.replace_ids.call(null, "en5857_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__5481__auto___6002 = cljs.core.nth.call(null, vec__5996_6001, 0, null);
-  var txt__5482__auto___6003 = cljs.core.nth.call(null, vec__5996_6001, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6002, txt__5482__auto___6003], null));
+  var vec__6068_6073 = enfocus.core.replace_ids.call(null, "en5857_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is about content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__5481__auto___6074 = cljs.core.nth.call(null, vec__6068_6073, 0, null);
+  var txt__5482__auto___6075 = cljs.core.nth.call(null, vec__6068_6073, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/about-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6074, txt__5482__auto___6075], null));
 } else {
 }
 breakout.core.about_content = function about_content() {
-  var vec__6000 = function() {
+  var vec__6072 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/about-content.html");
   }.call(null);
-  var id_sym5997 = cljs.core.nth.call(null, vec__6000, 0, null);
-  var pnod5998 = cljs.core.nth.call(null, vec__6000, 1, null);
-  var pnod5998__$1 = enfocus.core.create_hidden_dom.call(null, pnod5998);
-  enfocus.core.i_at.call(null, id_sym5997, pnod5998__$1);
-  enfocus.core.reset_ids.call(null, id_sym5997, pnod5998__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod5998__$1);
+  var id_sym6069 = cljs.core.nth.call(null, vec__6072, 0, null);
+  var pnod6070 = cljs.core.nth.call(null, vec__6072, 1, null);
+  var pnod6070__$1 = enfocus.core.create_hidden_dom.call(null, pnod6070);
+  enfocus.core.i_at.call(null, id_sym6069, pnod6070__$1);
+  enfocus.core.reset_ids.call(null, id_sym6069, pnod6070__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6070__$1);
 };
 if (cljs.core.deref.call(null, enfocus.core.tpl_cache).call(null, "compiledresources/public/templates/contact-content.html") == null) {
-  var vec__6004_6009 = enfocus.core.replace_ids.call(null, "en5866_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
-  var sym__5481__auto___6010 = cljs.core.nth.call(null, vec__6004_6009, 0, null);
-  var txt__5482__auto___6011 = cljs.core.nth.call(null, vec__6004_6009, 1, null);
-  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6010, txt__5482__auto___6011], null));
+  var vec__6076_6081 = enfocus.core.replace_ids.call(null, "en5866_", "\x3c!DOCTYPE html\x3e\n\x3chtml\x3e\n\x3cbody\x3e\n\x3cp\x3eThis is contact content\x3c/p\x3e\n\x3c/body\x3e\n\x3c/html\x3e");
+  var sym__5481__auto___6082 = cljs.core.nth.call(null, vec__6076_6081, 0, null);
+  var txt__5482__auto___6083 = cljs.core.nth.call(null, vec__6076_6081, 1, null);
+  cljs.core.swap_BANG_.call(null, enfocus.core.tpl_cache, cljs.core.assoc, "compiledresources/public/templates/contact-content.html", new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [sym__5481__auto___6082, txt__5482__auto___6083], null));
 } else {
 }
 breakout.core.contact_content = function contact_content() {
-  var vec__6008 = function() {
+  var vec__6080 = function() {
     return enfocus.core.get_cached_dom.call(null, "compiledresources/public/templates/contact-content.html");
   }.call(null);
-  var id_sym6005 = cljs.core.nth.call(null, vec__6008, 0, null);
-  var pnod6006 = cljs.core.nth.call(null, vec__6008, 1, null);
-  var pnod6006__$1 = enfocus.core.create_hidden_dom.call(null, pnod6006);
-  enfocus.core.i_at.call(null, id_sym6005, pnod6006__$1);
-  enfocus.core.reset_ids.call(null, id_sym6005, pnod6006__$1);
-  return enfocus.core.remove_node_return_child.call(null, pnod6006__$1);
+  var id_sym6077 = cljs.core.nth.call(null, vec__6080, 0, null);
+  var pnod6078 = cljs.core.nth.call(null, vec__6080, 1, null);
+  var pnod6078__$1 = enfocus.core.create_hidden_dom.call(null, pnod6078);
+  enfocus.core.i_at.call(null, id_sym6077, pnod6078__$1);
+  enfocus.core.reset_ids.call(null, id_sym6077, pnod6078__$1);
+  return enfocus.core.remove_node_return_child.call(null, pnod6078__$1);
 };
 breakout.core.page_change = function page_change(content, nav_ele) {
   return enfocus.core.at.call(null, document, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".starter-template"], null), enfocus.core.content.call(null, content), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [nav_ele], null), enfocus.core.add_class.call(null, "active"), new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["nav li:not(" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(nav_ele) + ")"], 
@@ -42571,7 +42587,7 @@ breakout.core.create_main_nav_BANG_ = function create_main_nav_BANG_() {
   return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["body"], null), enfocus.core.prepend.call(null, breakout.core.main_nav.call(null, breakout.core.app_name)));
 };
 breakout.core.add_main_content_BANG_ = function add_main_content_BANG_() {
-  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["body \x3e .container"], null), enfocus.core.content.call(null, breakout.core.main_content.call(null, breakout.core.username)));
+  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, ["#verbiage"], null), enfocus.core.content.call(null, breakout.core.main_content.call(null, breakout.core.username)));
 };
 breakout.core.start = function start() {
   breakout.core.create_menu_BANG_.call(null);

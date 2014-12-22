@@ -11,25 +11,21 @@
 ;; IntervalId of setInterval, initialized to 0
 (def intervalId (atom 0))
 
+(def newRound (atom true))
 
-;; Draw Game
-(defn draw []
-  ;; Clear the canvas
-  (canvas/clear!)
+(defn gameStart []
+  (js/setTimeou 10000)
+  (reset! newRound false))
 
-  ;; Draw ball
-  (ball/draw! canvas/ctx)
+(defn gameOver []
+  (js/clearInterval @intervalId)
+  (reset! newRound true))
 
-  ;; Draw paddle
-  (paddle/draw! canvas/ctx)
-
-  ;; Draw bricks
-  (bricks/draw! canvas/ctx)
-
+(defn gameLoop []
   ;; Brick contact
   (bricks/brickInteraction ball/x
-                           ball/y
-                           #(ball/reverseBallDirection! ball/dy))
+    ball/y
+    #(ball/reverseBallDirection! ball/dy))
 
 
   ;; If ball is about to go out of
@@ -47,11 +43,28 @@
       (if (paddle/ballTouchingPaddle? ball/x paddle/paddlex paddle/paddlew)
         (ball/reverseBallDirection! ball/dy)
         ;; Otherwise ball missed paddle, game over!
-        (js/clearInterval @intervalId))))
+        (gameOver))))
 
   ;; Set ball coordinates to directionality
   ;; derived above
   (ball/updateBallCoordinates! ball/x ball/y))
+
+
+;; Draw Game
+(defn draw []
+  ;; Clear the canvas
+  (canvas/clear!)
+
+  ;; Draw ball
+  (ball/draw! canvas/ctx)
+
+  ;; Draw paddle
+  (paddle/draw! canvas/ctx)
+
+  ;; Draw bricks
+  (bricks/draw! canvas/ctx)
+  
+  (if @newRound (js/setTimeout gameLoop 5000) (gameLoop)))
 
 
 ;; Start the game drawing on canvas

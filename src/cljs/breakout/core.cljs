@@ -84,7 +84,7 @@
 
 (defn add-main-content! []
   "Add main content"
-  (ef/at ["body > .container"] (ef/content (main-content username))))
+  (ef/at ["#verbiage"] (ef/content (main-content username))))
 
 
 (defn start []

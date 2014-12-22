@@ -8,8 +8,8 @@
 (def ballColor "#FFFFFF")
 
 ;; Direction coordinates
-(def dx (atom 2))
-(def dy (atom 4))
+(def dx (atom 3))
+(def dy (atom 6))
 
 
 (defn updateBallCoordinates! [x y]
