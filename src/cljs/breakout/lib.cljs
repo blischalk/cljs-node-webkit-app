@@ -13,9 +13,7 @@
 
 (def newRound (atom true))
 
-(defn gameStart []
-  (js/setTimeou 10000)
-  (reset! newRound false))
+(def paused (atom false))
 
 (defn gameOver []
   (js/clearInterval @intervalId)
@@ -49,6 +47,13 @@
   ;; derived above
   (ball/updateBallCoordinates! ball/x ball/y))
 
+(defn gameStart []
+  (if (not @paused)
+    (do (reset! paused true)
+        (js/setTimeout (fn []
+                         (reset! newRound false)
+                         (reset! paused false)
+                         (gameLoop)) 5000))))
 
 ;; Draw Game
 (defn draw []
@@ -64,7 +69,7 @@
   ;; Draw bricks
   (bricks/draw! canvas/ctx)
   
-  (if @newRound (js/setTimeout gameLoop 5000) (gameLoop)))
+  (if @newRound (gameStart) (gameLoop)))
 
 
 ;; Start the game drawing on canvas

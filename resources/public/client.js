@@ -41675,8 +41675,8 @@ goog.require("breakout.shapes");
 breakout.ball.x = cljs.core.atom.call(null, 130);
 breakout.ball.y = cljs.core.atom.call(null, 150);
 breakout.ball.ballColor = "#FFFFFF";
-breakout.ball.dx = cljs.core.atom.call(null, 3);
-breakout.ball.dy = cljs.core.atom.call(null, 6);
+breakout.ball.dx = cljs.core.atom.call(null, 2);
+breakout.ball.dy = cljs.core.atom.call(null, 4);
 breakout.ball.updateBallCoordinates_BANG_ = function updateBallCoordinates_BANG_(x, y) {
   cljs.core.reset_BANG_.call(null, x, cljs.core.deref.call(null, x) + cljs.core.deref.call(null, breakout.ball.dx));
   return cljs.core.reset_BANG_.call(null, y, cljs.core.deref.call(null, y) + cljs.core.deref.call(null, breakout.ball.dy));
@@ -41925,10 +41925,7 @@ goog.require("breakout.ball");
 goog.require("breakout.ball");
 breakout.lib.intervalId = cljs.core.atom.call(null, 0);
 breakout.lib.newRound = cljs.core.atom.call(null, true);
-breakout.lib.gameStart = function gameStart() {
-  setTimeou(1E4);
-  return cljs.core.reset_BANG_.call(null, breakout.lib.newRound, false);
-};
+breakout.lib.paused = cljs.core.atom.call(null, false);
 breakout.lib.gameOver = function gameOver() {
   clearInterval(cljs.core.deref.call(null, breakout.lib.intervalId));
   return cljs.core.reset_BANG_.call(null, breakout.lib.newRound, true);
@@ -41955,13 +41952,25 @@ breakout.lib.gameLoop = function gameLoop() {
   }
   return breakout.ball.updateBallCoordinates_BANG_.call(null, breakout.ball.x, breakout.ball.y);
 };
+breakout.lib.gameStart = function gameStart() {
+  if (cljs.core.not.call(null, cljs.core.deref.call(null, breakout.lib.paused))) {
+    cljs.core.reset_BANG_.call(null, breakout.lib.paused, true);
+    return setTimeout(function() {
+      cljs.core.reset_BANG_.call(null, breakout.lib.newRound, false);
+      cljs.core.reset_BANG_.call(null, breakout.lib.paused, false);
+      return breakout.lib.gameLoop.call(null);
+    }, 5E3);
+  } else {
+    return null;
+  }
+};
 breakout.lib.draw = function draw() {
   breakout.canvas.clear_BANG_.call(null);
   breakout.ball.draw_BANG_.call(null, breakout.canvas.ctx);
   breakout.paddle.draw_BANG_.call(null, breakout.canvas.ctx);
   breakout.bricks.draw_BANG_.call(null, breakout.canvas.ctx);
   if (cljs.core.truth_(cljs.core.deref.call(null, breakout.lib.newRound))) {
-    return setTimeout(breakout.lib.gameLoop, 5E3);
+    return breakout.lib.gameStart.call(null);
   } else {
     return breakout.lib.gameLoop.call(null);
   }
