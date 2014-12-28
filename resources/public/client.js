@@ -41727,7 +41727,18 @@ breakout.ball.draw_BANG_ = function draw_BANG_(ctx) {
   ctx.fillStyle = breakout.ball.ballColor;
   return breakout.shapes.circle.call(null, ctx, cljs.core.deref.call(null, breakout.ball.x), cljs.core.deref.call(null, breakout.ball.y), 10);
 };
+breakout.ball.wallInteraction = function wallInteraction(width) {
+  if (cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) > width || cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) < 0) {
+    return document.dispatchEvent(new CustomEvent("wall-hit"));
+  } else {
+    return null;
+  }
+};
 breakout.ball.events_BANG_ = function events_BANG_() {
+  document.addEventListener("wall-hit", function(e) {
+    breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dx);
+    return false;
+  });
   return document.addEventListener("brick-hit", function(e) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
     return false;
@@ -41989,10 +42000,7 @@ breakout.lib.gameOver = function gameOver() {
 };
 breakout.lib.updateBallPosition_BANG_ = function updateBallPosition_BANG_() {
   breakout.bricks.brickInteraction.call(null, breakout.ball.x, breakout.ball.y);
-  if (cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) > breakout.canvas.WIDTH || cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) < 0) {
-    breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dx);
-  } else {
-  }
+  breakout.ball.wallInteraction.call(null, breakout.canvas.WIDTH);
   if (cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) < 0) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
   } else {

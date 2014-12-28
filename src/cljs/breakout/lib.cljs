@@ -9,6 +9,12 @@
 ;; FIXME: make functions know less about various components of app
 ;; FIXME: reduce state.  Pass around data structures.  Recursion??
 
+;; brick-hit
+;; wall-hit
+;; ball-ob
+;; game-start
+;; game-over
+
 ;; IntervalId of setInterval, initialized to 0
 (def intervalId (atom 0))
 
@@ -27,9 +33,7 @@
 
   ;; If ball is about to go out of
   ;; bounds on x axis, reverse direction
-  (if (or (> (+ @ball/x @ball/dx) canvas/WIDTH)
-        (< (+ @ball/x @ball/dx) 0))
-    (ball/reverseBallDirection! ball/dx))
+  (ball/wallInteraction canvas/WIDTH)
 
   ;; If ball is about to go out of bounds
   ;; on y axis, reverse direction

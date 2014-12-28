@@ -26,7 +26,16 @@
   (shapes/circle ctx @x @y 10))
 
 
+(defn wallInteraction [width]
+  (if (or (> (+ @x @dx) width)
+        (< (+ @x @dx) 0))
+    (.dispatchEvent js/document (js/CustomEvent. "wall-hit"))))
+
+
 (defn events! []
+  (.addEventListener js/document "wall-hit"
+    (fn [e]
+      (reverseBallDirection! dx) false))
   (.addEventListener js/document "brick-hit"
     (fn [e]
       (reverseBallDirection! dy) false)))
