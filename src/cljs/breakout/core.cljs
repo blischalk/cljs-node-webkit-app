@@ -2,7 +2,9 @@
   ;; jayq note needed currently but leaving just in case...
   ;; (:use [jayq.core :only [$ css html text]])
   ;; Currently using enfocus instead
-  (:require [breakout.lib :as lib]
+  (:require [breakout.ball :as ball]
+            [breakout.bricks :as bricks]
+            [breakout.lib :as lib]
             [breakout.paddle :as paddle]
             [enfocus.core :as ef]
             [enfocus.events :as events]
@@ -95,6 +97,8 @@
   (update-greeting!)
   (attach-nav-handlers!)
   (paddle/keyEvents)
+  (bricks/events!)
+  (ball/events!)
   (lib/init))
 
 

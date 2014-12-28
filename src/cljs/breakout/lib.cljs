@@ -2,6 +2,7 @@
   (:require [breakout.ball :as ball]
             [breakout.bricks :as bricks]
             [breakout.canvas :as canvas]
+            [breakout.countdown :as countdown]
             [breakout.paddle :as paddle])
   (:require-macros [enfocus.macros :as em]))
 
@@ -13,17 +14,15 @@
 
 (def newRound (atom true))
 
-(def paused (atom false))
-
 (defn gameOver []
   (js/clearInterval @intervalId)
   (reset! newRound true))
 
-(defn gameLoop []
+(defn updateBallPosition! []
+  "Moves the ball around the canvas
+  and ends the game if the ball misses the paddle."
   ;; Brick contact
-  (bricks/brickInteraction ball/x
-    ball/y
-    #(ball/reverseBallDirection! ball/dy))
+  (bricks/brickInteraction ball/x ball/y)
 
 
   ;; If ball is about to go out of
@@ -47,19 +46,12 @@
   ;; derived above
   (ball/updateBallCoordinates! ball/x ball/y))
 
-(defn gameStart []
-  (if (not @paused)
-    (do (reset! paused true)
-        (js/setTimeout (fn []
-                         (reset! newRound false)
-                         (reset! paused false)
-                         (gameLoop)) 5000))))
 
 ;; Draw Game
-(defn draw []
+(defn drawGame []
   ;; Clear the canvas
   (canvas/clear!)
-
+  
   ;; Draw ball
   (ball/draw! canvas/ctx)
 
@@ -67,12 +59,23 @@
   (paddle/draw! canvas/ctx)
 
   ;; Draw bricks
-  (bricks/draw! canvas/ctx)
-  
-  (if @newRound (gameStart) (gameLoop)))
+  (bricks/draw! canvas/ctx))
+
+
+(defn gameLoop []
+  (drawGame)
+  ;; If this is a new round, display a countdown
+  (if @newRound
+    (do
+      (countdown/draw! canvas/ctx)
+      (countdown/start! canvas/ctx (fn []
+                                     (reset! newRound false)
+                                     (updateBallPosition!))))
+    (updateBallPosition!)))
 
 
 ;; Start the game drawing on canvas
 (defn init []
-  (reset! intervalId (js/setInterval draw, 10)))
+  (let [id (js/setInterval gameLoop 10)]
+    (reset! intervalId id)))
 

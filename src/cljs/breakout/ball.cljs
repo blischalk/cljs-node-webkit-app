@@ -24,3 +24,9 @@
 (defn draw! [ctx]
   (set! (.-fillStyle ctx) ballColor)
   (shapes/circle ctx @x @y 10))
+
+
+(defn events! []
+  (.addEventListener js/document "brick-hit"
+    (fn [e]
+      (reverseBallDirection! dy) false)))

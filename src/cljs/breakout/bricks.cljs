@@ -1,6 +1,8 @@
 (ns breakout.bricks
   (:require [breakout.canvas :as canvas]
-            [breakout.shapes :as shapes]))
+            [breakout.shapes :as shapes]
+            [enfocus.core :as ef]
+            [enfocus.events :as events]))
 
 ;; Bricks
 (def NROWS 5)
@@ -43,12 +45,21 @@
         BRICKHEIGHT))))
 
 
-(defn brickInteraction [x y cb]
+(defn brickInteraction [x y]
   (let [row (js/Math.floor (/ @y rowheight))
         col (js/Math.floor (/ @x colwidth))]
     (if (brickImpact? row col @bricks @y)
-      (do (if cb (cb))
-          (removeBrick! row col)))))
+      (.dispatchEvent js/document (js/CustomEvent. "brick-hit" (js-obj "detail"
+                                                                 (js-obj "row" row
+                                                                   "col" col)))))))
+
+
+(defn events! []
+  (.addEventListener js/document "brick-hit"
+    (fn [e]
+      (removeBrick!
+        (aget e "detail" "row")
+        (aget e "detail" "col"))) false))
 
 
 (defn brickImpact? [row col bricks y]
