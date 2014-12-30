@@ -3,7 +3,9 @@
             [breakout.bricks :as bricks]
             [breakout.canvas :as canvas]
             [breakout.countdown :as countdown]
-            [breakout.paddle :as paddle])
+            [breakout.paddle :as paddle]
+            [enfocus.core :as ef]
+            [enfocus.events :as events])
   (:require-macros [enfocus.macros :as em]))
 
 ;; FIXME: make functions know less about various components of app
@@ -20,9 +22,20 @@
 
 (def newRound (atom true))
 
+;; DOM Selectors
+(def game-over "#game-over")
+(def game-over-btn (str game-over " " ".btn"))
+
+(defn addReplay []
+  (ef/at [game-over-btn] (events/listen :click (fn []
+                                                 (hideSlide game-over)
+                                                 (preGame)))))
+
 (defn gameOver []
   (js/clearInterval @intervalId)
-  (reset! newRound true))
+  (reset! newRound true)
+  (showSlide "#game-over")
+  (addReplay))
 
 (defn updateBallPosition! []
   "Moves the ball around the canvas
@@ -44,12 +57,11 @@
       (if (paddle/ballTouchingPaddle? ball/x paddle/paddlex paddle/paddlew)
         (ball/reverseBallDirection! ball/dy)
         ;; Otherwise ball missed paddle, game over!
-        (gameOver))))
+        (.dispatchEvent js/document (js/Event. "game-over")))))
 
   ;; Set ball coordinates to directionality
   ;; derived above
   (ball/updateBallCoordinates! ball/x ball/y))
-
 
 ;; Draw Game
 (defn drawGame []
@@ -65,21 +77,43 @@
   ;; Draw bricks
   (bricks/draw! canvas/ctx))
 
+(defn preGame []
+  ;; Draw the initial state of the board so we don't have a white screen
+  (drawGame)
+  ;; Start the game with a countdown
+  (.dispatchEvent js/document (js/Event. "game-countdown")))
 
 (defn gameLoop []
   (drawGame)
-  ;; If this is a new round, display a countdown
-  (if @newRound
-    (do
-      (countdown/draw! canvas/ctx)
-      (countdown/start! canvas/ctx (fn []
-                                     (reset! newRound false)
-                                     (updateBallPosition!))))
-    (updateBallPosition!)))
+  (updateBallPosition!))
 
-
-;; Start the game drawing on canvas
-(defn init []
+(defn startGame []
+  (showSlide "#canvas")
+  (js/clearInterval @intervalId)
   (let [id (js/setInterval gameLoop 10)]
     (reset! intervalId id)))
+
+(defn showSlide [selector]
+  (ef/at [".foreground"] (ef/remove-class "foreground"))
+  (ef/at [selector] (ef/add-class "foreground"))
+  (ef/at [selector] (ef/set-style :display "block")))
+
+(defn hideSlide [selector]
+  (ef/at [selector] (ef/remove-class "foreground"))
+  (ef/at [selector] (ef/set-style :display "none")))
+
+(defn addEventListeners! []
+  (.addEventListener js/document "game-over"
+    (fn [e] (gameOver)) false)
+  (.addEventListener js/document "game-start"
+    (fn [e] (startGame)) false))
+
+(defn init []
+  ;; Add all the games event handlers
+  (addEventListeners!)
+  (paddle/keyEvents)
+  (bricks/events!)
+  (ball/events!)
+  (countdown/events!)
+  (preGame))
 

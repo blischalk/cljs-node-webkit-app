@@ -1,3 +1,28 @@
-.username {
+#game-screens {
+  width: 1000px;
+  height: 600px;
+}
+.screen {
+  position: absolute;
+  display: block;
+  width: 1000px;
+  height: 600px;
+  z-index: -1;
+}
 
+.foreground {
+  z-index: 1000;
+}
+
+#countdown{
+  color: white;
+  font-size: 500px;
+  text-align: center;
+}
+
+#game-over{
+  color: white;
+  font-size: 80px;
+  text-align: center;
+  display: none;
 }

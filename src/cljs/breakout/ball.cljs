@@ -1,15 +1,20 @@
 (ns breakout.ball
   (:require [breakout.shapes :as shapes]))
 
+(def startingX 130)
+(def startingY 150)
+(def startingDX 2)
+(def startingDY 4)
+
 ;; Circle starting coordinates
-(def x (atom 130))
-(def y (atom 150))
+(def x (atom startingX))
+(def y (atom startingY))
 
 (def ballColor "#FFFFFF")
 
 ;; Direction coordinates
-(def dx (atom 2))
-(def dy (atom 4))
+(def dx (atom startingDX))
+(def dy (atom startingDY))
 
 
 (defn updateBallCoordinates! [x y]
@@ -32,7 +37,16 @@
     (.dispatchEvent js/document (js/CustomEvent. "wall-hit"))))
 
 
+(defn resetState! []
+  (reset! x startingX)
+  (reset! y startingY)
+  (reset! dx startingDX)
+  (reset! dy startingDY))
+
+
 (defn events! []
+  (.addEventListener js/document "game-over"
+    (fn [e] (resetState!)))
   (.addEventListener js/document "wall-hit"
     (fn [e]
       (reverseBallDirection! dx) false))

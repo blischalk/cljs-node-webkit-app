@@ -15,6 +15,10 @@
 
 (def rowcolors ["#FF1C0A" "#FFFD0A" "#00A308" "#0008DB" "#EB0093"])
 
+(def startingBricks (mapv (fn [_] (mapv (fn [_] 1)
+                                  (range 0 NCOLS)))
+                    (range 0 NROWS)))
+
 
 ;; Create an associative array of bricks
 ;; [[1 1 1 1 1]
@@ -22,9 +26,7 @@
 ;;  [1 1 1 1 1]
 ;;  [1 1 1 1 1]
 ;;  [1 1 1 1 1]]
-(def bricks (atom (mapv (fn [_] (mapv (fn [_] 1)
-                                  (range 0 NCOLS)))
-                    (range 0 NROWS))))
+(def bricks (atom startingBricks))
 
 
 (defn draw! [ctx]
@@ -53,8 +55,13 @@
                                                                  (js-obj "row" row
                                                                    "col" col)))))))
 
+(defn resetState! []
+  (reset! bricks startingBricks))
+
 
 (defn events! []
+  (.addEventListener js/document "game-over"
+    (fn [e] (resetState!)))
   (.addEventListener js/document "brick-hit"
     (fn [e]
       (removeBrick!
