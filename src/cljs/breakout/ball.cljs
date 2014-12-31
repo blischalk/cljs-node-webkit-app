@@ -37,6 +37,14 @@
     (.dispatchEvent js/document (js/CustomEvent. "wall-hit"))))
 
 
+(defn outOfBounds? []
+  (< (+ @y @dy) 0))
+
+
+(defn inBounds? [height]
+  (> (+ @y @dy) height))
+
+
 (defn resetState! []
   (reset! x startingX)
   (reset! y startingY)

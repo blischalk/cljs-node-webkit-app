@@ -7,11 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "window": {
-    "toolbar": true,
+    "toolbar": false,
     "focus": true,
-    "fullscreen": false,
-    "width": 1100,
-    "height": 800
+    "fullscreen": true
   },
   "author": "",
   "license": "ISC"

@@ -26893,20 +26893,6 @@ cljs.core.special_symbol_QMARK_ = function special_symbol_QMARK_(x) {
   "letfn*", "letfn*", -110097810, null), null, new cljs.core.Symbol(null, "if", "if", 1181717262, null), null, new cljs.core.Symbol(null, "new", "new", -444906321, null), null, new cljs.core.Symbol(null, "ns", "ns", 2082130287, null), null, new cljs.core.Symbol(null, "deftype*", "deftype*", 962659890, null), null, new cljs.core.Symbol(null, "let*", "let*", 1920721458, null), null, new cljs.core.Symbol(null, "js*", "js*", -1134233646, null), null, new cljs.core.Symbol(null, "fn*", "fn*", -752876845, 
   null), null, new cljs.core.Symbol(null, "recur", "recur", 1202958259, null), null, new cljs.core.Symbol(null, "set!", "set!", 250714521, null), null, new cljs.core.Symbol(null, ".", ".", 1975675962, null), null, new cljs.core.Symbol(null, "quote", "quote", 1377916282, null), null, new cljs.core.Symbol(null, "throw", "throw", 595905694, null), null, new cljs.core.Symbol(null, "def", "def", 597100991, null), null], null), null), x);
 };
-goog.provide("breakout.shapes");
-goog.require("cljs.core");
-breakout.shapes.rect = function rect(ctx, x, y, w, h) {
-  ctx.beginPath();
-  ctx.rect(x, y, w, h);
-  ctx.closePath();
-  return ctx.fill();
-};
-breakout.shapes.circle = function circle(ctx, x, y, r) {
-  ctx.beginPath();
-  ctx.arc(x, y, r, 0, Math.PI * 2, true);
-  ctx.closePath();
-  return ctx.fill();
-};
 goog.provide("goog.functions");
 goog.functions.constant = function(retValue) {
   return function() {
@@ -40142,6 +40128,33 @@ enfocus.core.apply_transform["function"] = function() {
   G__26378.cljs$core$IFn$_invoke$arity$3 = G__26378__3;
   return G__26378;
 }();
+goog.provide("breakout.slide");
+goog.require("cljs.core");
+goog.require("enfocus.core");
+goog.require("enfocus.core");
+breakout.slide.show = function show(selector) {
+  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".foreground"], null), enfocus.core.remove_class.call(null, "foreground"));
+  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.add_class.call(null, "foreground"));
+  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.set_style.call(null, new cljs.core.Keyword(null, "display", "display", 242065432), "block"));
+};
+breakout.slide.hide = function hide(selector) {
+  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.remove_class.call(null, "foreground"));
+  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.set_style.call(null, new cljs.core.Keyword(null, "display", "display", 242065432), "none"));
+};
+goog.provide("breakout.shapes");
+goog.require("cljs.core");
+breakout.shapes.rect = function rect(ctx, x, y, w, h) {
+  ctx.beginPath();
+  ctx.rect(x, y, w, h);
+  ctx.closePath();
+  return ctx.fill();
+};
+breakout.shapes.circle = function circle(ctx, x, y, r) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2, true);
+  ctx.closePath();
+  return ctx.fill();
+};
 goog.provide("breakout.canvas");
 goog.require("cljs.core");
 goog.require("enfocus.core");
@@ -41729,6 +41742,12 @@ breakout.ball.wallInteraction = function wallInteraction(width) {
     return null;
   }
 };
+breakout.ball.outOfBounds_QMARK_ = function outOfBounds_QMARK_() {
+  return cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) < 0;
+};
+breakout.ball.inBounds_QMARK_ = function inBounds_QMARK_(height) {
+  return cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) > height;
+};
 breakout.ball.resetState_BANG_ = function resetState_BANG_() {
   cljs.core.reset_BANG_.call(null, breakout.ball.x, breakout.ball.startingX);
   cljs.core.reset_BANG_.call(null, breakout.ball.y, breakout.ball.startingY);
@@ -42001,35 +42020,35 @@ goog.require("breakout.ball");
 goog.require("breakout.ball");
 goog.require("breakout.bricks");
 goog.require("enfocus.events");
+goog.require("breakout.slide");
 goog.require("enfocus.core");
 goog.require("breakout.canvas");
 goog.require("breakout.bricks");
 goog.require("breakout.paddle");
+goog.require("breakout.slide");
 goog.require("breakout.countdown");
 goog.require("enfocus.events");
 breakout.lib.intervalId = cljs.core.atom.call(null, 0);
-breakout.lib.newRound = cljs.core.atom.call(null, true);
 breakout.lib.game_over = "#game-over";
 breakout.lib.game_over_btn = "" + cljs.core.str.cljs$core$IFn$_invoke$arity$1(breakout.lib.game_over) + " .btn";
 breakout.lib.addReplay = function addReplay() {
   return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [breakout.lib.game_over_btn], null), enfocus.events.listen.call(null, new cljs.core.Keyword(null, "click", "click", 1912301393), function() {
-    breakout.lib.hideSlide.call(null, breakout.lib.game_over);
+    breakout.slide.hide.call(null, breakout.lib.game_over);
     return breakout.lib.preGame.call(null);
   }));
 };
 breakout.lib.gameOver = function gameOver() {
   clearInterval(cljs.core.deref.call(null, breakout.lib.intervalId));
-  cljs.core.reset_BANG_.call(null, breakout.lib.newRound, true);
-  breakout.lib.showSlide.call(null, "#game-over");
+  breakout.slide.show.call(null, "#game-over");
   return breakout.lib.addReplay.call(null);
 };
-breakout.lib.updateBallPosition_BANG_ = function updateBallPosition_BANG_() {
+breakout.lib.ballLifeCycle = function ballLifeCycle() {
   breakout.bricks.brickInteraction.call(null, breakout.ball.x, breakout.ball.y);
   breakout.ball.wallInteraction.call(null, breakout.canvas.WIDTH);
-  if (cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) < 0) {
+  if (cljs.core.truth_(breakout.ball.outOfBounds_QMARK_.call(null))) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
   } else {
-    if (cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) > breakout.canvas.HEIGHT) {
+    if (cljs.core.truth_(breakout.ball.inBounds_QMARK_.call(null, breakout.canvas.HEIGHT))) {
       if (breakout.paddle.ballTouchingPaddle_QMARK_.call(null, breakout.ball.x, breakout.paddle.paddlex, breakout.paddle.paddlew)) {
         breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
       } else {
@@ -42050,24 +42069,15 @@ breakout.lib.preGame = function preGame() {
   breakout.lib.drawGame.call(null);
   return document.dispatchEvent(new Event("game-countdown"));
 };
-breakout.lib.gameLoop = function gameLoop() {
+breakout.lib.animationLoop = function animationLoop() {
   breakout.lib.drawGame.call(null);
-  return breakout.lib.updateBallPosition_BANG_.call(null);
+  return breakout.lib.ballLifeCycle.call(null);
 };
 breakout.lib.startGame = function startGame() {
-  breakout.lib.showSlide.call(null, "#canvas");
+  breakout.slide.show.call(null, "#canvas");
   clearInterval(cljs.core.deref.call(null, breakout.lib.intervalId));
-  var id = setInterval(breakout.lib.gameLoop, 10);
+  var id = setInterval(breakout.lib.animationLoop, 10);
   return cljs.core.reset_BANG_.call(null, breakout.lib.intervalId, id);
-};
-breakout.lib.showSlide = function showSlide(selector) {
-  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [".foreground"], null), enfocus.core.remove_class.call(null, "foreground"));
-  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.add_class.call(null, "foreground"));
-  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.set_style.call(null, new cljs.core.Keyword(null, "display", "display", 242065432), "block"));
-};
-breakout.lib.hideSlide = function hideSlide(selector) {
-  enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.remove_class.call(null, "foreground"));
-  return enfocus.core.at.call(null, new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [selector], null), enfocus.core.set_style.call(null, new cljs.core.Keyword(null, "display", "display", 242065432), "none"));
 };
 breakout.lib.addEventListeners_BANG_ = function addEventListeners_BANG_() {
   document.addEventListener("game-over", function(e) {
