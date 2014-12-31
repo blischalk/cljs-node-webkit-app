@@ -15,7 +15,6 @@
 (def app-name "Node Webkit Breakout")
 (def username (or js/process.env.USERNAME js/process.env.USER))
 
-
 (defn create-menu! []
   "Creates the OS menu"
   ;; Use requirejs to include the gui module
@@ -33,34 +32,27 @@
         ;; Example of setting a property on a javascript object
     (set! (.-menu win) mb)))
 
-
-
 (em/deftemplate main-nav :compiled "resources/public/templates/main-nav.html"
   [branding]
   [".navbar-brand"] (ef/content branding))
-
 
 (em/deftemplate main-content :compiled
   "resources/public/templates/main-content.html"
   [username]
   [".username"] (ef/content username))
 
-
 (em/deftemplate about-content :compiled
   "resources/public/templates/about-content.html"
   [])
-
 
 (em/deftemplate contact-content :compiled
   "resources/public/templates/contact-content.html"
   [])
 
-
 (em/defaction page-change [content nav-ele]
   [".starter-template"] (ef/content content)
   [nav-ele] (ef/add-class "active")
   [(str "nav li:not(" nav-ele ")")] (ef/remove-class "active"))
-
 
 (em/defaction attach-nav-handlers! []
   ["nav .main"] (events/listen :click
@@ -70,21 +62,17 @@
   ["nav .contact"] (events/listen :click
                                   #(page-change (contact-content)".contact")) )
 
-
 (defn update-greeting! []
   "Set the username to the Node process user"
   (ef/at [".username"] (ef/content username)))
-
 
 (defn create-main-nav! []
   "Add main navigation"
   (ef/at ["body"] (ef/prepend (main-nav app-name))))
 
-
 (defn add-main-content! []
   "Add main content"
   (ef/at ["#verbiage"] (ef/content (main-content username))))
-
 
 (defn start []
   "Entry point.  Called when page is loaded"
@@ -94,7 +82,6 @@
   (update-greeting!)
   (attach-nav-handlers!)
   (lib/init))
-
 
 ;; Using window onload instead of calling a main method from client
 (set! (.-onload js/window) start)

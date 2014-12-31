@@ -4,6 +4,7 @@
             [breakout.canvas :as canvas]
             [breakout.countdown :as countdown]
             [breakout.paddle :as paddle]
+            [breakout.score :as score]
             [breakout.slide :as slide]
             [enfocus.core :as ef]
             [enfocus.events :as events])
@@ -94,7 +95,7 @@
     (reset! intervalId id)))
 
 
-(defn addEventListeners! []
+(defn events! []
   (.addEventListener js/document "game-over"
     (fn [e] (gameOver)) false)
   (.addEventListener js/document "game-start"
@@ -102,10 +103,11 @@
 
 (defn init []
   ;; Add all the games event handlers
-  (addEventListeners!)
-  (paddle/keyEvents)
-  (bricks/events!)
-  (ball/events!)
-  (countdown/events!)
+  (events!)
+  (paddle/init)
+  (bricks/init)
+  (ball/init)
+  (countdown/init)
+  (score/init)
   (preGame))
 

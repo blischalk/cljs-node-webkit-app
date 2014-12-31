@@ -19,7 +19,6 @@
                                   (range 0 NCOLS)))
                     (range 0 NROWS)))
 
-
 ;; Create an associative array of bricks
 ;; [[1 1 1 1 1]
 ;;  [1 1 1 1 1]
@@ -27,7 +26,6 @@
 ;;  [1 1 1 1 1]
 ;;  [1 1 1 1 1]]
 (def bricks (atom startingBricks))
-
 
 (defn draw! [ctx]
   (doseq [[rowindex row] (map vector
@@ -46,7 +44,6 @@
         BRICKWIDTH
         BRICKHEIGHT))))
 
-
 (defn brickInteraction [x y]
   (let [row (js/Math.floor (/ @y rowheight))
         col (js/Math.floor (/ @x colwidth))]
@@ -58,7 +55,6 @@
 (defn resetState! []
   (reset! bricks startingBricks))
 
-
 (defn events! []
   (.addEventListener js/document "game-over"
     (fn [e] (resetState!)))
@@ -68,7 +64,6 @@
         (aget e "detail" "row")
         (aget e "detail" "col"))) false))
 
-
 (defn brickImpact? [row col bricks y]
   (let [row (js/parseInt row)
         col (js/parseInt col)]
@@ -77,8 +72,10 @@
       (>= col 0)
       (= 1 (get-in bricks [col row])))))
 
-
 (defn removeBrick! [row col]
   (let [row (js/parseInt row)
         col (js/parseInt col)]
     (swap! bricks update-in [col row] (fn [_] 0))))
+
+(defn init []
+  (events!))

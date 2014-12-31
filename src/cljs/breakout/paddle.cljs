@@ -14,7 +14,6 @@
 (def rightDown (atom false))
 (def leftDown (atom false))
 
-
 ;; Event handlers
 (defn onKeyDown [evt]
   (if (= 39 (js/parseInt (.-keyCode evt)))
@@ -23,14 +22,12 @@
   (if (= 37 (js/parseInt (.-keyCode evt)))
     (reset! leftDown true)))
 
-
 (defn onKeyUp [evt]
   (if (= 39 (js/parseInt (.-keyCode evt)))
     (reset! rightDown false))
 
   (if (= 37 (js/parseInt (.-keyCode evt)))
     (reset! leftDown false)))
-
 
 (defn onMouseMove [evt]
   (let [mouseX (js/parseInt (.-clientX evt))]
@@ -39,14 +36,11 @@
           (< mouseX canvas/canvasMaxX))
       (reset! paddlex (- mouseX canvas/canvasMinX)))))
 
-
 ;; Attach event handlers
-(defn keyEvents []
+(defn events! []
   (ef/at js/document (events/listen :mousemove #(onMouseMove %)))
   (ef/at js/document (events/listen :keydown #(onKeyDown %)))
   (ef/at js/document (events/listen :keyup #(onKeyUp %))))
-
-
 
 (defn draw! [ctx]
   ;; move the paddle if right or left is currently pressed
@@ -58,6 +52,8 @@
   (set! (.-fillStyle ctx) paddleColor)
   (shapes/rect ctx @paddlex (- canvas/HEIGHT @paddleh) @paddlew @paddleh))
 
-
 (defn ballTouchingPaddle? [x paddlex paddlew]
   (and (> @x @paddlex) (< @x (+ @paddlex @paddlew))))
+
+(defn init []
+  (events!))

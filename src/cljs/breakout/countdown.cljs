@@ -31,3 +31,6 @@
 (defn events! []
   (.addEventListener js/document "game-countdown"
     (fn [e] (runCountdown countdownStart) false)))
+
+(defn init []
+  (events!))

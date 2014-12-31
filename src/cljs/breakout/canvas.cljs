@@ -11,13 +11,10 @@
 ;; Canvas context
 (def ctx (first (ef/from "#canvas" #(.getContext % "2d"))))
 
-
-
 ;; Min / Max horizontal (x axis) positions
 ;; Use Google Closure to find Min offset
 (def canvasMinX (.-x (first (ef/from "#canvas" #(js/goog.style.getPageOffset %)))))
 (def canvasMaxX (+ canvasMinX WIDTH))
-
 
 ;; Clear Canvas
 (defn clear! []
