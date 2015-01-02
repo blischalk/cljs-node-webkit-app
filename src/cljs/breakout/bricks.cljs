@@ -48,9 +48,11 @@
   (let [row (js/Math.floor (/ @y rowheight))
         col (js/Math.floor (/ @x colwidth))]
     (if (brickImpact? row col @bricks @y)
-      (.dispatchEvent js/document (js/CustomEvent. "brick-hit" (js-obj "detail"
-                                                                 (js-obj "row" row
-                                                                   "col" col)))))))
+      (.dispatchEvent
+        js/document
+        (js/CustomEvent.
+          "brick-hit"
+          (js-obj "detail" (js-obj "row" row "col" col)))))))
 
 (defn resetState! []
   (reset! bricks startingBricks))
