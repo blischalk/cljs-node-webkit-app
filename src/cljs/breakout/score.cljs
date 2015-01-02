@@ -1,20 +1,26 @@
 (ns breakout.score
-  (:require [enfocus.core :as ef]))
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [breakout.lib-async :as lasync]
+            [cljs.core.async :as async
+             :refer [>! <! put! chan alts!]]
+            [enfocus.core :as ef]
+            [goog.events :as events]))
 
-(def score (atom 0))
 
 (def brick-worth 100)
 
-(defn resetState! []
-  (reset! score 0))
-
-(defn updateScore! []
-  (reset! score (+ brick-worth @score))
-  (ef/at ["#score .counter"] (ef/content (.toString @score))))
+(defn updateScore! [score]
+  (ef/at ["#score .counter"] (ef/content (.toString score))))
 
 (defn events! []
-  (.addEventListener js/document "brick-hit"
-    (fn [e] (updateScore!)) false) )
+  (let [scored (lasync/events->chan js/document "brick-hit")
+        game-over (lasync/events->chan js/document "game-over")]
+    (go
+      (loop [score 0]
+        (let [[v c] (alts! [scored game-over])
+              updated-score (if (= c game-over) 0 (+ score brick-worth))]
+          (updateScore! updated-score)
+          (recur updated-score))))))
 
 (defn init []
   (events!))
