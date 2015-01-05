@@ -65,15 +65,11 @@
 (defn drawGame []
   ;; Clear the canvas
   (canvas/clear!)
-  
-  ;; Draw ball
-  (ball/draw! canvas/ctx)
-
-  ;; Draw paddle
-  (paddle/draw! canvas/ctx)
-
-  ;; Draw bricks
-  (bricks/draw! canvas/ctx))
+  (.dispatchEvent
+        js/document
+        (js/CustomEvent.
+          "draw"
+          (js-obj "detail" (js-obj "canvas" canvas/ctx)))))
 
 (defn preGame []
   ;; Draw the initial state of the board so we don't have a white screen

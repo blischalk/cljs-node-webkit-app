@@ -40,7 +40,9 @@
 (defn events! []
   (ef/at js/document (events/listen :mousemove #(onMouseMove %)))
   (ef/at js/document (events/listen :keydown #(onKeyDown %)))
-  (ef/at js/document (events/listen :keyup #(onKeyUp %))))
+  (ef/at js/document (events/listen :keyup #(onKeyUp %)))
+  (.addEventListener js/document "draw"
+    (fn [e] (draw! (aget e "detail" "canvas")))))
 
 (defn draw! [ctx]
   ;; move the paddle if right or left is currently pressed

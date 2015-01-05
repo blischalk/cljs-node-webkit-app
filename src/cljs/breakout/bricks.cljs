@@ -60,6 +60,8 @@
 (defn events! []
   (.addEventListener js/document "game-over"
     (fn [e] (resetState!)))
+  (.addEventListener js/document "draw"
+    (fn [e] (draw! (aget e "detail" "canvas"))))
   (.addEventListener js/document "brick-hit"
     (fn [e]
       (removeBrick!

@@ -45,6 +45,8 @@
   (reset! dy startingDY))
 
 (defn events! []
+  (.addEventListener js/document "draw"
+    (fn [e] (draw! (aget e "detail" "canvas"))))
   (.addEventListener js/document "game-over"
     (fn [e] (resetState!)))
   (.addEventListener js/document "wall-hit"
