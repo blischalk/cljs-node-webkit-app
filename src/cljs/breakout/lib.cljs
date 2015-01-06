@@ -29,37 +29,13 @@
                             (preGame)))))
 
 (defn gameOver []
+  (.dispatchEvent js/document (js/Event. "game-over"))
   ;; Stop animation loop
   (js/clearInterval @intervalId)
   ;; Show the game over slide
   (slide/show "#game-over")
   ;; Enable the replay functionality
   (addReplay))
-
-
-(defn ballLifeCycle []
-  
-  ;; Brick contact
-  (bricks/brickInteraction ball/x ball/y)
-
-  ;; If ball is about to go out of
-  ;; bounds on x axis, reverse direction
-  (ball/wallInteraction canvas/WIDTH)
-
-  ;; If ball is about to go out of bounds
-  ;; on y axis, reverse direction
-  (if (ball/outOfBounds?)
-    (ball/reverseBallDirection! ball/dy)
-    (if (ball/inBounds? canvas/HEIGHT)
-      ;; If ball hits the paddle, reverse ball direction
-      (if (paddle/ballTouchingPaddle? ball/x paddle/paddlex paddle/paddlew)
-        (ball/reverseBallDirection! ball/dy)
-        ;; Otherwise ball missed paddle, game over!
-        (.dispatchEvent js/document (js/Event. "game-over")))))
-
-  ;; Set ball coordinates to directionality
-  ;; derived above
-  (ball/updateBallCoordinates! ball/x ball/y))
 
 ;; Draw Game
 (defn drawGame []
@@ -77,22 +53,17 @@
   ;; Start the game with a countdown
   (.dispatchEvent js/document (js/Event. "game-countdown")))
 
-(defn animationLoop []
-  (drawGame)
-  (ballLifeCycle))
-
 (defn startGame []
   ;; Bring the canvas to foreground
   (slide/show "#canvas")
   ;; Clear any previous animation loop
   (js/clearInterval @intervalId)
   ;; Start a new animation loop
-  (let [id (js/setInterval animationLoop 10)]
+  (let [id (js/setInterval drawGame 10)]
     (reset! intervalId id)))
 
-
 (defn events! []
-  (.addEventListener js/document "game-over"
+  (.addEventListener js/document "ball-ob"
     (fn [e] (gameOver)) false)
   (.addEventListener js/document "game-start"
     (fn [e] (startGame)) false))
