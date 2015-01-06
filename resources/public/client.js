@@ -40164,17 +40164,50 @@ goog.require("breakout.shapes");
 breakout.canvas.backgroundColor = "#000000";
 breakout.canvas.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
 breakout.canvas.HEIGHT = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "height", "height", 1025178622)));
-breakout.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__12215_SHARP_) {
-  return p1__12215_SHARP_.getContext("2d");
+breakout.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__11422_SHARP_) {
+  return p1__11422_SHARP_.getContext("2d");
 }));
-breakout.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__12216_SHARP_) {
-  return goog.style.getPageOffset(p1__12216_SHARP_);
+breakout.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__11423_SHARP_) {
+  return goog.style.getPageOffset(p1__11423_SHARP_);
 })).x;
 breakout.canvas.canvasMaxX = breakout.canvas.canvasMinX + breakout.canvas.WIDTH;
 breakout.canvas.clear_BANG_ = function clear_BANG_() {
   breakout.canvas.ctx.clearRect(0, 0, breakout.canvas.WIDTH, breakout.canvas.HEIGHT);
   breakout.canvas.ctx.fillStyle = breakout.canvas.backgroundColor;
   return breakout.shapes.rect.call(null, breakout.canvas.ctx, 0, 0, breakout.canvas.WIDTH, breakout.canvas.HEIGHT);
+};
+breakout.canvas.wallInteraction_QMARK_ = function wallInteraction_QMARK_(x, dx) {
+  return x + dx > breakout.canvas.WIDTH || x + dx < 0;
+};
+breakout.canvas.hitTop_QMARK_ = function hitTop_QMARK_(y, dy) {
+  return y + dy < 0;
+};
+breakout.canvas.offBottom_QMARK_ = function offBottom_QMARK_(y, dy) {
+  return y + dy > breakout.canvas.HEIGHT;
+};
+breakout.canvas.events_BANG_ = function events_BANG_() {
+  return document.addEventListener("ball-movement", function(e) {
+    var x = e["detail"]["x"];
+    var y = e["detail"]["y"];
+    var dx = e["detail"]["dx"];
+    var dy = e["detail"]["dy"];
+    if (breakout.canvas.wallInteraction_QMARK_.call(null, x, dx)) {
+      return document.dispatchEvent(new CustomEvent("wall-hit"));
+    } else {
+      if (breakout.canvas.hitTop_QMARK_.call(null, y, dy)) {
+        return document.dispatchEvent(new CustomEvent("hit-top"));
+      } else {
+        if (breakout.canvas.offBottom_QMARK_.call(null, y, dy)) {
+          return document.dispatchEvent(new CustomEvent("off-bottom"));
+        } else {
+          return null;
+        }
+      }
+    }
+  });
+};
+breakout.canvas.init = function init() {
+  return breakout.canvas.events_BANG_.call(null);
 };
 goog.provide("enfocus.events");
 goog.require("cljs.core");
@@ -43295,70 +43328,70 @@ breakout.bricks.startingBricks = cljs.core.mapv.call(null, function(_) {
 }, cljs.core.range.call(null, 0, breakout.bricks.NROWS));
 breakout.bricks.bricks = cljs.core.atom.call(null, breakout.bricks.startingBricks);
 breakout.bricks.draw_BANG_ = function draw_BANG_(ctx) {
-  var seq__10654 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, breakout.bricks.bricks)));
-  var chunk__10659 = null;
-  var count__10660 = 0;
-  var i__10661 = 0;
+  var seq__11442 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), cljs.core.deref.call(null, breakout.bricks.bricks)));
+  var chunk__11447 = null;
+  var count__11448 = 0;
+  var i__11449 = 0;
   while (true) {
-    if (i__10661 < count__10660) {
-      var vec__10666 = cljs.core._nth.call(null, chunk__10659, i__10661);
-      var rowindex = cljs.core.nth.call(null, vec__10666, 0, null);
-      var row = cljs.core.nth.call(null, vec__10666, 1, null);
-      var seq__10662_10672 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-      var chunk__10663_10673 = null;
-      var count__10664_10674 = 0;
-      var i__10665_10675 = 0;
+    if (i__11449 < count__11448) {
+      var vec__11454 = cljs.core._nth.call(null, chunk__11447, i__11449);
+      var rowindex = cljs.core.nth.call(null, vec__11454, 0, null);
+      var row = cljs.core.nth.call(null, vec__11454, 1, null);
+      var seq__11450_11460 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+      var chunk__11451_11461 = null;
+      var count__11452_11462 = 0;
+      var i__11453_11463 = 0;
       while (true) {
-        if (i__10665_10675 < count__10664_10674) {
-          var vec__10667_10676 = cljs.core._nth.call(null, chunk__10663_10673, i__10665_10675);
-          var eleindex_10677 = cljs.core.nth.call(null, vec__10667_10676, 0, null);
-          var ele_10678 = cljs.core.nth.call(null, vec__10667_10676, 1, null);
-          ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_10677);
-          if (cljs.core._EQ_.call(null, 1, ele_10678)) {
-            breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_10677 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
+        if (i__11453_11463 < count__11452_11462) {
+          var vec__11455_11464 = cljs.core._nth.call(null, chunk__11451_11461, i__11453_11463);
+          var eleindex_11465 = cljs.core.nth.call(null, vec__11455_11464, 0, null);
+          var ele_11466 = cljs.core.nth.call(null, vec__11455_11464, 1, null);
+          ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_11465);
+          if (cljs.core._EQ_.call(null, 1, ele_11466)) {
+            breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_11465 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
           } else {
           }
-          var G__10679 = seq__10662_10672;
-          var G__10680 = chunk__10663_10673;
-          var G__10681 = count__10664_10674;
-          var G__10682 = i__10665_10675 + 1;
-          seq__10662_10672 = G__10679;
-          chunk__10663_10673 = G__10680;
-          count__10664_10674 = G__10681;
-          i__10665_10675 = G__10682;
+          var G__11467 = seq__11450_11460;
+          var G__11468 = chunk__11451_11461;
+          var G__11469 = count__11452_11462;
+          var G__11470 = i__11453_11463 + 1;
+          seq__11450_11460 = G__11467;
+          chunk__11451_11461 = G__11468;
+          count__11452_11462 = G__11469;
+          i__11453_11463 = G__11470;
           continue;
         } else {
-          var temp__4126__auto___10683 = cljs.core.seq.call(null, seq__10662_10672);
-          if (temp__4126__auto___10683) {
-            var seq__10662_10684__$1 = temp__4126__auto___10683;
-            if (cljs.core.chunked_seq_QMARK_.call(null, seq__10662_10684__$1)) {
-              var c__4410__auto___10685 = cljs.core.chunk_first.call(null, seq__10662_10684__$1);
-              var G__10686 = cljs.core.chunk_rest.call(null, seq__10662_10684__$1);
-              var G__10687 = c__4410__auto___10685;
-              var G__10688 = cljs.core.count.call(null, c__4410__auto___10685);
-              var G__10689 = 0;
-              seq__10662_10672 = G__10686;
-              chunk__10663_10673 = G__10687;
-              count__10664_10674 = G__10688;
-              i__10665_10675 = G__10689;
+          var temp__4126__auto___11471 = cljs.core.seq.call(null, seq__11450_11460);
+          if (temp__4126__auto___11471) {
+            var seq__11450_11472__$1 = temp__4126__auto___11471;
+            if (cljs.core.chunked_seq_QMARK_.call(null, seq__11450_11472__$1)) {
+              var c__4410__auto___11473 = cljs.core.chunk_first.call(null, seq__11450_11472__$1);
+              var G__11474 = cljs.core.chunk_rest.call(null, seq__11450_11472__$1);
+              var G__11475 = c__4410__auto___11473;
+              var G__11476 = cljs.core.count.call(null, c__4410__auto___11473);
+              var G__11477 = 0;
+              seq__11450_11460 = G__11474;
+              chunk__11451_11461 = G__11475;
+              count__11452_11462 = G__11476;
+              i__11453_11463 = G__11477;
               continue;
             } else {
-              var vec__10668_10690 = cljs.core.first.call(null, seq__10662_10684__$1);
-              var eleindex_10691 = cljs.core.nth.call(null, vec__10668_10690, 0, null);
-              var ele_10692 = cljs.core.nth.call(null, vec__10668_10690, 1, null);
-              ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_10691);
-              if (cljs.core._EQ_.call(null, 1, ele_10692)) {
-                breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_10691 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
+              var vec__11456_11478 = cljs.core.first.call(null, seq__11450_11472__$1);
+              var eleindex_11479 = cljs.core.nth.call(null, vec__11456_11478, 0, null);
+              var ele_11480 = cljs.core.nth.call(null, vec__11456_11478, 1, null);
+              ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_11479);
+              if (cljs.core._EQ_.call(null, 1, ele_11480)) {
+                breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_11479 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__10693 = cljs.core.next.call(null, seq__10662_10684__$1);
-              var G__10694 = null;
-              var G__10695 = 0;
-              var G__10696 = 0;
-              seq__10662_10672 = G__10693;
-              chunk__10663_10673 = G__10694;
-              count__10664_10674 = G__10695;
-              i__10665_10675 = G__10696;
+              var G__11481 = cljs.core.next.call(null, seq__11450_11472__$1);
+              var G__11482 = null;
+              var G__11483 = 0;
+              var G__11484 = 0;
+              seq__11450_11460 = G__11481;
+              chunk__11451_11461 = G__11482;
+              count__11452_11462 = G__11483;
+              i__11453_11463 = G__11484;
               continue;
             }
           } else {
@@ -43366,89 +43399,89 @@ breakout.bricks.draw_BANG_ = function draw_BANG_(ctx) {
         }
         break;
       }
-      var G__10697 = seq__10654;
-      var G__10698 = chunk__10659;
-      var G__10699 = count__10660;
-      var G__10700 = i__10661 + 1;
-      seq__10654 = G__10697;
-      chunk__10659 = G__10698;
-      count__10660 = G__10699;
-      i__10661 = G__10700;
+      var G__11485 = seq__11442;
+      var G__11486 = chunk__11447;
+      var G__11487 = count__11448;
+      var G__11488 = i__11449 + 1;
+      seq__11442 = G__11485;
+      chunk__11447 = G__11486;
+      count__11448 = G__11487;
+      i__11449 = G__11488;
       continue;
     } else {
-      var temp__4126__auto__ = cljs.core.seq.call(null, seq__10654);
+      var temp__4126__auto__ = cljs.core.seq.call(null, seq__11442);
       if (temp__4126__auto__) {
-        var seq__10654__$1 = temp__4126__auto__;
-        if (cljs.core.chunked_seq_QMARK_.call(null, seq__10654__$1)) {
-          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__10654__$1);
-          var G__10701 = cljs.core.chunk_rest.call(null, seq__10654__$1);
-          var G__10702 = c__4410__auto__;
-          var G__10703 = cljs.core.count.call(null, c__4410__auto__);
-          var G__10704 = 0;
-          seq__10654 = G__10701;
-          chunk__10659 = G__10702;
-          count__10660 = G__10703;
-          i__10661 = G__10704;
+        var seq__11442__$1 = temp__4126__auto__;
+        if (cljs.core.chunked_seq_QMARK_.call(null, seq__11442__$1)) {
+          var c__4410__auto__ = cljs.core.chunk_first.call(null, seq__11442__$1);
+          var G__11489 = cljs.core.chunk_rest.call(null, seq__11442__$1);
+          var G__11490 = c__4410__auto__;
+          var G__11491 = cljs.core.count.call(null, c__4410__auto__);
+          var G__11492 = 0;
+          seq__11442 = G__11489;
+          chunk__11447 = G__11490;
+          count__11448 = G__11491;
+          i__11449 = G__11492;
           continue;
         } else {
-          var vec__10669 = cljs.core.first.call(null, seq__10654__$1);
-          var rowindex = cljs.core.nth.call(null, vec__10669, 0, null);
-          var row = cljs.core.nth.call(null, vec__10669, 1, null);
-          var seq__10655_10705 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
-          var chunk__10656_10706 = null;
-          var count__10657_10707 = 0;
-          var i__10658_10708 = 0;
+          var vec__11457 = cljs.core.first.call(null, seq__11442__$1);
+          var rowindex = cljs.core.nth.call(null, vec__11457, 0, null);
+          var row = cljs.core.nth.call(null, vec__11457, 1, null);
+          var seq__11443_11493 = cljs.core.seq.call(null, cljs.core.map.call(null, cljs.core.vector, cljs.core.iterate.call(null, cljs.core.inc, 0), row));
+          var chunk__11444_11494 = null;
+          var count__11445_11495 = 0;
+          var i__11446_11496 = 0;
           while (true) {
-            if (i__10658_10708 < count__10657_10707) {
-              var vec__10670_10709 = cljs.core._nth.call(null, chunk__10656_10706, i__10658_10708);
-              var eleindex_10710 = cljs.core.nth.call(null, vec__10670_10709, 0, null);
-              var ele_10711 = cljs.core.nth.call(null, vec__10670_10709, 1, null);
-              ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_10710);
-              if (cljs.core._EQ_.call(null, 1, ele_10711)) {
-                breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_10710 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
+            if (i__11446_11496 < count__11445_11495) {
+              var vec__11458_11497 = cljs.core._nth.call(null, chunk__11444_11494, i__11446_11496);
+              var eleindex_11498 = cljs.core.nth.call(null, vec__11458_11497, 0, null);
+              var ele_11499 = cljs.core.nth.call(null, vec__11458_11497, 1, null);
+              ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_11498);
+              if (cljs.core._EQ_.call(null, 1, ele_11499)) {
+                breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_11498 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
               } else {
               }
-              var G__10712 = seq__10655_10705;
-              var G__10713 = chunk__10656_10706;
-              var G__10714 = count__10657_10707;
-              var G__10715 = i__10658_10708 + 1;
-              seq__10655_10705 = G__10712;
-              chunk__10656_10706 = G__10713;
-              count__10657_10707 = G__10714;
-              i__10658_10708 = G__10715;
+              var G__11500 = seq__11443_11493;
+              var G__11501 = chunk__11444_11494;
+              var G__11502 = count__11445_11495;
+              var G__11503 = i__11446_11496 + 1;
+              seq__11443_11493 = G__11500;
+              chunk__11444_11494 = G__11501;
+              count__11445_11495 = G__11502;
+              i__11446_11496 = G__11503;
               continue;
             } else {
-              var temp__4126__auto___10716__$1 = cljs.core.seq.call(null, seq__10655_10705);
-              if (temp__4126__auto___10716__$1) {
-                var seq__10655_10717__$1 = temp__4126__auto___10716__$1;
-                if (cljs.core.chunked_seq_QMARK_.call(null, seq__10655_10717__$1)) {
-                  var c__4410__auto___10718 = cljs.core.chunk_first.call(null, seq__10655_10717__$1);
-                  var G__10719 = cljs.core.chunk_rest.call(null, seq__10655_10717__$1);
-                  var G__10720 = c__4410__auto___10718;
-                  var G__10721 = cljs.core.count.call(null, c__4410__auto___10718);
-                  var G__10722 = 0;
-                  seq__10655_10705 = G__10719;
-                  chunk__10656_10706 = G__10720;
-                  count__10657_10707 = G__10721;
-                  i__10658_10708 = G__10722;
+              var temp__4126__auto___11504__$1 = cljs.core.seq.call(null, seq__11443_11493);
+              if (temp__4126__auto___11504__$1) {
+                var seq__11443_11505__$1 = temp__4126__auto___11504__$1;
+                if (cljs.core.chunked_seq_QMARK_.call(null, seq__11443_11505__$1)) {
+                  var c__4410__auto___11506 = cljs.core.chunk_first.call(null, seq__11443_11505__$1);
+                  var G__11507 = cljs.core.chunk_rest.call(null, seq__11443_11505__$1);
+                  var G__11508 = c__4410__auto___11506;
+                  var G__11509 = cljs.core.count.call(null, c__4410__auto___11506);
+                  var G__11510 = 0;
+                  seq__11443_11493 = G__11507;
+                  chunk__11444_11494 = G__11508;
+                  count__11445_11495 = G__11509;
+                  i__11446_11496 = G__11510;
                   continue;
                 } else {
-                  var vec__10671_10723 = cljs.core.first.call(null, seq__10655_10717__$1);
-                  var eleindex_10724 = cljs.core.nth.call(null, vec__10671_10723, 0, null);
-                  var ele_10725 = cljs.core.nth.call(null, vec__10671_10723, 1, null);
-                  ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_10724);
-                  if (cljs.core._EQ_.call(null, 1, ele_10725)) {
-                    breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_10724 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
+                  var vec__11459_11511 = cljs.core.first.call(null, seq__11443_11505__$1);
+                  var eleindex_11512 = cljs.core.nth.call(null, vec__11459_11511, 0, null);
+                  var ele_11513 = cljs.core.nth.call(null, vec__11459_11511, 1, null);
+                  ctx.fillStyle = breakout.bricks.rowcolors.call(null, eleindex_11512);
+                  if (cljs.core._EQ_.call(null, 1, ele_11513)) {
+                    breakout.shapes.rect.call(null, ctx, rowindex * (breakout.bricks.BRICKWIDTH + breakout.bricks.PADDING) + breakout.bricks.PADDING, eleindex_11512 * (breakout.bricks.BRICKHEIGHT + breakout.bricks.PADDING) + breakout.bricks.PADDING, breakout.bricks.BRICKWIDTH, breakout.bricks.BRICKHEIGHT);
                   } else {
                   }
-                  var G__10726 = cljs.core.next.call(null, seq__10655_10717__$1);
-                  var G__10727 = null;
-                  var G__10728 = 0;
-                  var G__10729 = 0;
-                  seq__10655_10705 = G__10726;
-                  chunk__10656_10706 = G__10727;
-                  count__10657_10707 = G__10728;
-                  i__10658_10708 = G__10729;
+                  var G__11514 = cljs.core.next.call(null, seq__11443_11505__$1);
+                  var G__11515 = null;
+                  var G__11516 = 0;
+                  var G__11517 = 0;
+                  seq__11443_11493 = G__11514;
+                  chunk__11444_11494 = G__11515;
+                  count__11445_11495 = G__11516;
+                  i__11446_11496 = G__11517;
                   continue;
                 }
               } else {
@@ -43456,14 +43489,14 @@ breakout.bricks.draw_BANG_ = function draw_BANG_(ctx) {
             }
             break;
           }
-          var G__10730 = cljs.core.next.call(null, seq__10654__$1);
-          var G__10731 = null;
-          var G__10732 = 0;
-          var G__10733 = 0;
-          seq__10654 = G__10730;
-          chunk__10659 = G__10731;
-          count__10660 = G__10732;
-          i__10661 = G__10733;
+          var G__11518 = cljs.core.next.call(null, seq__11442__$1);
+          var G__11519 = null;
+          var G__11520 = 0;
+          var G__11521 = 0;
+          seq__11442 = G__11518;
+          chunk__11447 = G__11519;
+          count__11448 = G__11520;
+          i__11449 = G__11521;
           continue;
         }
       } else {
@@ -43474,15 +43507,15 @@ breakout.bricks.draw_BANG_ = function draw_BANG_(ctx) {
   }
 };
 breakout.bricks.brickInteraction = function brickInteraction(x, y) {
-  var row = Math.floor(cljs.core.deref.call(null, y) / breakout.bricks.rowheight);
-  var col = Math.floor(cljs.core.deref.call(null, x) / breakout.bricks.colwidth);
-  if (cljs.core.truth_(breakout.bricks.brickImpact_QMARK_.call(null, row, col, cljs.core.deref.call(null, breakout.bricks.bricks), cljs.core.deref.call(null, y)))) {
+  var row = Math.floor(y / breakout.bricks.rowheight);
+  var col = Math.floor(x / breakout.bricks.colwidth);
+  if (cljs.core.truth_(breakout.bricks.brickImpact_QMARK_.call(null, row, col, cljs.core.deref.call(null, breakout.bricks.bricks), y))) {
     return document.dispatchEvent(new CustomEvent("brick-hit", function() {
-      var obj10739 = {"detail":function() {
-        var obj10741 = {"row":row, "col":col};
-        return obj10741;
+      var obj11527 = {"detail":function() {
+        var obj11529 = {"row":row, "col":col};
+        return obj11529;
       }()};
-      return obj10739;
+      return obj11527;
     }()));
   } else {
     return null;
@@ -43498,9 +43531,12 @@ breakout.bricks.events_BANG_ = function events_BANG_() {
   document.addEventListener("draw", function(e) {
     return breakout.bricks.draw_BANG_.call(null, e["detail"]["canvas"]);
   });
-  return document.addEventListener("brick-hit", function(e) {
+  document.addEventListener("brick-hit", function(e) {
     return breakout.bricks.removeBrick_BANG_.call(null, e["detail"]["row"], e["detail"]["col"]);
   }, false);
+  return document.addEventListener("ball-movement", function(e) {
+    return breakout.bricks.brickInteraction.call(null, e["detail"]["x"], e["detail"]["y"]);
+  });
 };
 breakout.bricks.brickImpact_QMARK_ = function brickImpact_QMARK_(row, col, bricks, y) {
   var row__$1 = parseInt(row);
@@ -43550,33 +43586,24 @@ breakout.ball.draw_BANG_ = function draw_BANG_(ctx) {
   ctx.fillStyle = breakout.ball.ballColor;
   return breakout.shapes.circle.call(null, ctx, cljs.core.deref.call(null, breakout.ball.x), cljs.core.deref.call(null, breakout.ball.y), 10);
 };
-breakout.ball.wallInteraction = function wallInteraction(width) {
-  if (cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) > width || cljs.core.deref.call(null, breakout.ball.x) + cljs.core.deref.call(null, breakout.ball.dx) < 0) {
-    return document.dispatchEvent(new CustomEvent("wall-hit"));
-  } else {
-    return null;
-  }
-};
-breakout.ball.outOfBounds_QMARK_ = function outOfBounds_QMARK_() {
-  return cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) < 0;
-};
 breakout.ball.inBounds_QMARK_ = function inBounds_QMARK_(height) {
   return cljs.core.deref.call(null, breakout.ball.y) + cljs.core.deref.call(null, breakout.ball.dy) > height;
 };
 breakout.ball.ballLifeCycle = function ballLifeCycle() {
-  breakout.bricks.brickInteraction.call(null, breakout.ball.x, breakout.ball.y);
-  breakout.ball.wallInteraction.call(null, breakout.canvas.WIDTH);
-  if (breakout.ball.outOfBounds_QMARK_.call(null)) {
-    breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
-  } else {
-    if (breakout.ball.inBounds_QMARK_.call(null, breakout.canvas.HEIGHT)) {
-      if (breakout.paddle.ballTouchingPaddle_QMARK_.call(null, breakout.ball.x, breakout.paddle.paddlex, breakout.paddle.paddlew)) {
-        breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
-      } else {
-        document.dispatchEvent(new Event("ball-ob"));
-      }
+  document.dispatchEvent(new CustomEvent("ball-movement", function() {
+    var obj11303 = {"detail":function() {
+      var obj11305 = {"x":cljs.core.deref.call(null, breakout.ball.x), "y":cljs.core.deref.call(null, breakout.ball.y), "dx":cljs.core.deref.call(null, breakout.ball.dx), "dy":cljs.core.deref.call(null, breakout.ball.dy)};
+      return obj11305;
+    }()};
+    return obj11303;
+  }()));
+  if (breakout.ball.inBounds_QMARK_.call(null, breakout.canvas.HEIGHT)) {
+    if (breakout.paddle.ballTouchingPaddle_QMARK_.call(null, breakout.ball.x, breakout.paddle.paddlex, breakout.paddle.paddlew)) {
+      breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
     } else {
+      document.dispatchEvent(new Event("ball-ob"));
     }
+  } else {
   }
   return breakout.ball.updateBallCoordinates_BANG_.call(null, breakout.ball.x, breakout.ball.y);
 };
@@ -43597,7 +43624,11 @@ breakout.ball.events_BANG_ = function events_BANG_() {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dx);
     return false;
   });
-  return document.addEventListener("brick-hit", function(e) {
+  document.addEventListener("brick-hit", function(e) {
+    breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
+    return false;
+  });
+  return document.addEventListener("hit-top", function(e) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
     return false;
   });
@@ -51341,11 +51372,11 @@ breakout.lib.gameOver = function gameOver() {
 breakout.lib.drawGame = function drawGame() {
   breakout.canvas.clear_BANG_.call(null);
   return document.dispatchEvent(new CustomEvent("draw", function() {
-    var obj9951 = {"detail":function() {
-      var obj9953 = {"canvas":breakout.canvas.ctx};
-      return obj9953;
+    var obj10867 = {"detail":function() {
+      var obj10869 = {"canvas":breakout.canvas.ctx};
+      return obj10869;
     }()};
-    return obj9951;
+    return obj10867;
   }()));
 };
 breakout.lib.preGame = function preGame() {
@@ -51367,6 +51398,7 @@ breakout.lib.events_BANG_ = function events_BANG_() {
   }, false);
 };
 breakout.lib.init = function init() {
+  breakout.canvas.init.call(null);
   breakout.lib.events_BANG_.call(null);
   breakout.paddle.init.call(null);
   breakout.bricks.init.call(null);

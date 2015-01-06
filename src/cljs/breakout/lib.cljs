@@ -70,6 +70,7 @@
 
 (defn init []
   ;; Add all the games event handlers
+  (canvas/init)
   (events!)
   (paddle/init)
   (bricks/init)

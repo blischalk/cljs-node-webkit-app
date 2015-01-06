@@ -21,3 +21,32 @@
   (.clearRect ctx 0 0 WIDTH HEIGHT)
   (set! (.-fillStyle ctx) backgroundColor)
   (shapes/rect ctx 0 0 WIDTH HEIGHT))
+
+(defn wallInteraction? [x dx]
+  (or (> (+ x dx) WIDTH) (< (+ x dx) 0)))
+
+(defn hitTop? [y dy]
+  (< (+ y dy) 0))
+
+(defn offBottom? [y dy]
+  (> (+ y dy) HEIGHT))
+
+(defn events! []
+  (.addEventListener
+    js/document
+    "ball-movement"
+    (fn [e]
+      (let [x (aget e "detail" "x")
+            y (aget e "detail" "y")
+            dx (aget e "detail" "dx")
+            dy (aget e "detail" "dy")]
+        (cond
+          (wallInteraction? x dx) (.dispatchEvent
+                                    js/document (js/CustomEvent. "wall-hit"))
+          (hitTop? y dy) (.dispatchEvent
+                           js/document (js/CustomEvent. "hit-top"))
+          (offBottom? y dy) (.dispatchEvent
+                              js/document (js/CustomEvent. "off-bottom")))))))
+
+(defn init []
+  (events!))

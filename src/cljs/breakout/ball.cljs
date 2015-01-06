@@ -31,37 +31,30 @@
   (set! (.-fillStyle ctx) ballColor)
   (shapes/circle ctx @x @y 10))
 
-(defn wallInteraction [width]
-  (if (or (> (+ @x @dx) width)
-        (< (+ @x @dx) 0))
-    (.dispatchEvent js/document (js/CustomEvent. "wall-hit"))))
-
-(defn outOfBounds? []
-  (< (+ @y @dy) 0))
-
 (defn inBounds? [height]
   (> (+ @y @dy) height))
 
 
 (defn ballLifeCycle []
 
-  ;; Brick contact
-  (bricks/brickInteraction x y)
+  (.dispatchEvent
+    js/document
+    (js/CustomEvent.
+      "ball-movement"
+      (js-obj
+        "detail"
+        (js-obj
+          "x"  @x
+          "y"  @y
+          "dx" @dx
+          "dy" @dy))))
 
-  ;; If ball is about to go out of
-  ;; bounds on x axis, reverse direction
-  (wallInteraction canvas/WIDTH)
-
-  ;; If ball is about to go out of bounds
-  ;; on y axis, reverse direction
-  (if (outOfBounds?)
-    (reverseBallDirection! dy)
-    (if (inBounds? canvas/HEIGHT)
-      ;; If ball hits the paddle, reverse ball direction
-      (if (paddle/ballTouchingPaddle? x paddle/paddlex paddle/paddlew)
-        (reverseBallDirection! dy)
-        ;; Otherwise ball missed paddle, game over!
-        (.dispatchEvent js/document (js/Event. "ball-ob")))))
+  (if (inBounds? canvas/HEIGHT)
+    ;; If ball hits the paddle, reverse ball direction
+    (if (paddle/ballTouchingPaddle? x paddle/paddlex paddle/paddlew)
+      (reverseBallDirection! dy)
+      ;; Otherwise ball missed paddle, game over!
+      (.dispatchEvent js/document (js/Event. "ball-ob"))))
 
   ;; Set ball coordinates to directionality
   ;; derived above
@@ -82,6 +75,9 @@
     (fn [e]
       (reverseBallDirection! dx) false))
   (.addEventListener js/document "brick-hit"
+    (fn [e]
+      (reverseBallDirection! dy) false))
+  (.addEventListener js/document "hit-top"
     (fn [e]
       (reverseBallDirection! dy) false)))
 

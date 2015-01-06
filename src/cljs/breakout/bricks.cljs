@@ -45,9 +45,9 @@
         BRICKHEIGHT))))
 
 (defn brickInteraction [x y]
-  (let [row (js/Math.floor (/ @y rowheight))
-        col (js/Math.floor (/ @x colwidth))]
-    (if (brickImpact? row col @bricks @y)
+  (let [row (js/Math.floor (/ y rowheight))
+        col (js/Math.floor (/ x colwidth))]
+    (if (brickImpact? row col @bricks y)
       (.dispatchEvent
         js/document
         (js/CustomEvent.
@@ -66,7 +66,12 @@
     (fn [e]
       (removeBrick!
         (aget e "detail" "row")
-        (aget e "detail" "col"))) false))
+        (aget e "detail" "col"))) false)
+  (.addEventListener js/document "ball-movement"
+    (fn [e]
+      (brickInteraction
+        (aget e "detail" "x")
+        (aget e "detail" "y")))))
 
 (defn brickImpact? [row col bricks y]
   (let [row (js/parseInt row)
