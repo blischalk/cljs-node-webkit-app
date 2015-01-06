@@ -1,6 +1,17 @@
 # Node Webkit Breakout
 
-An example application to exercise the canvas, Node Webkit, and ClojureScript
+An example application to exercise the canvas, Node Webkit, and ClojureScript.
+
+This application started out in a learning exercise in canvas, Node Webkit,
+and ClojureScript but has expanded beyond that.  Im now more focused on how
+generally stateful applications can be made stateless.  This Breakout game
+was initially developed following a tutorial on canvas and porting to ClojureScript.
+Now I am in the process of removing as much state as possible.  (Hopefully I
+will be able to remove it all).
+
+This application is also an experiment in Event Driven Programming.  I am making
+a concious effort for things to not know about each other directly and communicate
+via events.
 
 ## To Build A Release
 
