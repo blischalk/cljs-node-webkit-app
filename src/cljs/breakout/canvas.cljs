@@ -28,7 +28,7 @@
 (defn hitTop? [y dy]
   (< (+ y dy) 0))
 
-(defn offBottom? [y dy]
+(defn inBounds? [y dy]
   (> (+ y dy) HEIGHT))
 
 (defn events! []
@@ -42,11 +42,19 @@
             dy (aget e "detail" "dy")]
         (cond
           (wallInteraction? x dx) (.dispatchEvent
-                                    js/document (js/CustomEvent. "wall-hit"))
+                                    js/document
+                                    (js/Event. "wall-hit"))
           (hitTop? y dy) (.dispatchEvent
-                           js/document (js/CustomEvent. "hit-top"))
-          (offBottom? y dy) (.dispatchEvent
-                              js/document (js/CustomEvent. "off-bottom")))))))
+                           js/document (js/Event. "hit-top"))
+          (inBounds? y dy) (.dispatchEvent
+                             js/document
+                             (js/CustomEvent.
+                               "in-bounds"
+                               (js-obj "detail" (js-obj
+                                                  "x" x
+                                                  "y" y
+                                                  "dx" dx
+                                                  "dy" dy)))))))))
 
 (defn init []
   (events!))

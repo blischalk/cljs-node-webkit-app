@@ -36,7 +36,6 @@
 
 
 (defn ballLifeCycle []
-
   (.dispatchEvent
     js/document
     (js/CustomEvent.
@@ -49,15 +48,7 @@
           "dx" @dx
           "dy" @dy))))
 
-  (if (inBounds? canvas/HEIGHT)
-    ;; If ball hits the paddle, reverse ball direction
-    (if (paddle/ballTouchingPaddle? x paddle/paddlex paddle/paddlew)
-      (reverseBallDirection! dy)
-      ;; Otherwise ball missed paddle, game over!
-      (.dispatchEvent js/document (js/Event. "ball-ob"))))
-
-  ;; Set ball coordinates to directionality
-  ;; derived above
+  ;; Set ball coordinates
   (updateBallCoordinates! x y))
 
 (defn resetState! []
@@ -77,6 +68,12 @@
   (.addEventListener js/document "brick-hit"
     (fn [e]
       (reverseBallDirection! dy) false))
+  (.addEventListener js/document "paddle-hit"
+    (fn [e]
+      (reverseBallDirection! dy) false))
+  (.addEventListener js/document "paddle-miss"
+    (fn [e]
+      (.dispatchEvent js/document (js/Event. "ball-ob"))))
   (.addEventListener js/document "hit-top"
     (fn [e]
       (reverseBallDirection! dy) false)))

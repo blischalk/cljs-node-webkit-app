@@ -36,11 +36,19 @@
           (< mouseX canvas/canvasMaxX))
       (reset! paddlex (- mouseX canvas/canvasMinX)))))
 
+
+(defn paddleHit? [x]
+  (and (> x @paddlex) (< x (+ @paddlex @paddlew))))
+
 ;; Attach event handlers
 (defn events! []
   (ef/at js/document (events/listen :mousemove #(onMouseMove %)))
   (ef/at js/document (events/listen :keydown #(onKeyDown %)))
   (ef/at js/document (events/listen :keyup #(onKeyUp %)))
+  (.addEventListener js/document "in-bounds"
+    (fn [e] (if (paddleHit? (aget e "detail" "x"))
+              (.dispatchEvent js/document (js/Event. "paddle-hit"))
+              (.dispatchEvent js/document (js/Event. "paddle-miss")))))
   (.addEventListener js/document "draw"
     (fn [e] (draw! (aget e "detail" "canvas")))))
 
@@ -54,8 +62,6 @@
   (set! (.-fillStyle ctx) paddleColor)
   (shapes/rect ctx @paddlex (- canvas/HEIGHT @paddleh) @paddlew @paddleh))
 
-(defn ballTouchingPaddle? [x paddlex paddlew]
-  (and (> @x @paddlex) (< @x (+ @paddlex @paddlew))))
 
 (defn init []
   (events!))

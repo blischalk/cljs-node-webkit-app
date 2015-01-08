@@ -40164,11 +40164,11 @@ goog.require("breakout.shapes");
 breakout.canvas.backgroundColor = "#000000";
 breakout.canvas.WIDTH = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "width", "width", -384071477)));
 breakout.canvas.HEIGHT = enfocus.core.from.call(null, "#canvas", enfocus.core.get_attr.call(null, new cljs.core.Keyword(null, "height", "height", 1025178622)));
-breakout.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__11422_SHARP_) {
-  return p1__11422_SHARP_.getContext("2d");
+breakout.canvas.ctx = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__5807_SHARP_) {
+  return p1__5807_SHARP_.getContext("2d");
 }));
-breakout.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__11423_SHARP_) {
-  return goog.style.getPageOffset(p1__11423_SHARP_);
+breakout.canvas.canvasMinX = cljs.core.first.call(null, enfocus.core.from.call(null, "#canvas", function(p1__5808_SHARP_) {
+  return goog.style.getPageOffset(p1__5808_SHARP_);
 })).x;
 breakout.canvas.canvasMaxX = breakout.canvas.canvasMinX + breakout.canvas.WIDTH;
 breakout.canvas.clear_BANG_ = function clear_BANG_() {
@@ -40182,7 +40182,7 @@ breakout.canvas.wallInteraction_QMARK_ = function wallInteraction_QMARK_(x, dx) 
 breakout.canvas.hitTop_QMARK_ = function hitTop_QMARK_(y, dy) {
   return y + dy < 0;
 };
-breakout.canvas.offBottom_QMARK_ = function offBottom_QMARK_(y, dy) {
+breakout.canvas.inBounds_QMARK_ = function inBounds_QMARK_(y, dy) {
   return y + dy > breakout.canvas.HEIGHT;
 };
 breakout.canvas.events_BANG_ = function events_BANG_() {
@@ -40192,13 +40192,19 @@ breakout.canvas.events_BANG_ = function events_BANG_() {
     var dx = e["detail"]["dx"];
     var dy = e["detail"]["dy"];
     if (breakout.canvas.wallInteraction_QMARK_.call(null, x, dx)) {
-      return document.dispatchEvent(new CustomEvent("wall-hit"));
+      return document.dispatchEvent(new Event("wall-hit"));
     } else {
       if (breakout.canvas.hitTop_QMARK_.call(null, y, dy)) {
-        return document.dispatchEvent(new CustomEvent("hit-top"));
+        return document.dispatchEvent(new Event("hit-top"));
       } else {
-        if (breakout.canvas.offBottom_QMARK_.call(null, y, dy)) {
-          return document.dispatchEvent(new CustomEvent("off-bottom"));
+        if (breakout.canvas.inBounds_QMARK_.call(null, y, dy)) {
+          return document.dispatchEvent(new CustomEvent("in-bounds", function() {
+            var obj5814 = {"detail":function() {
+              var obj5816 = {"x":x, "y":y, "dx":dx, "dy":dy};
+              return obj5816;
+            }()};
+            return obj5814;
+          }()));
         } else {
           return null;
         }
@@ -40617,16 +40623,26 @@ breakout.paddle.onMouseMove = function onMouseMove(evt) {
     return null;
   }
 };
+breakout.paddle.paddleHit_QMARK_ = function paddleHit_QMARK_(x) {
+  return x > cljs.core.deref.call(null, breakout.paddle.paddlex) && x < cljs.core.deref.call(null, breakout.paddle.paddlex) + cljs.core.deref.call(null, breakout.paddle.paddlew);
+};
 breakout.paddle.events_BANG_ = function events_BANG_() {
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__10745_SHARP_) {
-    return breakout.paddle.onMouseMove.call(null, p1__10745_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "mousemove", "mousemove", -1077794734), function(p1__9980_SHARP_) {
+    return breakout.paddle.onMouseMove.call(null, p1__9980_SHARP_);
   }));
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__10746_SHARP_) {
-    return breakout.paddle.onKeyDown.call(null, p1__10746_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keydown", "keydown", -629268186), function(p1__9981_SHARP_) {
+    return breakout.paddle.onKeyDown.call(null, p1__9981_SHARP_);
   }));
-  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__10747_SHARP_) {
-    return breakout.paddle.onKeyUp.call(null, p1__10747_SHARP_);
+  enfocus.core.at.call(null, document, enfocus.events.listen.call(null, new cljs.core.Keyword(null, "keyup", "keyup", -794526927), function(p1__9982_SHARP_) {
+    return breakout.paddle.onKeyUp.call(null, p1__9982_SHARP_);
   }));
+  document.addEventListener("in-bounds", function(e) {
+    if (breakout.paddle.paddleHit_QMARK_.call(null, e["detail"]["x"])) {
+      return document.dispatchEvent(new Event("paddle-hit"));
+    } else {
+      return document.dispatchEvent(new Event("paddle-miss"));
+    }
+  });
   return document.addEventListener("draw", function(e) {
     return breakout.paddle.draw_BANG_.call(null, e["detail"]["canvas"]);
   });
@@ -40642,9 +40658,6 @@ breakout.paddle.draw_BANG_ = function draw_BANG_(ctx) {
   }
   ctx.fillStyle = breakout.paddle.paddleColor;
   return breakout.shapes.rect.call(null, ctx, cljs.core.deref.call(null, breakout.paddle.paddlex), breakout.canvas.HEIGHT - cljs.core.deref.call(null, breakout.paddle.paddleh), cljs.core.deref.call(null, breakout.paddle.paddlew), cljs.core.deref.call(null, breakout.paddle.paddleh));
-};
-breakout.paddle.ballTouchingPaddle_QMARK_ = function ballTouchingPaddle_QMARK_(x, paddlex, paddlew) {
-  return cljs.core.deref.call(null, x) > cljs.core.deref.call(null, paddlex) && cljs.core.deref.call(null, x) < cljs.core.deref.call(null, paddlex) + cljs.core.deref.call(null, paddlew);
 };
 breakout.paddle.init = function init() {
   return breakout.paddle.events_BANG_.call(null);
@@ -43591,20 +43604,12 @@ breakout.ball.inBounds_QMARK_ = function inBounds_QMARK_(height) {
 };
 breakout.ball.ballLifeCycle = function ballLifeCycle() {
   document.dispatchEvent(new CustomEvent("ball-movement", function() {
-    var obj11303 = {"detail":function() {
-      var obj11305 = {"x":cljs.core.deref.call(null, breakout.ball.x), "y":cljs.core.deref.call(null, breakout.ball.y), "dx":cljs.core.deref.call(null, breakout.ball.dx), "dy":cljs.core.deref.call(null, breakout.ball.dy)};
-      return obj11305;
+    var obj9988 = {"detail":function() {
+      var obj9990 = {"x":cljs.core.deref.call(null, breakout.ball.x), "y":cljs.core.deref.call(null, breakout.ball.y), "dx":cljs.core.deref.call(null, breakout.ball.dx), "dy":cljs.core.deref.call(null, breakout.ball.dy)};
+      return obj9990;
     }()};
-    return obj11303;
+    return obj9988;
   }()));
-  if (breakout.ball.inBounds_QMARK_.call(null, breakout.canvas.HEIGHT)) {
-    if (breakout.paddle.ballTouchingPaddle_QMARK_.call(null, breakout.ball.x, breakout.paddle.paddlex, breakout.paddle.paddlew)) {
-      breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
-    } else {
-      document.dispatchEvent(new Event("ball-ob"));
-    }
-  } else {
-  }
   return breakout.ball.updateBallCoordinates_BANG_.call(null, breakout.ball.x, breakout.ball.y);
 };
 breakout.ball.resetState_BANG_ = function resetState_BANG_() {
@@ -43627,6 +43632,13 @@ breakout.ball.events_BANG_ = function events_BANG_() {
   document.addEventListener("brick-hit", function(e) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
     return false;
+  });
+  document.addEventListener("paddle-hit", function(e) {
+    breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
+    return false;
+  });
+  document.addEventListener("paddle-miss", function(e) {
+    return document.dispatchEvent(new Event("ball-ob"));
   });
   return document.addEventListener("hit-top", function(e) {
     breakout.ball.reverseBallDirection_BANG_.call(null, breakout.ball.dy);
