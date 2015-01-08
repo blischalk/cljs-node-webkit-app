@@ -13,6 +13,8 @@ This application is also an experiment in Event Driven Programming.  I am making
 a concious effort for things to not know about each other directly and communicate
 via events.
 
+In pulling this application apart into events it is beginning to emphasize a graph structure where the events that are being triggered are the vertices of the graph and the event listeners are the edges.  It seems to represent a Directed Cyclic Graph where the cycle comes into play in the infinite loop.
+
 ## To Build A Release
 
 `lein node-webkit-build`
@@ -47,24 +49,37 @@ From there, if you have created an alias like mine you can run:
 
 This will start up the project.
 
-## Event Decision Tree
+## Event Tree
 
-game-countdown -> 
-game-start -> 
-`The following events occur in a loop`
-draw -> 
-ball-movement ->
-  brick-hit ->
-    eoc
-  wall-hit ->
-    eoc
-  hit-top ->
-    eoc
-  in-bounds ->
-    paddle-hit ->
-      eoc
-    paddle-miss ->
-      ball-ob ->
-        game-over ->
-          eoc
+The following "Event Tree" shows what events are called in the system as well as
+what events may be called as the result of another event being called.  An example
+would be when eventA gets called, based on some conditional logic eventB may get
+called as a result.  Continuing with the example, based on someting that listens to eventB, some other logic may occur that would trigger eventC.
+
+The tree does not try to illustrate the reactions to the events of the system, it is merely a graphical illustration of the events in the system and what event may trigger a different event.
+
+
+
+*\* eop stands for "End of Path e.g the possible chain of events"*
+
+
+- game-countdown ->
+  - game-start -> 
+    - `The following events occur in an infinite loop until terminated by the game-over event`
+    - draw -> 
+      - ball-movement ->
+        - brick-hit ->
+          - eop
+        - wall-hit ->
+          - eop
+        - hit-top ->
+          - eop
+        - in-bounds ->
+          - paddle-hit ->
+            - eop
+          - paddle-miss ->
+            - ball-ob ->
+              - `Loop gets terminated on this event`
+              - game-over ->
+                - eop
 
