@@ -47,4 +47,24 @@ From there, if you have created an alias like mine you can run:
 
 This will start up the project.
 
+## Event Decision Tree
+
+game-countdown -> 
+game-start -> 
+`The following events occur in a loop`
+draw -> 
+ball-movement ->
+  brick-hit ->
+    eoc
+  wall-hit ->
+    eoc
+  hit-top ->
+    eoc
+  in-bounds ->
+    paddle-hit ->
+      eoc
+    paddle-miss ->
+      ball-ob ->
+        game-over ->
+          eoc
 
