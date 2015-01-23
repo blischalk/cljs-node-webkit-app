@@ -45,7 +45,8 @@
         js/document
         (js/CustomEvent.
           "draw"
-          (js-obj "detail" (js-obj "canvas" canvas/ctx)))))
+          (js-obj "detail"
+            (js-obj "canvas" canvas/ctx)))))
 
 (defn preGame []
   ;; Draw the initial state of the board so we don't have a white screen
