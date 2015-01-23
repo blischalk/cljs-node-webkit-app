@@ -61,6 +61,7 @@
                             hit-brick
                             hit-paddle
                             hit-top
+                            miss
                             game-over])]
           (cond
             ;; Change the X axis direction under these circumstances
